@@ -1,23 +1,26 @@
 import { action, observable } from "mobx";
 
-import accountAuthService from "../services/account/accountAuthService";
-import ILoginInput from "../services/account/dto/loginInput";
-import ILoginOutput from "../services/account/dto/loginOutput";
+import accountAuthService from "../services/accountAuth/accountAuthService";
+import ILoginInput from "../services/accountAuth/dto/loginInput";
+import ILoginOutput from "../services/accountAuth/dto/loginOutput";
 import utils from '../utils/utils';
 
 
 class AccountAuthStore {
+
   @action
   async login(model: ILoginInput):Promise<ILoginOutput> {
     const res = await accountAuthService.login({
       identifier: model.identifier,
       password: model.password,
     });
-    utils.setToken(res.jwt);
+    utils.setCookie('access_token', res.jwt);
+    utils.setCookie('id', res.user?.id);
     return res;
   }
-  async logout(): Promise<string> {
 
+  @action
+  async logout(): Promise<string> {
     utils.removeToken();
     return "Successfully Logout";
   }

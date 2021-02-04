@@ -1,9 +1,9 @@
 export default interface IUserOutput{
-  username: string
-  name: string
+  username?: string
+  name?: string
   id: number
-  blocked: boolean
-  role: IRole
+  blocked?: boolean
+  role?: IRole
 }
 
 interface IRole{

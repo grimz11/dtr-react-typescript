@@ -1,6 +1,7 @@
 import AppConsts from '../utils/appconst';
 import { Modal } from 'antd';
 import axios from 'axios';
+import utils from '../utils/utils';
 
 const qs = require('qs');
 
@@ -18,17 +19,9 @@ const http = axios.create({
 
 http.interceptors.request.use(
   function (config) {
-    // if (config.url === AppConsts.directlineRefreshTokenUrl) {
-    //   config.headers.common['Authorization'] = 'Bearer ' + abp.auth.directline;
-    // }
-
-    // if (!!abp.auth.getToken() && config.url !== AppConsts.directlineRefreshTokenUrl) {
-    //   config.headers.common['Authorization'] = 'Bearer ' + abp.auth.getToken();
-    // }
-
-    // config.headers.common['.AspNetCore.Culture'] = abp.utils.getCookieValue('Abp.Localization.CultureName');
-    // config.headers.common['Abp.TenantId'] = abp.multiTenancy.getTenantIdCookie();
-
+    if(utils.getCookie('access_token')) {
+      config.headers.common['Authorization'] = 'Bearer ' + utils.getCookie('access_token');
+    }
     return config;
   },
   function (error) {

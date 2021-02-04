@@ -8,7 +8,7 @@ const ProtectedRoute = ({ path, component: Component, permission, render, ...res
     <Route
       {...rest}
       render={props => {
-        if (!utils.getToken('access_token'))
+        if (!utils.getCookie('access_token'))
           return (
             <Redirect
               to={{

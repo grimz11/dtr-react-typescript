@@ -16,15 +16,19 @@ class Utils {
 
     return route[0].title + ' | ' + localizedAppName;
   };
-  
-  setToken = (jwt: string): void => {
-    cookies.set("access_token", jwt);
+  setCookie = (name:string, param:any) => {
+    cookies.set(name, param);
+    return;
   }
-  getToken = (name:string): string => {
+  // setToken = (jwt: string): void => {
+  //   cookies.set("access_token", jwt);
+  // }
+  getCookie = (name:string): string => {
     return cookies.get(name);
   }
   removeToken = (): void => {
     cookies.remove("access_token");
+    cookies.remove("id");
   }
 }
 
