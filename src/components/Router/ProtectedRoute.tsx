@@ -1,17 +1,14 @@
-import * as React from 'react';
-
 import { Redirect, Route } from 'react-router-dom';
-
+import utils from '../../utils/utils';
 // import { isGranted } from '../../lib/abpUtility';
 
-declare var abp: any;
 
 const ProtectedRoute = ({ path, component: Component, permission, render, ...rest }: any) => {
   return (
     <Route
       {...rest}
       render={props => {
-        if (!abp.session.userId)
+        if (!utils.getToken('access_token'))
           return (
             <Redirect
               to={{

@@ -1,6 +1,5 @@
-import './UserLayout.less';
-
 import * as React from 'react';
+
 
 import { Redirect, Route, Switch } from 'react-router-dom';
 
@@ -9,16 +8,18 @@ import DocumentTitle from 'react-document-title';
 import Footer from '../Footer';
 import { userRouter } from '../Router/router.config';
 import utils from '../../utils/utils';
+import './index.less';
 
 class UserLayout extends React.Component<any> {
   render() {
     const {
       location: { pathname },
     } = this.props;
-
+    console.log('UserLayout');
+    
     return (
       <DocumentTitle title={utils.getPageTitle(pathname)}>
-        <Col className="container">
+        <Col className="container cont">
        
           <Switch>
             {userRouter

@@ -1,10 +1,13 @@
 import { routers } from '../components/Router/router.config';
+import Cookies from "universal-cookie";
+
+var cookies:any = new Cookies();
 
 class Utils {
   getRoute = (path: string): any => {
     return routers.filter(route => route.path === path)[0];
   };
-  getPageTitle = (pathname: string) => {
+  getPageTitle = (pathname: string): any => {
     const route = routers.filter(route => route.path === pathname);
     const localizedAppName = 'AppName';
     if (!route || route.length === 0) {
@@ -13,6 +16,16 @@ class Utils {
 
     return route[0].title + ' | ' + localizedAppName;
   };
+  
+  setToken = (jwt: string): void => {
+    cookies.set("access_token", jwt);
+  }
+  getToken = (name:string): string => {
+    return cookies.get(name);
+  }
+  removeToken = (): void => {
+    cookies.remove("access_token");
+  }
 }
 
 export default new Utils();

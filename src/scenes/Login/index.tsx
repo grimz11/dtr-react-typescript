@@ -1,98 +1,92 @@
 import * as React from 'react';
-
 import './index.less';
-import Login from 'ant-design-pro/lib/Login';
-import { Alert, Checkbox } from 'antd';
 
-const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
+import { Form, Input, Button, Checkbox } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import logo from '../../images/hyperstacks-logo-orange.svg';
 
-class LoginComp extends React.Component<any> {
+import { inject, observer } from 'mobx-react';
+import Stores from '../../stores/storeIdentifier';
+import AccountAuthStore from '../../stores/accountAuthStore';
+import utils from '../../utils/utils';
+
+interface ILoginUserStore{
+  accountAuthStore: AccountAuthStore;
+}
+
+@inject(Stores.AccountAuthStore)
+@observer
+class Login extends React.Component<ILoginUserStore> {
   state = {
-    notice: '',
-    type: 'tab2',
-    autoLogin: true,
+    from: { from: { pathname: '/dashboard' } }
+  }
+  onFinish = async (values:any) => {
+    const res = await this.props.accountAuthStore.login({identifier: values.username, password:values.password});
+    let { from } = { from: { pathname: '/dashboard' } };
+    
+    if(res) return window.location.href = from.pathname;
   };
-  onSubmit = (err:any, values:any) => {
-    console.log('value collected ->', {
-      ...values,
-      autoLogin: this.state.autoLogin,
-    });
-    if (this.state.type === 'tab1') {
-      this.setState(
-        {
-          notice: '',
-        },
-        () => {
-          if (!err && (values.username !== 'admin' || values.password !== '888888')) {
-            setTimeout(() => {
-              this.setState({
-                notice: 'The combination of username and password is incorrect!',
-              });
-            }, 500);
-          }
-        }
-      );
-    }
-  };
-  onTabChange = (key: any) => {
-    this.setState({
-      type: key,
-    });
-  };
-  changeAutoLogin = (e:any) => {
-    this.setState({
-      autoLogin: e.target.checked,
-    });
-  };
-
 
   public render() {
+    // if(!utils.getToken('access_token')) return <Redirect to={this.state.from.from}/>
     return (
-      <div className="login-warp">
-        <Login
-          defaultActiveKey={this.state.type}
-          onTabChange={this.onTabChange}
-          onSubmit={this.onSubmit}
+      
+      <Form
+        name="normal_login"
+        className="login-form"
+        initialValues={{
+          remember: true,
+        }}
+        onFinish={this.onFinish}
+      >
+        <div className="logo">
+          <img src={logo} alt="Hyperstacks Logo"/>
+        </div>
+        <Form.Item
+          name="username"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your Username!',
+            },
+          ]}
         >
-          <Tab key="tab1" tab="Account">
-            {this.state.notice && (
-              <Alert
-                style={{ marginBottom: 24 }}
-                message={this.state.notice}
-                type="error"
-                showIcon
-                closable
-              />
-            )}
-            <UserName name="username" />
-            <Password name="password" />
-          </Tab>
-          <Tab key="tab2" tab="Mobile">
-            <Mobile name="mobile" />
-            <Captcha onGetCaptcha={() => console.log('Get captcha!')} name="captcha" />
-          </Tab>
-          <div>
-            <Checkbox checked={this.state.autoLogin} onChange={this.changeAutoLogin}>
-              Keep me logged in
-            </Checkbox>
-            <a style={{ float: 'right' }} href="">
-              Forgot password
-            </a>
-          </div>
-          <Submit>Login</Submit>
-          <div>
-            Other login methods
-            <span className="icon icon-alipay" />
-            <span className="icon icon-taobao" />
-            <span className="icon icon-weibo" />
-            <a style={{ float: 'right' }} href="">
-              Register
-            </a>
-          </div>
-        </Login>
-      </div>
+          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        </Form.Item>
+        <Form.Item
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your Password!',
+            },
+          ]}
+        >
+          <Input
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            type="password"
+            placeholder="Password"
+          />
+        </Form.Item>
+        <Form.Item>
+          <Form.Item name="remember" valuePropName="checked" noStyle>
+            <Checkbox>Remember me</Checkbox>
+          </Form.Item>
+  
+          <a className="login-form-forgot" href="">
+            Forgot password
+          </a>
+        </Form.Item>
+  
+        <Form.Item>
+          <Button type="primary" htmlType="submit" className="login-form-button">
+            Log in
+          </Button>
+          Or <a href="">register now!</a>
+        </Form.Item>
+      </Form>
     );
   
   }
 }
-export default LoginComp;
+export default Login;
