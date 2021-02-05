@@ -27,6 +27,7 @@ import RecordStore from "../../stores/recordStore";
 import UserStore from "../../stores/userStore";
 import utils from "../../utils/utils";
 import IRecordInput from "../../services/record/dto/recordInput";
+import Avatar from "antd/lib/avatar/avatar";
 
 const { Header, Sider, Content } = Layout;
 
@@ -41,36 +42,97 @@ class Dashboard extends React.Component<IDashboardRecordStore> {
   state = {
     collapsed: false,
     time: new Date(),
-    data: [],
-    id: utils.getCookie('id'),
+    personRecord: [],
+    peopleRecords: [],
+    id: utils.getCookie("id"),
+    timeBtn: false,
+    recordId: 0,
+    timeInRecord: "",
   };
   async componentDidMount() {
     await this.getUser();
+    await this.getRecord();
+    await this.getAllRecords();
+    await this.checkWorkingStatus();
+  }
+  async getUser() {
+    await this.props.userStore.getUser(parseInt(this.state!.id));
+  }
+  async getRecord() {
     const userId = this.props.userStore!.currentLogin!.id;
     const recordData = await this.props.recordStore.getRecord(userId);
-    this.setState({ ...this.state, data: recordData, id: utils.getCookie('id') });
-    
+    this.setState({
+      ...this.state,
+      personRecord: recordData.sort().reverse(),
+      id: utils.getCookie("id"),
+    });
   }
-  async getUser(){
-    await this.props.userStore.getUser(parseInt(this.state!.id));
+  async getAllRecords() {
+    const recordData = await this.props.recordStore.getAllRecords();
+    console.log('recordData', recordData);
+    
+    this.setState({
+      ...this.state,
+      peopleRecords: recordData.sort().reverse(),
+    });
+  }
+  async checkWorkingStatus() {
+    this.state.personRecord.every((item: IRecordInput) => {
+      const date = item.created_at;
+      this.setState({
+        ...this.state,
+        timeBtn: item.currentlyWorking ? true : false,
+        recordId: item.id,
+        timeInRecord: date,
+      });
+    });
   }
   toggle = () => {
     this.setState({
       collapsed: !this.state.collapsed,
     });
   };
+  async calculateTimeElapse(date: string) {
+    let startTime: any, endTime: any;
+    startTime = new Date(date);
+    endTime = new Date();
+    let timeDiff = endTime - startTime;
+    timeDiff /= 1000;
+    let seconds = Math.round(timeDiff);
+    const hours = moment
+      .utc(moment.duration(seconds, "seconds").asMilliseconds())
+      .format("HH:mm:ss");
+    console.log("hours", hours);
 
-  handleOnClick = async () => {
-    console.log('handle click');
-    const payload:IRecordInput = {
-      userId: this.props.userStore.currentLogin
-    };
-    console.log('payload', payload);
-    
-    this.props.recordStore.timeIn(payload);
+    return hours;
   }
 
+  handleOnClick = async () => {
+    await this.getRecord();
+    const recordTime = await this.calculateTimeElapse(this.state.timeInRecord);
+
+    if (this.state.timeBtn) {
+      const payloadOut: IRecordInput = {
+        currentlyWorking: false,
+        userId: this.props.userStore!.currentLogin,
+        timeOut: new Date().getTime(),
+        hoursRendered: recordTime,
+      };
+      await this.props.recordStore.timeOut(this.state.recordId, payloadOut);
+    } else {
+      const payloadIn: IRecordInput = {
+        currentlyWorking: true,
+        userId: this.props.userStore!.currentLogin,
+        hoursRendered: "00.00:00",
+      };
+      await this.props.recordStore.timeIn(payloadIn);
+    }
+    await this.getRecord();
+    this.setState({ ...this.state, timeBtn: !this.state.timeBtn });
+  };
+
   render() {
+    const { personRecord, timeBtn, peopleRecords } = this.state;
     return (
       <Layout>
         <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
@@ -114,30 +176,39 @@ class Dashboard extends React.Component<IDashboardRecordStore> {
             }}
           >
             <Row>
-              <Col span={12} className="col-1-time-in">
+              <Col span={16} className="col-1-time-in">
                 <div>
                   <Button
-                    type="primary"
+                    type={"primary"}
                     shape="round"
                     icon={<FieldTimeOutlined />}
                     size="large"
                     onClick={this.handleOnClick}
+                    danger={timeBtn ? true : false}
                   >
-                    Time In
+                    {timeBtn ? "Time Out" : "Time In"}
                   </Button>
                 </div>
                 <br></br>
                 <List
                   itemLayout="horizontal"
-                  dataSource={this.state.data}
-                  renderItem={(item: any) => (
+                  dataSource={personRecord}
+                  renderItem={(item: IRecordInput) => (
                     <List.Item>
                       <List.Item.Meta
                         avatar={
-                          item.timeOut ? <Badge status="success"/> : <Badge status="default" />
+                          item.currentlyWorking ? (
+                            <Badge status="success" />
+                          ) : (
+                            <Badge status="default" />
+                          )
                         }
-                        title={moment(item.created_at,
-                          "YYYY MM DD hh:mm:ss A Z").startOf('hour').fromNow()}
+                        title={moment(
+                          item.created_at,
+                          "YYYY MM DD hh:mm:ss A Z"
+                        )
+                          .startOf("minutes")
+                          .fromNow()}
                         description={
                           <div>
                             <TimePicker
@@ -154,7 +225,7 @@ class Dashboard extends React.Component<IDashboardRecordStore> {
                               )}
                               disabled
                             />
-                            <span> Total Hours: {item.hoursOfTheDay}</span>
+                            <span> Total Hours: {item.hoursRendered}</span>
                           </div>
                         }
                       />
@@ -162,7 +233,34 @@ class Dashboard extends React.Component<IDashboardRecordStore> {
                   )}
                 />
               </Col>
-              <Col span={12}>col-12</Col>
+              <Col span={8}>
+                {" "}
+                <div>
+                  <h1>Activity Feed</h1>
+                </div>
+                <br></br>
+                <List
+                  itemLayout="horizontal"
+                  dataSource={peopleRecords}
+                  renderItem={(item: IRecordInput) => (
+                    <List.Item>
+                      <List.Item.Meta
+                        avatar={
+                          <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>
+                        }
+                        
+                        title={`${item.userId?.username} was login ` + moment(
+                          item.created_at,
+                          "YYYY MM DD hh:mm:ss A Z"
+                        )
+                          .startOf("minutes")
+                          .fromNow()}
+                        description={"Test"}
+                      />
+                    </List.Item>
+                  )}
+                />
+              </Col>
             </Row>
           </Content>
         </Layout>

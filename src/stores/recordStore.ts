@@ -20,7 +20,11 @@ class RecordStore{
   }
   @action
   async timeIn(payload: IRecordInput) {
-    const res = await recordService.timeIn(payload);
+    await recordService.timeIn(payload);
+  }
+  @action
+  async timeOut(id:number, payload: IRecordInput) {
+    await recordService.timeOut(id, payload);
   }
 }
 
