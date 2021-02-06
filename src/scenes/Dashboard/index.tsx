@@ -1,15 +1,10 @@
 import "./index.less";
 import * as React from "react";
 import {
+  Col,
   Layout,
   Menu,
   Row,
-  Col,
-  Button,
-  List,
-  TimePicker,
-  DatePicker,
-  Badge,
 } from "antd";
 import {
   MenuUnfoldOutlined,
@@ -18,7 +13,6 @@ import {
   VideoCameraOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
-import { FieldTimeOutlined } from "@ant-design/icons";
 import moment from "moment";
 
 import { inject, observer } from "mobx-react";
@@ -27,7 +21,8 @@ import RecordStore from "../../stores/recordStore";
 import UserStore from "../../stores/userStore";
 import utils from "../../utils/utils";
 import IRecordInput from "../../services/record/dto/recordInput";
-import Avatar from "antd/lib/avatar/avatar";
+import ActivityFeed from "./components/activityFeed";
+import DTR from "./components/dtr";
 
 const { Header, Sider, Content } = Layout;
 
@@ -60,10 +55,10 @@ class Dashboard extends React.Component<IDashboardRecordStore> {
   }
   async getRecord() {
     const userId = this.props.userStore!.currentLogin!.id;
-    const recordData = await this.props.recordStore.getRecord(userId);
+    await this.props.recordStore.getRecord(userId);
     this.setState({
       ...this.state,
-      personRecord: recordData.sort().reverse(),
+      personRecord: this.props.recordStore.records.sort().reverse(),
       id: utils.getCookie("id"),
     });
   }
@@ -73,7 +68,7 @@ class Dashboard extends React.Component<IDashboardRecordStore> {
     
     this.setState({
       ...this.state,
-      peopleRecords: recordData.sort().reverse(),
+      peopleRecords: this.props.recordStore.records.sort().reverse(),
     });
   }
   async checkWorkingStatus() {
@@ -102,15 +97,13 @@ class Dashboard extends React.Component<IDashboardRecordStore> {
     const hours = moment
       .utc(moment.duration(seconds, "seconds").asMilliseconds())
       .format("HH:mm:ss");
-    console.log("hours", hours);
 
     return hours;
   }
 
-  handleOnClick = async () => {
-    await this.getRecord();
+  public handleOnClick = async () => {
+    await this.checkWorkingStatus();
     const recordTime = await this.calculateTimeElapse(this.state.timeInRecord);
-
     if (this.state.timeBtn) {
       const payloadOut: IRecordInput = {
         currentlyWorking: false,
@@ -118,7 +111,7 @@ class Dashboard extends React.Component<IDashboardRecordStore> {
         timeOut: new Date().getTime(),
         hoursRendered: recordTime,
       };
-      await this.props.recordStore.timeOut(this.state.recordId, payloadOut);
+       await this.props.recordStore.timeOut(this.state.recordId, payloadOut);
     } else {
       const payloadIn: IRecordInput = {
         currentlyWorking: true,
@@ -128,6 +121,8 @@ class Dashboard extends React.Component<IDashboardRecordStore> {
       await this.props.recordStore.timeIn(payloadIn);
     }
     await this.getRecord();
+    console.log('Get Oversavable Record', this.props.recordStore.records);
+    
     this.setState({ ...this.state, timeBtn: !this.state.timeBtn });
   };
 
@@ -176,91 +171,9 @@ class Dashboard extends React.Component<IDashboardRecordStore> {
             }}
           >
             <Row>
-              <Col span={16} className="col-1-time-in">
-                <div>
-                  <Button
-                    type={"primary"}
-                    shape="round"
-                    icon={<FieldTimeOutlined />}
-                    size="large"
-                    onClick={this.handleOnClick}
-                    danger={timeBtn ? true : false}
-                  >
-                    {timeBtn ? "Time Out" : "Time In"}
-                  </Button>
-                </div>
-                <br></br>
-                <List
-                  itemLayout="horizontal"
-                  dataSource={personRecord}
-                  renderItem={(item: IRecordInput) => (
-                    <List.Item>
-                      <List.Item.Meta
-                        avatar={
-                          item.currentlyWorking ? (
-                            <Badge status="success" />
-                          ) : (
-                            <Badge status="default" />
-                          )
-                        }
-                        title={moment(
-                          item.created_at,
-                          "YYYY MM DD hh:mm:ss A Z"
-                        )
-                          .startOf("minutes")
-                          .fromNow()}
-                        description={
-                          <div>
-                            <TimePicker
-                              defaultValue={moment(
-                                item.created_at,
-                                "YYYY MM DD hh:mm:ss A Z"
-                              )}
-                              disabled
-                            />
-                            <DatePicker
-                              defaultValue={moment(
-                                item.created_at,
-                                "YYYY-MM-DD"
-                              )}
-                              disabled
-                            />
-                            <span> Total Hours: {item.hoursRendered}</span>
-                          </div>
-                        }
-                      />
-                    </List.Item>
-                  )}
-                />
-              </Col>
-              <Col span={8}>
-                {" "}
-                <div>
-                  <h1>Activity Feed</h1>
-                </div>
-                <br></br>
-                <List
-                  itemLayout="horizontal"
-                  dataSource={peopleRecords}
-                  renderItem={(item: IRecordInput) => (
-                    <List.Item>
-                      <List.Item.Meta
-                        avatar={
-                          <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>
-                        }
-                        
-                        title={`${item.userId?.username} was login ` + moment(
-                          item.created_at,
-                          "YYYY MM DD hh:mm:ss A Z"
-                        )
-                          .startOf("minutes")
-                          .fromNow()}
-                        description={"Test"}
-                      />
-                    </List.Item>
-                  )}
-                />
-              </Col>
+              <DTR data={this.state} handleOnClick={this.handleOnClick}/>
+              <Col span={2}/>
+              <ActivityFeed peopleRecords={peopleRecords}/>
             </Row>
           </Content>
         </Layout>
