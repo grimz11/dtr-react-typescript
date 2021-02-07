@@ -1,43 +1,47 @@
-import './index.less';
-import {
-  Col,
-  List,
-  Avatar,
-} from "antd";
-import moment from 'moment';
+import "./index.less";
+import { Col, List, Avatar } from "antd";
+import moment from "moment";
 
-import IRecordInput from '../../../services/record/dto/recordInput';
+import IRecordInput from "../../../services/record/dto/recordInput";
+import AppConsts from "../../../utils/appconst";
 
-const ActivityFeed = ({peopleRecords}:any) => {
+const ActivityFeed = ({ peopleRecords }: any) => {
+  console.log("Activity feed", peopleRecords.slice(0, 9));
   return (
     <Col span={8}>
-    <div>
-      <h1>Activity Feed</h1>
-    </div>
-    <br></br>
-    <List
-      itemLayout="horizontal"
-      dataSource={peopleRecords}
-      renderItem={(item: IRecordInput) => (
-        <List.Item>
-          <List.Item.Meta
-            avatar={
-              <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>
-            }
-            
-            title={`${item.userId?.username?.toUpperCase()} was login ` + moment(
-              item.created_at,
-              "YYYY MM DD hh:mm:ss A Z"
-            )
-              .startOf("minutes")
-              .fromNow()}
-            description={"Test"}
-          />
-        </List.Item>
-      )}
-    />
-  </Col>
-  )
-}
+      <div>
+        <span style={{fontSize: "25px", fontWeight: "bold"}}>Activity Feed</span>
+      </div>
+      <br></br>
+      <List
+        itemLayout="horizontal"
+        dataSource={peopleRecords}
+        renderItem={(item: IRecordInput) => (
+          <List.Item>
+            <List.Item.Meta
+              avatar={
+                <Avatar size={40} src={item.userId?.avatar ? AppConsts.appBaseUrl + item.userId?.avatar.url : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"} />
+              }
+              title={
+                `${item.userId?.firstname?.charAt(0).toLocaleUpperCase()}` +
+                `${item.userId?.firstname?.substring(1).toLocaleLowerCase()} ` +
+                (item.timeOut != null
+                  ? `has clocked out ` +
+                    moment(item.timeOut, "YYYY MM DD hh:mm:ss A Z")
+                      .startOf("minutes")
+                      .fromNow()
+                  : "has clocked in " +
+                    moment(item.created_at, "YYYY MM DD hh:mm:ss A Z")
+                      .startOf("minutes")
+                      .fromNow())
+              }
+              description={"Test"}
+            />
+          </List.Item>
+        )}
+      />
+    </Col>
+  );
+};
 
 export default ActivityFeed;

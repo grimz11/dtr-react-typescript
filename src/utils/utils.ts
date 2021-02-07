@@ -20,9 +20,7 @@ class Utils {
     cookies.set(name, param);
     return;
   }
-  // setToken = (jwt: string): void => {
-  //   cookies.set("access_token", jwt);
-  // }
+
   getCookie = (name:string): string => {
     return cookies.get(name);
   }

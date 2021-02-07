@@ -1,15 +1,10 @@
 import "./index.less";
 import * as React from "react";
-import {
-  Col,
-  Layout,
-  Menu,
-  Row,
-} from "antd";
+import { Col, Layout, Menu, Row } from "antd";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  HomeTwoTone,
+  HomeOutlined,
   VideoCameraOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
@@ -23,17 +18,13 @@ import utils from "../../utils/utils";
 import IRecordInput from "../../services/record/dto/recordInput";
 import ActivityFeed from "./components/activityFeed";
 import DTR from "./components/dtr";
+import { Link } from "react-router-dom";
+import IHomeRecordStore from "../indexStore";
 
-const { Header, Sider, Content } = Layout;
-
-interface IDashboardRecordStore {
-  recordStore: RecordStore;
-  userStore: UserStore;
-}
 
 @inject(Stores.RecordStore, Stores.UserStore)
 @observer
-class Dashboard extends React.Component<IDashboardRecordStore> {
+class Dashboard extends React.Component<any> {
   state = {
     collapsed: false,
     time: new Date(),
@@ -58,17 +49,20 @@ class Dashboard extends React.Component<IDashboardRecordStore> {
     await this.props.recordStore.getRecord(userId);
     this.setState({
       ...this.state,
-      personRecord: this.props.recordStore.records.sort().reverse(),
+      personRecord: this.props.recordStore.personRecords.sort().reverse(),
       id: utils.getCookie("id"),
     });
   }
   async getAllRecords() {
     const recordData = await this.props.recordStore.getAllRecords();
-    console.log('recordData', recordData);
-    
+    console.log("recordData", recordData);
+
     this.setState({
       ...this.state,
-      peopleRecords: this.props.recordStore.records.sort().reverse(),
+      peopleRecords: this.props.recordStore.peopleRecords
+        .sort()
+        .reverse()
+        .slice(0, 9),
     });
   }
   async checkWorkingStatus() {
@@ -111,7 +105,7 @@ class Dashboard extends React.Component<IDashboardRecordStore> {
         timeOut: new Date().getTime(),
         hoursRendered: recordTime,
       };
-       await this.props.recordStore.timeOut(this.state.recordId, payloadOut);
+      await this.props.recordStore.timeOut(this.state.recordId, payloadOut);
     } else {
       const payloadIn: IRecordInput = {
         currentlyWorking: true,
@@ -121,63 +115,19 @@ class Dashboard extends React.Component<IDashboardRecordStore> {
       await this.props.recordStore.timeIn(payloadIn);
     }
     await this.getRecord();
-    console.log('Get Oversavable Record', this.props.recordStore.records);
-    
+    await this.getAllRecords();
+
     this.setState({ ...this.state, timeBtn: !this.state.timeBtn });
   };
 
   render() {
-    const { personRecord, timeBtn, peopleRecords } = this.state;
+    const { peopleRecords } = this.state;
     return (
-      <Layout>
-        <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-          <div className="logo">
-            <img
-              src="https://hyperstacksinc.com/assets/icons/hyperstacks-logo-orange.svg"
-              alt=""
-            />
-          </div>
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-            <Menu.Item key="1" icon={<HomeTwoTone />}>
-              Dashboard
-            </Menu.Item>
-            <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-              Daily Time Records
-            </Menu.Item>
-            <Menu.Item key="3" icon={<UploadOutlined />}>
-              Profile
-            </Menu.Item>
-            <Menu.Item key="4" icon={<UploadOutlined />}>
-              Logout
-            </Menu.Item>
-          </Menu>
-        </Sider>
-        <Layout className="site-layout">
-          <Header className="site-layout-background" style={{ padding: 0 }}>
-            {React.createElement(
-              this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-              {
-                className: "trigger",
-                onClick: this.toggle,
-              }
-            )}
-          </Header>
-          <Content
-            className="site-layout-background"
-            style={{
-              margin: "24px 16px",
-              padding: 24,
-              minHeight: 280,
-            }}
-          >
-            <Row>
-              <DTR data={this.state} handleOnClick={this.handleOnClick}/>
-              <Col span={2}/>
-              <ActivityFeed peopleRecords={peopleRecords}/>
-            </Row>
-          </Content>
-        </Layout>
-      </Layout>
+      <Row>
+        <DTR data={this.state} handleOnClick={this.handleOnClick} />
+        <Col span={2} />
+        <ActivityFeed peopleRecords={peopleRecords} />
+      </Row>
     );
   }
 }

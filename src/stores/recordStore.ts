@@ -4,18 +4,19 @@ import IRecordInput from '../services/record/dto/recordInput';
 
 class RecordStore{
   @observable currentLogin:string = "";
-  @observable records:[] = [];
+  @observable personRecords:[] = [];
+  @observable peopleRecords:[] = [];
 
   @action
   async getRecord(id:number) {
     const res = await recordService.getRecord(id);
-    this.records = res;
+    this.personRecords = res;
     
     return res;
   }
   async getAllRecords() {
     const res = await recordService.getAllRecords();
-    this.records = res;
+    this.peopleRecords = res;
     return res;
   }
   @action

@@ -28,6 +28,24 @@ export const appRouters: any = [
     icon: 'home',
     showInMenu: true,
     component: LoadableComponent(() => import('../../scenes/Dashboard')),
+  },
+  {
+    path: '/',
+    name: 'home',
+    permission: '',
+    title: 'Home',
+    icon: 'home',
+    showInMenu: true,
+    component: LoadableComponent(() => import('../../scenes')),
+  },
+  {
+    path: '/logout',
+    permission: '',
+    title: 'Logout',
+    name: 'logout',
+    icon: 'info-circle',
+    showInMenu: false,
+    component: LoadableComponent(() => import('../../components/Logout')),
   }
 ];
 
