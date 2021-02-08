@@ -19,7 +19,17 @@ export const userRouter: any = [
 ];
 
 export const appRouters: any = [
-
+  {
+    path: '/',
+    exact: true,
+    name: 'home',
+    permission: '',
+    title: 'Home',
+    icon: 'home',
+    component: LoadableComponent(() => import('../../components/Layout/AppLayout')),
+    isLayout: true,
+    showInMenu: false,
+  },
   {
     path: '/dashboard',
     name: 'dashboard',
@@ -30,13 +40,13 @@ export const appRouters: any = [
     component: LoadableComponent(() => import('../../scenes/Dashboard')),
   },
   {
-    path: '/',
-    name: 'home',
+    path: '/admin',
+    name: 'admin',
     permission: '',
-    title: 'Home',
+    title: 'Admin',
     icon: 'home',
     showInMenu: true,
-    component: LoadableComponent(() => import('../../scenes')),
+    component: LoadableComponent(() => import('../../scenes/Admin')),
   },
   {
     path: '/logout',
@@ -46,7 +56,16 @@ export const appRouters: any = [
     icon: 'info-circle',
     showInMenu: false,
     component: LoadableComponent(() => import('../../components/Logout')),
-  }
+  },
+  {
+    path: '/exception?:type',
+    permission: '',
+    title: 'exception',
+    name: 'exception',
+    icon: 'info-circle',
+    showInMenu: false,
+    component: LoadableComponent(() => import('../../scenes/Exception')),
+  },
 ];
 
 export const routers = [...userRouter, ...appRouters];

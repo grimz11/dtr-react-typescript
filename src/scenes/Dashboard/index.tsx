@@ -1,25 +1,16 @@
 import "./index.less";
 import * as React from "react";
 import { Col, Layout, Menu, Row } from "antd";
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  HomeOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
+
 import moment from "moment";
 
 import { inject, observer } from "mobx-react";
 import Stores from "../../stores/storeIdentifier";
-import RecordStore from "../../stores/recordStore";
-import UserStore from "../../stores/userStore";
 import utils from "../../utils/utils";
 import IRecordInput from "../../services/record/dto/recordInput";
 import ActivityFeed from "./components/activityFeed";
 import DTR from "./components/dtr";
-import { Link } from "react-router-dom";
-import IHomeRecordStore from "../indexStore";
+
 
 
 @inject(Stores.RecordStore, Stores.UserStore)

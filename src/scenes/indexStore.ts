@@ -4,4 +4,5 @@ import UserStore from "../stores/userStore";
 export default interface IHomeRecordStore {
     recordStore: RecordStore;
     userStore: UserStore;
+  
 }

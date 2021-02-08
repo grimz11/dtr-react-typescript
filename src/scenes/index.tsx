@@ -15,7 +15,6 @@ import {
 
 import { Link } from "react-router-dom";
 import Dashboard from "./Dashboard";
-import IHomeRecordStore from "./indexStore";
 
 const { Header, Sider, Content } = Layout;
 
