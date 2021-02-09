@@ -21,5 +21,11 @@ class UserStore {
     this.allUsers = result;
     return result;
   }
+
+  @action
+  async updateUser(id:number, payload:any){
+    let result = await userService.updateUser(id, payload);
+    return result;
+  }
 }
 export default UserStore;

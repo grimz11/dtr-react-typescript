@@ -1,20 +1,15 @@
 import "./index.less";
 import * as React from "react";
-import { Avatar, Col, List, Row, Input, Button } from "antd";
+import { Avatar, Col, List, Row, Input, Button, Result, Progress } from "antd";
 import Stores from "../../stores/storeIdentifier";
 import { inject, observer } from "mobx-react";
 import AppConsts from "../../utils/appconst";
 import RecordDtrTable from "../../components/RecordDtrTable";
 
-const { Search } = Input;
-
 @inject(Stores.RecordStore, Stores.UserStore)
 @observer
 class Profile extends React.Component<any> {
-  
-  async componentDidMount() {
-   
-  }
+  async componentDidMount() {}
 
   handleOnchange = () => {
     this.setState({
@@ -26,7 +21,20 @@ class Profile extends React.Component<any> {
   render() {
     return (
       <Row>
-        <h1>Coming Soon....</h1>
+        <Col style={{margin: "auto"}}>
+          <Result
+            status="403"
+            title="Coming Soon....."
+            subTitle="Sorry, work is still in progress."
+            extra={
+              <Progress
+                type="circle"
+                percent={75}
+                format={(percent) => `${percent} %`}
+              />
+            }
+          />
+        </Col>
       </Row>
     );
   }

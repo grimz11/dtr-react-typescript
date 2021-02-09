@@ -69,7 +69,7 @@ class Admin extends React.Component<any> {
     const { personData, peopleData } = this.state;
     return (
       <Row>
-        <Col span={8} className="col-1-time-in">
+        <Col span={5} className="col-1-time-in">
           <Search
             placeholder="Search employee"
             allowClear
@@ -111,8 +111,9 @@ class Admin extends React.Component<any> {
             )}
           />
         </Col>
+        <Col span={3}/>
         <Col span={14} className="col-1-time-in">
-          <RecordDtrTable data={personData.sort().reverse()} />
+          <RecordDtrTable data={personData.sort().reverse()} dataSize={10}/>
         </Col>
       </Row>
     );

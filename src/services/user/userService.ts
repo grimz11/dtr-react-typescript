@@ -13,6 +13,13 @@ class UserService{
     
     return res.data;
   }
+  public async updateUser(id:number, payload:any):Promise<any> {
+    // const {} = payload;
+    const res = await http.put(`${AppConsts.appBaseUrl}/users/${id}`, {
+      ...payload
+    })
+    return res.data;
+  }
 }
 
 export default new UserService();

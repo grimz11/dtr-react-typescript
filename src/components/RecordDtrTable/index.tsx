@@ -7,9 +7,9 @@ import moment from "moment";
 import IRecordInput from "../../services/record/dto/recordInput";
 const { Column } = Table;
 
-const RecordDtrTable = ({data}:any) => {
+const RecordDtrTable = ({data, dataSize}:any) => {
   return (
-    <Table dataSource={data}>
+    <Table dataSource={data} pagination={{ pageSize: dataSize}}>
       <Column title="Status" dataIndex={['created_at', 'currentlyWorking']} key="id" render={(text, record:IRecordInput) => (
          <span style={{ fontWeight: "lighter" }}> <Badge status={record.currentlyWorking ? "success" : "default"}/> {moment(record.created_at, "YYYY MM DD hh:mm:ss A Z")
           .startOf("minutes")

@@ -3,7 +3,7 @@ export default interface IUserOutput{
   name?: string
   firstname?: string
   lastname?: string
-  id: number
+  id?: number
   blocked?: boolean
   role?: IRole
   avatar?: any

@@ -24,7 +24,7 @@ const DTR = ({ data: props, handleOnClick }: any) => {
         </Button>
       </div>
       <br></br>
-      <RecordDtrTable data={data}/>
+      <RecordDtrTable data={data} dataSize={9}/>
     </Col>
   );
 };

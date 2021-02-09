@@ -49,7 +49,7 @@ class Dashboard extends React.Component<any> {
       peopleRecords: this.props.recordStore.peopleRecords
         .sort()
         .reverse()
-        .slice(0, 9),
+        .slice(0, 8),
     });
   }
   async checkWorkingStatus() {
