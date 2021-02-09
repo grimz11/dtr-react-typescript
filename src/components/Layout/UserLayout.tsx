@@ -15,7 +15,6 @@ class UserLayout extends React.Component<any> {
     const {
       location: { pathname },
     } = this.props;
-    console.log('UserLayout');
     
     return (
       <DocumentTitle title={utils.getPageTitle(pathname)}>

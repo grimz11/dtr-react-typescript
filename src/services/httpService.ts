@@ -34,8 +34,6 @@ http.interceptors.response.use(
     return response;
   },
   (error) => { 
-
-    console.log('http error', {error});
     if(error.response.status == 400){
       Modal.error({
         title: error.response.statusText, 

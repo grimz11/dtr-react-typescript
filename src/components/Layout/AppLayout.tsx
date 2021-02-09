@@ -30,9 +30,7 @@ class AppLayout extends React.Component<any> {
   onCollapse = (collapsed: any) => {
     this.setState({ collapsed });
   };
-  componentDidCatch() {
-    console.log("appRouters", appRouters);
-  }
+ 
   render() {
     const {
       history,

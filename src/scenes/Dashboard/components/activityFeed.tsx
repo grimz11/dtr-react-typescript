@@ -1,4 +1,3 @@
-import "./index.less";
 import { Col, List, Avatar } from "antd";
 import moment from "moment";
 
@@ -6,7 +5,6 @@ import IRecordInput from "../../../services/record/dto/recordInput";
 import AppConsts from "../../../utils/appconst";
 
 const ActivityFeed = ({ peopleRecords }: any) => {
-  console.log("Activity feed", peopleRecords.slice(0, 9));
   return (
     <Col span={6}>
       <div>

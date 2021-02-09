@@ -3,7 +3,6 @@ import {
   Button,
 
 } from "antd";
-import "./index.less";
 import { FieldTimeOutlined } from "@ant-design/icons";
 
 import RecordDtrTable from "../../../components/RecordDtrTable";

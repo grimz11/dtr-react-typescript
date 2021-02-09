@@ -9,7 +9,7 @@ import logo from '../../assets/images/hyperstacks-logo-orange.svg';
 
 import { appRouters } from '../../components/Router/router.config';
 import utils from '../../utils/utils';
-import { HomeOutlined } from '@ant-design/icons';
+import { DashboardOutlined } from '@ant-design/icons';
 
 const { Sider } = Layout;
 
@@ -38,9 +38,8 @@ const SiderMenu = (props: ISiderMenuProps) => {
           .filter((item: any) => !item.isLayout && item.showInMenu)
           .map((route: any, index: number) => {
             if (route.permission) return null;
-            console.log('route',route)
             return (
-              <Menu.Item icon={<HomeOutlined/>} key={route.path} onClick={() => history.push(route.path)}>
+              <Menu.Item icon={<DashboardOutlined />} key={route.path} onClick={() => history.push(route.path)}>
                 {/* <route.icon /> */}
                 <span>{route.title}</span>
               </Menu.Item>

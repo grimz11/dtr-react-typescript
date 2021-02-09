@@ -2,7 +2,6 @@ import { Redirect, Route } from 'react-router-dom';
 import utils from '../../utils/utils';
 
 const ProtectedRoute = ({ path, component: Component, permission, render, ...rest }: any) => {
-  console.log('ProtectedRoute', {path, Component, permission, render, rest});
   
   return (
     <Route

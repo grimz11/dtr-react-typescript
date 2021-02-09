@@ -11,8 +11,6 @@ import IRecordInput from "../../services/record/dto/recordInput";
 import ActivityFeed from "./components/activityFeed";
 import DTR from "./components/dtr";
 
-
-
 @inject(Stores.RecordStore, Stores.UserStore)
 @observer
 class Dashboard extends React.Component<any> {
@@ -46,8 +44,6 @@ class Dashboard extends React.Component<any> {
   }
   async getAllRecords() {
     const recordData = await this.props.recordStore.getAllRecords();
-    console.log("recordData", recordData);
-
     this.setState({
       ...this.state,
       peopleRecords: this.props.recordStore.peopleRecords

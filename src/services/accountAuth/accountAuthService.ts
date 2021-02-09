@@ -13,8 +13,6 @@ class AccountAuthService {
 
   public async login(loginInput: ILoginInput): Promise<ILoginOutput> {
     let res = await http.post('auth/local', loginInput);
-    console.log('res login', res.data);
-    
     // utils.setCookie('id',res.data.id);
     return res.data;
   }
