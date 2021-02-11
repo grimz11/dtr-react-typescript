@@ -4,11 +4,8 @@ import { Avatar, Col, Row, Input, Button, Card, Image } from "antd";
 import Stores from "../../stores/storeIdentifier";
 import { inject, observer } from "mobx-react";
 import AppConsts from "../../utils/appconst";
-import RecordDtrTable from "../../components/RecordDtrTable";
 import UserStore from "../../stores/userStore";
 import utils from "../../utils/utils";
-import IUserOutput from "../../services/user/dto/userOutput";
-import HyperstacksImg from "../../assets/images/hyperstacks.png";
 import ImageUploader from "react-images-upload";
 
 import {
@@ -17,9 +14,9 @@ import {
   MailOutlined,
   PhoneOutlined,
   SaveOutlined,
-  UploadOutlined,
 } from "@ant-design/icons";
 import moment from "moment";
+import UpdateFields from "./components/updateFields";
 
 const { Meta } = Card;
 
@@ -39,6 +36,7 @@ class Profile extends React.Component<IPropsProfile, any> {
       phoneRef: React.createRef(),
       birthdayRef: React.createRef(),
       addressRef: React.createRef(),
+      fileRef: undefined,
     };
   }
 
@@ -52,38 +50,35 @@ class Profile extends React.Component<IPropsProfile, any> {
     document
       .querySelector(".coverPhoto")
       ?.setAttribute("src", successImages[0]);
-    // console.log("el", successImages[0].split(";"));
-    const memeType = successImages[0].split(";")[0];
-    const name = successImages[0].split(";")[1];
-    const base = successImages[0].split(";")[2];
-    await this.props.userStore.updateUser(parseInt(utils.getCookie("id")), {
-      memeType,
-      name,
-      base,
-    });
+    console.log("successImages", successImages[0]);
+    console.log("picture", picture);
 
-    console.log("memeType", memeType);
-    console.log("successImages", name);
-    console.log("base", base);
+    const name = successImages[0].split(";")[1];
+    const formData = new FormData();
+
+    formData.append("files", picture[0]);
+    formData.append("field", "image");
+    formData.append("ref", "user");
+    formData.append("refId", "3");
+
+    await this.props.userStore.uploadImage(formData);
   };
   handleChangeAvatar = (picture: any, successImages: any) => {
     document
       .querySelector(".avatar img")
       ?.setAttribute("src", successImages[0]);
   };
-  handleUpdateUser = async () => {
-    const {emailRef, phoneRef, birthdayRef,addressRef } = this.state;
-    // console.log('emailRef', this.state?.emailRef?.current.state?.value);
-    // console.log('phoneRef', this.state?.phoneRef?.current.state?.value);
-    // console.log('birthdayRef', this.state?.birthdayRef?.current.state?.value);
-    // console.log('addressRef', this.state?.addressRef?.current.state?.value);
-    await this.props.userStore.updateUser(parseInt(utils.getCookie("id")), {
-      email: emailRef?.current.state?.value,
-      phoneNumber: phoneRef?.current.state?.value,
-      address: addressRef?.current.state?.value
-    });
+  handleUpdateUser = async (props:any) => {
     
-  }
+    const { emailRef, phoneRef, birthdayRef, addressRef } = this.state;
+    console.log('addressRef',addressRef);
+    
+    // await this.props.userStore.updateUser(parseInt(utils.getCookie("id")), {
+    //   email: emailRef?.current.state?.value,
+    //   phoneNumber: phoneRef?.current.state?.value,
+    //   address: addressRef?.current.state?.value,
+    // });
+  };
   render() {
     const { user }: any = this.state;
     return (
@@ -108,7 +103,12 @@ class Profile extends React.Component<IPropsProfile, any> {
               )
             }
             actions={[
-              <Button type="primary" icon={<SaveOutlined />} size="large" onClick={this.handleUpdateUser}>
+              <Button
+                type="primary"
+                icon={<SaveOutlined />}
+                size="large"
+                onClick={this.handleUpdateUser}
+              >
                 Update Information
               </Button>,
               // <ImageUploader
@@ -118,67 +118,16 @@ class Profile extends React.Component<IPropsProfile, any> {
               //   imgExtension={[".jpg", ".gif", ".png", ".gif"]}
               //   maxFileSize={5242880}
               // />,
-              // <ImageUploader
-              //   withIcon={false}
-              //   buttonText="Change Cover Photo"
-              //   onChange={this.handleChangeCoverPhoto}
-              //   imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-              //   maxFileSize={5242880}
-              // />,
+              //   <ImageUploader
+              //     withIcon={false}
+              //     buttonText="Change Cover Photo"
+              //     onChange={this.handleChangeCoverPhoto}
+              //     imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+              //     maxFileSize={5242880}
+              //   />
             ]}
           >
-            <Meta />
-            <Meta
-              avatar={
-                <Avatar
-                  src={AppConsts.appBaseUrl + user.avatar?.url}
-                  className="avatar"
-                />
-              }
-              title={
-                user.firstname &&
-                user.firstname + " " + (user.lastname ? user.lastname : "")
-              }
-            />
-            <br></br>
-            <Meta
-              avatar={<MailOutlined style={{ width: "30px" }} />}
-              title={
-                <Input
-                  placeholder={user.email && user.email}
-                  ref={this.state?.emailRef}
-                />
-              }
-            />
-            <br></br>
-            <Meta
-              avatar={<PhoneOutlined style={{ width: "30px" }} />}
-              title={
-                <Input placeholder={user.phoneNumber && user.phoneNumber} ref={this.state?.phoneRef}/>
-              }
-              
-            />
-            <br></br>
-            <Meta
-              avatar={<CalendarOutlined style={{ width: "30px" }} />}
-              title={
-                <Input
-                  placeholder={
-                    user.birthday &&
-                    moment(
-                      user.birthday && user.birthday,
-                      "YYYY MM DD hh:mm:ss A Z"
-                    ).format("MM-DD-YYYY")
-                  }
-                  ref={this.state?.birthdayRef}
-                />
-              }
-            />
-            <br></br>
-            <Meta
-              avatar={<HomeOutlined style={{ width: "30px" }} />}
-              title={<Input placeholder={user.address && user.address} ref={this.state?.addressRef}/>}
-            />
+          <UpdateFields props={this.state} handleUpdateUser={this.handleUpdateUser}/>
           </Card>
         </Col>
         <Col span={12}>

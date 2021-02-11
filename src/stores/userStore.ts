@@ -27,5 +27,12 @@ class UserStore {
     let result = await userService.updateUser(id, payload);
     return result;
   }
+  @action
+  async uploadImage(formData: any){
+    console.log('uploadImage', ...formData);
+    
+    let result = await userService.uploadImage(formData);
+    return result;
+  }
 }
 export default UserStore;
