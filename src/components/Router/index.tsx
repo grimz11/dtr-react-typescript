@@ -14,6 +14,7 @@ const Router = () => {
     <Switch>
       <Route path="/user" render={(props: any) => <UserLayout {...props} />} />
       <ProtectedRoute path="/" render={(props: any) => <AppLayout {...props} exact />} />
+      <ProtectedRoute path="/profile/:id" render={(props: any) => <AppLayout {...props} />} />
       {/* <ProtectedRoute path="/" render={(props: any) => <Home {...props} />} /> */}
       {/* <ProtectedRoute path="/dashboard" render={(props: any) => <Dashboard {...props} exact />} />
       <ProtectedRoute path="/logout" render={(props: any) => <Logout {...props} exact />} /> */}

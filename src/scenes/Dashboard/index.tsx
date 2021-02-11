@@ -25,13 +25,13 @@ class Dashboard extends React.Component<any> {
     timeInRecord: "",
   };
   async componentDidMount() {
-    await this.getUser();
+    await this.getCurrentLoginUser();
     await this.getRecord();
     await this.getAllRecords();
     await this.checkWorkingStatus();
   }
-  async getUser() {
-    await this.props.userStore.getUser(parseInt(this.state!.id));
+  async getCurrentLoginUser() {
+    await this.props.userStore.getCurrentLoginUser(parseInt(this.state!.id));
   }
   async getRecord() {
     const userId = this.props.userStore!.currentLogin!.id;

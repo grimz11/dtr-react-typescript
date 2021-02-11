@@ -5,6 +5,8 @@ import Stores from "../../stores/storeIdentifier";
 import { inject, observer } from "mobx-react";
 import AppConsts from "../../utils/appconst";
 import RecordDtrTable from "../../components/RecordDtrTable";
+import { IdcardFilled, UserOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 const { Search } = Input;
 
@@ -23,7 +25,7 @@ class Admin extends React.Component<any> {
     });
   }
   handleOnlick = async (id: any, e: any) => {
-    await this.props.userStore.getUser(parseInt(id));
+    await this.props.userStore.getCurrentLoginUser(parseInt(id));
     this.setState({
       personData: this.props.userStore!.currentLogin!.recordData,
     });
@@ -34,22 +36,13 @@ class Admin extends React.Component<any> {
       peopleData: this.props.userStore.allUsers,
     });
   };
-
+  handleClickProfile = async (id: any) => {
+    const user = await this.props.userStore.getUserProfile(parseInt(id));
+    // console.log("profile click", user);
+    <Link to={`profile/${id}`}></Link>;
+  };
   handleOnSearch = async (value: any) => {
     this.props.userStore.allUsers.find((item: any) => {
-      // const res = () => {
-      //   if (item.username.toLowerCase() === value.toLowerCase()) {
-      //     return item;
-      //   } else if (
-      //     item.lastname &&
-      //     item.lastname.toLowerCase() === value.toLowerCase()
-      //   ) {
-      //     return item;
-      //   }
-      // };
-      // this.setState({
-      //   peopleData: res ? [res] : this.props.userStore.allUsers,
-      // });
       if (item.username.toLowerCase() === value.toLowerCase()) {
         this.setState({
           peopleData: item ? [item] : this.props.userStore.allUsers,
@@ -83,8 +76,7 @@ class Admin extends React.Component<any> {
             itemLayout="vertical"
             size="default"
             pagination={{
-              onChange: (page) => {
-              },
+              onChange: (page) => {},
               pageSize: 7,
             }}
             dataSource={peopleData}
@@ -92,17 +84,37 @@ class Admin extends React.Component<any> {
               <List.Item key={item.id}>
                 <List.Item.Meta
                   avatar={
-                    <Avatar src={AppConsts.appBaseUrl + item.avatar!.url} />
+                    // <span
+                    //   style={{ cursor: "pointer" }}
+                    //   onClick={this.handleClickProfile.bind(this, item.id)}
+                    // >
+                    <Link to={`profile/${item.id}`}>
+                      <Avatar src={AppConsts.appBaseUrl + item.avatar!.url} />
+                    </Link>
+
+                    // </span>
                   }
                   title={
-                    <Button
+                    <span>
+                      <Button
+                        data-value={item.id}
+                        href={item.href}
+                        onClick={this.handleOnlick.bind(this, item.id)}
+                        size="small"
+                      >
+                        {item.firstname} {item.lastname}
+                      </Button>
+                      {/* <Button icon={<IdcardFilled />}></Button> */}
+
+                      {/* <Button
                       data-value={item.id}
                       href={item.href}
                       onClick={this.handleOnlick.bind(this, item.id)} 
                       size="small"
                     >
                       {item.firstname} {item.lastname}
-                    </Button>
+                    </Button> */}
+                    </span>
                   }
                   // description={item.}
                 />
@@ -111,9 +123,9 @@ class Admin extends React.Component<any> {
             )}
           />
         </Col>
-        <Col span={3}/>
+        <Col span={3} />
         <Col span={14} className="col-1-time-in">
-          <RecordDtrTable data={personData.sort().reverse()} dataSize={10}/>
+          <RecordDtrTable data={personData.sort().reverse()} dataSize={10} />
         </Col>
       </Row>
     );

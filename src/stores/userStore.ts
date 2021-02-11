@@ -9,8 +9,14 @@ class UserStore {
   @observable allUsers:[] = [];
   
   @action
-  async getUser(id: number) {
+  async getCurrentLoginUser(id: number) {
     let result = await userService.getCurrentLoginUser(id);
+    this.currentLogin = result;
+    return result;
+  }
+  @action
+  async getUserProfile(id: number) {
+    let result = await userService.getUserProfile(id);
     this.currentLogin = result;
     return result;
   }

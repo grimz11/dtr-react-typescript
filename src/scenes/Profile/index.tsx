@@ -41,7 +41,7 @@ class Profile extends React.Component<IPropsProfile, any> {
   }
 
   async componentDidMount() {
-    await this.props.userStore.getUser(parseInt(utils.getCookie("id")));
+    await this.props.userStore.getCurrentLoginUser(parseInt(utils.getCookie("id")));
     console.log("Profile", this.props.userStore.currentLogin);
     this.setState({ ...this.state, user: this.props.userStore.currentLogin });
   }

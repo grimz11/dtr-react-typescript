@@ -1,15 +1,10 @@
 import './index.less';
 
 import {Layout, Menu } from 'antd';
-// import {
-//   HomeOutlined,
-// } from "@ant-design/icons";
-
 import logo from '../../assets/images/hyperstacks-logo-orange.svg';
 
 import { appRouters } from '../../components/Router/router.config';
 import utils from '../../utils/utils';
-import { DashboardOutlined } from '@ant-design/icons';
 
 const { Sider } = Layout;
 
@@ -39,8 +34,8 @@ const SiderMenu = (props: ISiderMenuProps) => {
           .map((route: any, index: number) => {
             if (route.permission) return null;
             return (
-              <Menu.Item icon={<DashboardOutlined />} key={route.path} onClick={() => history.push(route.path)}>
-                {/* <route.icon /> */}
+              <Menu.Item key={route.path} onClick={() => history.push(route.path)}>
+                <route.icon />
                 <span>{route.title}</span>
               </Menu.Item>
             );

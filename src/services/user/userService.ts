@@ -8,6 +8,11 @@ class UserService {
 
     return res.data;
   }
+  public async getUserProfile(id: number): Promise<any> {
+    const res = await http.get(`${AppConsts.appBaseUrl}/users/${id}`);
+
+    return res.data;
+  }
   public async getAllUsers(): Promise<any> {
     const res = await http.get(`${AppConsts.appBaseUrl}/users`);
 

@@ -1,3 +1,4 @@
+import { DashboardOutlined, LogoutOutlined, ProfileOutlined, RadarChartOutlined, TeamOutlined } from "@ant-design/icons";
 import LoadableComponent from "./../Loadable/index";
 
 export const userRouter: any = [
@@ -39,7 +40,7 @@ export const appRouters: any = [
     name: "dashboard",
     permission: "",
     title: "Dashboard",
-    icon: "home",
+    icon: DashboardOutlined,
     showInMenu: true,
     component: LoadableComponent(() => import("../../scenes/Dashboard")),
   },
@@ -48,17 +49,26 @@ export const appRouters: any = [
     name: "admin",
     permission: "",
     title: "Employee",
-    icon: "home",
+    icon: TeamOutlined,
     showInMenu: true,
-    component: LoadableComponent(() => import("../../scenes/Admin")),
+    component: LoadableComponent(() => import("../../scenes/Employee")),
   },
   {
     path: "/profile",
     name: "profile",
     permission: "",
     title: "Profile",
-    icon: "home",
+    icon: ProfileOutlined,
     showInMenu: true,
+    component: LoadableComponent(() => import("../../scenes/Profile")),
+  },
+  {
+    path: "/profile/:id",
+    name: "profile",
+    permission: "",
+    title: "Profile",
+    icon: ProfileOutlined,
+    showInMenu: false,
     component: LoadableComponent(() => import("../../scenes/Profile")),
   },
   {
@@ -66,7 +76,7 @@ export const appRouters: any = [
     name: "performance",
     permission: "",
     title: "Performance",
-    icon: "home",
+    icon: RadarChartOutlined,
     showInMenu: true,
     component: LoadableComponent(() => import("../../scenes/Performance")),
   },
@@ -76,7 +86,7 @@ export const appRouters: any = [
     permission: "",
     title: "Logout",
     name: "logout",
-    icon: "info-circle",
+    icon: LogoutOutlined,
     showInMenu: true,
     component: LoadableComponent(() => import("../../components/Logout")),
   },

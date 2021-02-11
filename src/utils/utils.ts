@@ -9,7 +9,7 @@ class Utils {
   };
   getPageTitle = (pathname: string): any => {
     const route = routers.filter(route => route.path === pathname);
-    const localizedAppName = 'AppName';
+    const localizedAppName = 'Hyperstacks';
     if (!route || route.length === 0) {
       return localizedAppName;
     }
