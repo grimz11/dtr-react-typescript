@@ -8,14 +8,13 @@ import DocumentTitle from 'react-document-title';
 import Footer from '../Footer';
 import { userRouter } from '../Router/router.config';
 import utils from '../../utils/utils';
-import './index.less';
+import './UserLayout.less';
 
 class UserLayout extends React.Component<any> {
   render() {
     const {
       location: { pathname },
     } = this.props;
-    console.log('UserLayout');
     
     return (
       <DocumentTitle title={utils.getPageTitle(pathname)}>

@@ -15,8 +15,6 @@ class RecordService{
     return res.data;
   }
   public async timeOut(id:number, payload:IRecordInput) {
-    console.log('payload timeout', payload);
-    
     const res = await http.put(`records/${id}`, payload);
     return res.data;
   }

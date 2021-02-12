@@ -9,12 +9,12 @@ class Utils {
   };
   getPageTitle = (pathname: string): any => {
     const route = routers.filter(route => route.path === pathname);
-    const localizedAppName = 'AppName';
+    const localizedAppName = 'Hyperstacks';
     if (!route || route.length === 0) {
       return localizedAppName;
     }
 
-    return route[0].title + ' | ' + localizedAppName;
+    return localizedAppName  + ' :: ' +  route[0].title;
   };
   setCookie = (name:string, param:any) => {
     cookies.set(name, param);

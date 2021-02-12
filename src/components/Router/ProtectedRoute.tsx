@@ -2,6 +2,7 @@ import { Redirect, Route } from 'react-router-dom';
 import utils from '../../utils/utils';
 
 const ProtectedRoute = ({ path, component: Component, permission, render, ...rest }: any) => {
+  
   return (
     <Route
       {...rest}
@@ -16,7 +17,7 @@ const ProtectedRoute = ({ path, component: Component, permission, render, ...res
             />
           );
 
-        if (permission ) {
+        if (permission && !utils.getCookie('access_token')) {
           return (
             <Redirect
               to={{

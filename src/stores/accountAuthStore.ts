@@ -18,6 +18,12 @@ class AccountAuthStore {
     utils.setCookie('id', res.user?.id);
     return res;
   }
+  
+  get isAuthenticated(): boolean {
+    if (!utils.getCookie('access_token')) return false;
+
+    return true;
+  }
 
   @action
   async logout(): Promise<string> {

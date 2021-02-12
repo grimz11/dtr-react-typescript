@@ -3,14 +3,16 @@ import './index.less';
 
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import logo from '../../images/hyperstacks-logo-orange.svg';
+import logo from '../../assets/images/hyperstacks-logo-orange.svg';
 
 import { inject, observer } from 'mobx-react';
 import Stores from '../../stores/storeIdentifier';
 import AccountAuthStore from '../../stores/accountAuthStore';
+import { Redirect } from 'react-router-dom';
 
 interface ILoginUserStore{
   accountAuthStore: AccountAuthStore;
+  location?: any;
 }
 
 @inject(Stores.AccountAuthStore)
@@ -27,9 +29,10 @@ class Login extends React.Component<ILoginUserStore> {
   };
 
   public render() {
-    // if(!utils.getToken('access_token')) return <Redirect to={this.state.from.from}/>
+    let { from } = this.props.location.state || { from: { pathname: '/' } };
+    if (this.props.accountAuthStore!.isAuthenticated) return <Redirect to={from} />;
+    
     return (
-      
       <Form
         name="normal_login"
         className="login-form"
@@ -46,11 +49,11 @@ class Login extends React.Component<ILoginUserStore> {
           rules={[
             {
               required: true,
-              message: 'Please input your Username!',
+              message: 'Please input your Username or Email!',
             },
           ]}
         >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username/Email" />
         </Form.Item>
         <Form.Item
           name="password"
@@ -81,7 +84,6 @@ class Login extends React.Component<ILoginUserStore> {
           <Button type="primary" htmlType="submit" className="login-form-button">
             Log in
           </Button>
-          Or <a href="">register now!</a>
         </Form.Item>
       </Form>
     );

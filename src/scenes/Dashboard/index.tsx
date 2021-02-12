@@ -1,26 +1,15 @@
 import "./index.less";
 import * as React from "react";
 import { Col, Layout, Menu, Row } from "antd";
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  HomeOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
+
 import moment from "moment";
 
 import { inject, observer } from "mobx-react";
 import Stores from "../../stores/storeIdentifier";
-import RecordStore from "../../stores/recordStore";
-import UserStore from "../../stores/userStore";
 import utils from "../../utils/utils";
 import IRecordInput from "../../services/record/dto/recordInput";
 import ActivityFeed from "./components/activityFeed";
 import DTR from "./components/dtr";
-import { Link } from "react-router-dom";
-import IHomeRecordStore from "../indexStore";
-
 
 @inject(Stores.RecordStore, Stores.UserStore)
 @observer
@@ -36,13 +25,13 @@ class Dashboard extends React.Component<any> {
     timeInRecord: "",
   };
   async componentDidMount() {
-    await this.getUser();
+    await this.getCurrentLoginUser();
     await this.getRecord();
     await this.getAllRecords();
     await this.checkWorkingStatus();
   }
-  async getUser() {
-    await this.props.userStore.getUser(parseInt(this.state!.id));
+  async getCurrentLoginUser() {
+    await this.props.userStore.getCurrentLoginUser(parseInt(this.state!.id));
   }
   async getRecord() {
     const userId = this.props.userStore!.currentLogin!.id;
@@ -55,14 +44,12 @@ class Dashboard extends React.Component<any> {
   }
   async getAllRecords() {
     const recordData = await this.props.recordStore.getAllRecords();
-    console.log("recordData", recordData);
-
     this.setState({
       ...this.state,
       peopleRecords: this.props.recordStore.peopleRecords
         .sort()
         .reverse()
-        .slice(0, 9),
+        .slice(0, 8),
     });
   }
   async checkWorkingStatus() {
