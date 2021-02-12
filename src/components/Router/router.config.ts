@@ -45,8 +45,8 @@ export const appRouters: any = [
     component: LoadableComponent(() => import("../../scenes/Dashboard")),
   },
   {
-    path: "/admin",
-    name: "admin",
+    path: "/employee",
+    name: "employee",
     permission: "",
     title: "Employee",
     icon: TeamOutlined,

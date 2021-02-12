@@ -14,7 +14,7 @@ class Utils {
       return localizedAppName;
     }
 
-    return route[0].title + ' | ' + localizedAppName;
+    return localizedAppName  + ' :: ' +  route[0].title;
   };
   setCookie = (name:string, param:any) => {
     cookies.set(name, param);

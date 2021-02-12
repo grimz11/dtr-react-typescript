@@ -22,6 +22,7 @@ const { Meta } = Card;
 
 interface IPropsProfile {
   userStore: UserStore;
+  match: any;
 }
 
 @inject(Stores.RecordStore, Stores.UserStore)
@@ -41,9 +42,20 @@ class Profile extends React.Component<IPropsProfile, any> {
   }
 
   async componentDidMount() {
-    await this.props.userStore.getCurrentLoginUser(parseInt(utils.getCookie("id")));
+    if(this.props.match.params.id){
+      await this.props.userStore.getUserProfile(parseInt(this.props.match.params.id));
+      this.setState({ ...this.state, user: this.props.userStore.userProfile });
+
+    }else {
+      await this.props.userStore.getCurrentLoginUser(parseInt(utils.getCookie('id')));
+      this.setState({ ...this.state, user: this.props.userStore.currentLogin });
+
+    }
     console.log("Profile", this.props.userStore.currentLogin);
-    this.setState({ ...this.state, user: this.props.userStore.currentLogin });
+    console.log("Params", this.props.match.params.id);
+
+
+    
   }
 
   handleChangeCoverPhoto = async (picture: any, successImages: any) => {

@@ -7,7 +7,8 @@ import userService from '../services/user/userService';
 class UserStore {
   @observable currentLogin:any = new CurrentUserLogin();
   @observable allUsers:[] = [];
-  
+  @observable userProfile:[] = [];
+
   @action
   async getCurrentLoginUser(id: number) {
     let result = await userService.getCurrentLoginUser(id);
@@ -17,7 +18,7 @@ class UserStore {
   @action
   async getUserProfile(id: number) {
     let result = await userService.getUserProfile(id);
-    this.currentLogin = result;
+    this.userProfile = result;
     return result;
   }
 
