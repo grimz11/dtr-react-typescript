@@ -43,7 +43,7 @@ const DTR = ({ data: props, handleOnClick }: any) => {
          <span>{timeOut ? moment(timeOut, "YYYY MM DD hh:mm:ss A Z").format("hh:mm:ss a") : "-"}</span>
         }/>
         <Column
-          title="Date"
+          title="Date(m-d-y)"
           dataIndex="created_at"
           key="id"
           render={(created_at:Date) => 
