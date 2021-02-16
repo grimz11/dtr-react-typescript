@@ -26,9 +26,8 @@ class AccountAuthStore {
   }
 
   @action
-  async logout(): Promise<string> {
+  async logout() {
     utils.removeToken();
-    return "Successfully Logout";
   }
 }
 

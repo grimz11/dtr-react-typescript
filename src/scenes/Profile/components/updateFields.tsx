@@ -24,7 +24,6 @@ import moment from "moment";
 const { Text } = Typography;
 
 const UpdateFields = ({ props, handleUpdateUser }: any) => {
-
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
@@ -46,77 +45,75 @@ const UpdateFields = ({ props, handleUpdateUser }: any) => {
       },
     ],
   };
-  console.log('props', props);
-  
+  console.log("props", props);
 
   return (
     <Row>
-      <Col span={12}>
-        <Form
-          {...layout}
-          name="basic"
-          className="user-form"
-          onFinish={handleUpdateUser}
-          // onFinishFailed={onFinishFailed}
+      {/* <Col span={12}> */}
+      <Form
+        {...layout}
+        name="basic"
+        className="user-form"
+        onFinish={handleUpdateUser}
+        // onFinishFailed={onFinishFailed}
+      >
+        <Form.Item name="name" className="profile-name">
+          <span>
+            {props.user.firstname &&
+              props.user.firstname +
+                " " +
+                (props.user.lastname ? props.user.lastname : "")}
+          </span>
+        </Form.Item>
+
+        <Form.Item name="quotes" className="profile-quotes">
+          <Input placeholder={props.user.quotes}/>
+        </Form.Item>
+
+        <Form.Item
+          label={<MailOutlined style={{ width: "30px" }} />}
+          name="email"
         >
-          <Form.Item
-            label={<Avatar src={AppConsts.appBaseUrl + props.user.avatar?.url} />}
-            name="name"
-          >
-            <span>
-              {props.user.firstname &&
-                props.user.firstname + " " + (props.user.lastname ? props.user.lastname : "")}
-            </span>
-          </Form.Item>
+          <span>{props.user.email && props.user.email}</span>
+        </Form.Item>
 
-          <Form.Item
-            label={<MailOutlined style={{ width: "30px" }} />}
-            name="email"
-          >
-            <span>{props.user.email && props.user.email}</span>
-          </Form.Item>
+        <Form.Item
+          name="phoneNumber"
+          label={<PhoneOutlined style={{ width: "30px" }} />}
+        >
+          <Input
+            placeholder={props.user.phoneNumber && props.user.phoneNumber}
+            ref={props.addresRef}
+          />
+          {/* <span>{user.phoneNumber && user.phoneNumber}</span> */}
+        </Form.Item>
 
-          <Form.Item
-            name="phoneNumber"
-            label={<PhoneOutlined style={{ width: "30px" }} />}
-          >
-            <Input placeholder={props.user.phoneNumber && props.user.phoneNumber} ref={props.addresRef}/>
-            {/* <span>{user.phoneNumber && user.phoneNumber}</span> */}
-          </Form.Item>
-
-          <Form.Item
-            name="birthday"
-            label={<CalendarOutlined style={{ width: "30px" }} {...config} />}
-          >
-            <DatePicker
-              defaultValue={
-                props.user.birthday
-                  ? moment(props.user.birthday, "MM-DD-YYYY")
-                  : moment("2019-06-07")
-              }
-              format={"MM-DD-YYYY"}
-            />
-          </Form.Item>
-          <Form.Item
-            name="address"
-            label={<HomeOutlined style={{ width: "30px" }} />}
-          >
-            <Input placeholder={props.user.address && props.user.address} />
-          </Form.Item>
-
-          {/* <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Update Information
-            </Button>
-          </Form.Item> */}
-        </Form>
-      </Col>
-      <Col span={12}>
-        {/* <span><TextArea rows={12}><Text type="secondary">{user.quotes}</Text></TextArea></span> */}
+        <Form.Item
+          name="birthday"
+          label={<CalendarOutlined style={{ width: "30px" }} {...config} />}
+        >
+          <DatePicker
+            defaultValue={
+              props.user.birthday
+                ? moment(props.user.birthday, "MM-DD-YYYY")
+                : moment("2019-06-07")
+            }
+            format={"MM-DD-YYYY"}
+          />
+        </Form.Item>
+        <Form.Item
+          name="address"
+          label={<HomeOutlined style={{ width: "30px" }} />}
+        >
+          <Input placeholder={props.user.address && props.user.address} />
+        </Form.Item>
+      </Form>
+      {/* </Col> */}
+      {/* <Col span={12}>
         <span>
           <Text type="secondary">{props.user.quotes}</Text>
         </span>
-      </Col>
+      </Col> */}
     </Row>
   );
 };

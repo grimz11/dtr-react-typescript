@@ -25,7 +25,7 @@ class Login extends React.Component<ILoginUserStore> {
     const res = await this.props.accountAuthStore.login({identifier: values.username, password:values.password});
     let { from } = { from: { pathname: '/dashboard' } };
     
-    if(res) return window.location.href = from.pathname;
+    if(res) return window.location.href = "/dashboard";
   };
 
   public render() {

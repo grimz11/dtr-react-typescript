@@ -42,20 +42,19 @@ class Profile extends React.Component<IPropsProfile, any> {
   }
 
   async componentDidMount() {
-    if(this.props.match.params.id){
-      await this.props.userStore.getUserProfile(parseInt(this.props.match.params.id));
+    if (this.props.match.params.id) {
+      await this.props.userStore.getUserProfile(
+        parseInt(this.props.match.params.id)
+      );
       this.setState({ ...this.state, user: this.props.userStore.userProfile });
-
-    }else {
-      await this.props.userStore.getCurrentLoginUser(parseInt(utils.getCookie('id')));
+    } else {
+      await this.props.userStore.getCurrentLoginUser(
+        parseInt(await utils.getCookie("id"))
+      );
       this.setState({ ...this.state, user: this.props.userStore.currentLogin });
-
     }
     console.log("Profile", this.props.userStore.currentLogin);
     console.log("Params", this.props.match.params.id);
-
-
-    
   }
 
   handleChangeCoverPhoto = async (picture: any, successImages: any) => {
@@ -80,11 +79,10 @@ class Profile extends React.Component<IPropsProfile, any> {
       .querySelector(".avatar img")
       ?.setAttribute("src", successImages[0]);
   };
-  handleUpdateUser = async (props:any) => {
-    
+  handleUpdateUser = async (props: any) => {
     const { emailRef, phoneRef, birthdayRef, addressRef } = this.state;
-    console.log('addressRef',addressRef);
-    
+    console.log("addressRef", addressRef);
+
     // await this.props.userStore.updateUser(parseInt(utils.getCookie("id")), {
     //   email: emailRef?.current.state?.value,
     //   phoneNumber: phoneRef?.current.state?.value,
@@ -101,15 +99,16 @@ class Profile extends React.Component<IPropsProfile, any> {
             style={{ width: "95%" }}
             cover={
               user.coverPhoto ? (
-                <Image
-                  style={{ width: "100%" }}
-                  height={450}
-                  src={
-                    user.coverPhoto &&
-                    AppConsts.appBaseUrl + user.coverPhoto?.url
-                  }
-                  className="coverPhoto"
-                />
+                <Avatar style={{ height: 220, width: 220 }} className="coverPhoto">
+                  <Image
+                    style={{ height: 220, width: 220, borderRadius: "100%" }}
+                    src={
+                      user.coverPhoto &&
+                      AppConsts.appBaseUrl + user.coverPhoto?.url
+                    }
+                    
+                  />
+                </Avatar>
               ) : (
                 ""
               )
@@ -123,29 +122,18 @@ class Profile extends React.Component<IPropsProfile, any> {
               >
                 Update Information
               </Button>,
-              // <ImageUploader
-              //   withIcon={false}
-              //   buttonText="Change Avatar"
-              //   onChange={this.handleChangeAvatar}
-              //   imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-              //   maxFileSize={5242880}
-              // />,
-              //   <ImageUploader
-              //     withIcon={false}
-              //     buttonText="Change Cover Photo"
-              //     onChange={this.handleChangeCoverPhoto}
-              //     imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-              //     maxFileSize={5242880}
-              //   />
             ]}
           >
-          <UpdateFields props={this.state} handleUpdateUser={this.handleUpdateUser}/>
+            <UpdateFields
+              props={this.state}
+              handleUpdateUser={this.handleUpdateUser}
+            />
           </Card>
         </Col>
         <Col span={12}>
           <Card hoverable style={{ width: "100%" }}>
             <Meta
-              avatar={<Avatar src={AppConsts.appBaseUrl + user.avatar?.url} />}
+              // avatar={<Avatar src={AppConsts.appBaseUrl + user.avatar?.url} />}
               title={
                 user.firstname &&
                 user.firstname + " " + (user.lastname ? user.lastname : "")

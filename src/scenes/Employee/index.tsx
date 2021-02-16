@@ -5,14 +5,20 @@ import Stores from "../../stores/storeIdentifier";
 import { inject, observer } from "mobx-react";
 import AppConsts from "../../utils/appconst";
 import RecordDtrTable from "../../components/RecordDtrTable";
-import { IdcardFilled, UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import RecordStore from "../../stores/recordStore";
+import UserStore from "../../stores/userStore";
 
 const { Search } = Input;
 
+interface IPropsEmployee {
+  recordStore: RecordStore
+  userStore: UserStore
+}
+
 @inject(Stores.RecordStore, Stores.UserStore)
 @observer
-class Admin extends React.Component<any> {
+class Admin extends React.Component<IPropsEmployee> {
   state = {
     personData: [],
     peopleData: [],
@@ -25,9 +31,13 @@ class Admin extends React.Component<any> {
     });
   }
   handleOnlick = async (id: any, e: any) => {
-    await this.props.userStore.getCurrentLoginUser(parseInt(id));
+    // await this.props.userStore.getCurrentLoginUser(parseInt(id));
+    // this.setState({
+    //   personData: this.props.userStore!.currentLogin!.recordData,
+    // });
+    const res = await this.props.recordStore.getRecord(id);
     this.setState({
-      personData: this.props.userStore!.currentLogin!.recordData,
+      personData: res,
     });
   };
   handleOnchange = () => {

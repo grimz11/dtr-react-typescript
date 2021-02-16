@@ -54,7 +54,7 @@ class AppLayout extends React.Component<any> {
             className="site-layout-background"
             style={{ background: "#fff", minHeight: 52, padding: 0 }}
           >
-            <Header collapsed={this.state.collapsed} toggle={this.toggle} />
+            <Header collapsed={this.state.collapsed} toggle={this.toggle}/>
           </Layout.Header>
           <Content
             className="site-layout-background"

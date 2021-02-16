@@ -1,5 +1,6 @@
 import { Col, List, Avatar } from "antd";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 import IRecordInput from "../../../services/record/dto/recordInput";
 import AppConsts from "../../../utils/appconst";
@@ -18,7 +19,9 @@ const ActivityFeed = ({ peopleRecords }: any) => {
           <List.Item>
             <List.Item.Meta
               avatar={
-                <Avatar size={40} src={item.userId?.avatar ? AppConsts.appBaseUrl + item.userId?.avatar.url : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"} />
+                <Link to={`profile/${item.userId?.id}`}>
+                <Avatar size={40} src={item.userId?.avatar ? AppConsts.appBaseUrl + item.userId?.avatar.url : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"} style={{cursor: "pointer"}}/>
+                </Link>
               }
               title={
                 `${item.userId?.firstname?.charAt(0).toLocaleUpperCase()}` +
