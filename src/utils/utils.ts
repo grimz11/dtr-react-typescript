@@ -16,15 +16,14 @@ class Utils {
 
     return localizedAppName  + ' :: ' +  route[0].title;
   };
-  setCookie = async (name:string, param:any) => {
-    console.log('setCookie', {name, param});
-    
-    await cookies.set(name, param);
+  setCookie = (name:string, param:any) => {
+     cookies.set(name, param);
     return;
   }
 
   getCookie =  (name:string) => {
-    return cookies.get(name);
+    const res =  cookies.get(name);
+    return res;
   }
   removeToken = async () => {
     await cookies.remove("access_token");
