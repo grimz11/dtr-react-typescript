@@ -14,8 +14,8 @@ class AccountAuthStore {
       identifier: model.identifier,
       password: model.password,
     });
-    utils.setCookie('access_token', res.jwt);
-    utils.setCookie('id', res.user?.id);
+    await utils.setCookie('access_token', res.jwt);
+    await utils.setCookie('id', res.user?.id);
     return res;
   }
   
@@ -27,7 +27,7 @@ class AccountAuthStore {
 
   @action
   async logout() {
-    utils.removeToken();
+    await utils.removeToken();
   }
 }
 
