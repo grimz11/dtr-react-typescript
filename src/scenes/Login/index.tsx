@@ -9,7 +9,6 @@ import { inject, observer } from 'mobx-react';
 import Stores from '../../stores/storeIdentifier';
 import AccountAuthStore from '../../stores/accountAuthStore';
 import { Redirect } from 'react-router-dom';
-import utils from '../../utils/utils';
 
 interface ILoginUserStore{
   accountAuthStore: AccountAuthStore;
@@ -23,23 +22,16 @@ class Login extends React.Component<ILoginUserStore> {
     from: { from: { pathname: '/dashboard' } }
   }
   handleSubmit = async (values:any) => {
-    console.log('values', values);
-    
     await this.props.accountAuthStore.login({identifier: values.username, password:values.password});
-    // let { from } = { from: { pathname: '/dashboard' } };
     const { state } = await this.props.location;
-    console.log('state', state);
     
     window.location.href = await state ? await state.from.pathname : '/';
-    window.location.reload();
   };
   
   public render() {
     let { from } = this.props.location.state || { from: { pathname: '/' } };
-    console.log('from', from);
     
-    if (utils.getCookie('access_token')) return <Redirect to={from} />;
-    // if (utils.getCookie('access_token')) {return <Redirect to="/dashboard" />}
+    if (this.props.accountAuthStore!.isAuthenticated ) return <Redirect to={from} />;
     
     return (
       <Form
