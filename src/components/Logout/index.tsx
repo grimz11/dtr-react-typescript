@@ -12,7 +12,7 @@ interface ILogoutProps {
 class Logout extends React.Component<ILogoutProps> {
   async componentDidMount() {
     await this.props.accountAuthStore?.logout();
-    window.location.href = '/user/login';
+    window.location.href = '/#/user/login';
   }
 
   render() {
