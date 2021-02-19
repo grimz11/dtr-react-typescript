@@ -104,7 +104,7 @@ class Profile extends React.Component<IPropsProfile, any> {
                     style={{ height: 220, width: 220, borderRadius: "100%" }}
                     src={
                       user.avatar &&
-                      AppConsts.appBaseUrl + user.avatar?.url
+                      user.avatar?.url
                     }
                     
                   />

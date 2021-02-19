@@ -90,7 +90,7 @@ class Admin extends React.Component<IPropsEmployee> {
                 <List.Item.Meta
                   avatar={
                     <Link to={`profile/${item.id}`}>
-                      <Avatar src={item.avatar ? AppConsts.appBaseUrl + item.avatar!.url : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"} />
+                      <Avatar src={item.avatar ? item.avatar!.url : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"} />
                     </Link>
                   }
                   title={

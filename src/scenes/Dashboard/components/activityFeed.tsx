@@ -20,7 +20,7 @@ const ActivityFeed = ({ peopleRecords }: any) => {
             <List.Item.Meta
               avatar={
                 <Link to={`profile/${item.userId?.id}`}>
-                <Avatar size={40} src={item.userId?.avatar ? AppConsts.appBaseUrl + item.userId?.avatar.url : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"} style={{cursor: "pointer"}}/>
+                <Avatar size={40} src={item.userId?.avatar ? item.userId?.avatar.url : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"} style={{cursor: "pointer"}}/>
                 </Link>
               }
               title={
