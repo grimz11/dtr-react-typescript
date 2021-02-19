@@ -98,19 +98,25 @@ class Profile extends React.Component<IPropsProfile, any> {
             hoverable
             style={{ width: "95%" }}
             cover={
-              user.coverPhoto ? (
+              user.avatar ? (
                 <Avatar style={{ height: 220, width: 220 }} className="coverPhoto">
                   <Image
                     style={{ height: 220, width: 220, borderRadius: "100%" }}
                     src={
-                      user.coverPhoto &&
-                      AppConsts.appBaseUrl + user.coverPhoto?.url
+                      user.avatar &&
+                      AppConsts.appBaseUrl + user.avatar?.url
                     }
                     
                   />
                 </Avatar>
               ) : (
-                ""
+                <Avatar style={{ height: 220, width: 220 }} className="coverPhoto">
+                <Image
+                  style={{ height: 220, width: 220, borderRadius: "100%" }}
+                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                  
+                />
+              </Avatar>
               )
             }
             actions={[
@@ -120,7 +126,7 @@ class Profile extends React.Component<IPropsProfile, any> {
                 size="large"
                 onClick={this.handleUpdateUser}
               >
-                Update Information
+                Edit Information
               </Button>,
             ]}
           >

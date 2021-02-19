@@ -48,26 +48,28 @@ const UpdateFields = ({ props, handleUpdateUser }: any) => {
   console.log("props", props);
 
   return (
-    <Row>
+    <Row className="user-form">
       {/* <Col span={12}> */}
       <Form
         {...layout}
         name="basic"
-        className="user-form"
         onFinish={handleUpdateUser}
         // onFinishFailed={onFinishFailed}
       >
-        <Form.Item name="name" className="profile-name">
+        <Form.Item name="name" className="profile-name" label={<MailOutlined style={{ width: "30px" }} />}>
           <span>
             {props.user.firstname &&
               props.user.firstname +
                 " " +
-                (props.user.lastname ? props.user.lastname : "")}
+                (props.user ? props.user.lastname : "")}
           </span>
         </Form.Item>
 
-        <Form.Item name="quotes" className="profile-quotes">
-          <Input placeholder={props.user.quotes}/>
+        <Form.Item name="quotes" className="profile-quotes"
+        label={<MailOutlined style={{ width: "30px" }} />}>
+          {/* <Input placeholder={props.user.quotes}/> */}
+          
+          <span>{props.user.quotes && `${"“" + props.user.quotes + "”"}`}</span>
         </Form.Item>
 
         <Form.Item
@@ -81,31 +83,33 @@ const UpdateFields = ({ props, handleUpdateUser }: any) => {
           name="phoneNumber"
           label={<PhoneOutlined style={{ width: "30px" }} />}
         >
-          <Input
-            placeholder={props.user.phoneNumber && props.user.phoneNumber}
+          {/* <Input
+            placeholder={props.user && props.user.phoneNumber}
             ref={props.addresRef}
-          />
-          {/* <span>{user.phoneNumber && user.phoneNumber}</span> */}
+          /> */}
+          <span>{props.user.phoneNumber && props.user.phoneNumber}</span>
         </Form.Item>
 
         <Form.Item
           name="birthday"
           label={<CalendarOutlined style={{ width: "30px" }} {...config} />}
         >
-          <DatePicker
+          {/* <DatePicker
             defaultValue={
               props.user.birthday
                 ? moment(props.user.birthday, "MM-DD-YYYY")
                 : moment("2019-06-07")
             }
             format={"MM-DD-YYYY"}
-          />
+          /> */}
+          <span>{props.user.birthday && props.user.birthday}</span>
         </Form.Item>
         <Form.Item
           name="address"
           label={<HomeOutlined style={{ width: "30px" }} />}
         >
-          <Input placeholder={props.user.address && props.user.address} />
+          {/* <Input placeholder={props.user.address && props.user.address} /> */}
+          <span>{props.user.address && props.user.address}</span>
         </Form.Item>
       </Form>
       {/* </Col> */}

@@ -1,6 +1,6 @@
 import "./index.less";
 import * as React from "react";
-import { Col, Layout, Menu, Row } from "antd";
+import { Col,Row } from "antd";
 
 import moment from "moment";
 

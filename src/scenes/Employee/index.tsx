@@ -31,10 +31,6 @@ class Admin extends React.Component<IPropsEmployee> {
     });
   }
   handleOnlick = async (id: any, e: any) => {
-    // await this.props.userStore.getCurrentLoginUser(parseInt(id));
-    // this.setState({
-    //   personData: this.props.userStore!.currentLogin!.recordData,
-    // });
     const res = await this.props.recordStore.getRecord(id);
     this.setState({
       personData: res,
@@ -48,7 +44,6 @@ class Admin extends React.Component<IPropsEmployee> {
   };
   handleClickProfile = async (id: any) => {
     const user = await this.props.userStore.getUserProfile(parseInt(id));
-    // console.log("profile click", user);
     <Link to={`profile/${id}`}></Link>;
   };
   handleOnSearch = async (value: any) => {
@@ -94,15 +89,9 @@ class Admin extends React.Component<IPropsEmployee> {
               <List.Item key={item.id}>
                 <List.Item.Meta
                   avatar={
-                    // <span
-                    //   style={{ cursor: "pointer" }}
-                    //   onClick={this.handleClickProfile.bind(this, item.id)}
-                    // >
                     <Link to={`profile/${item.id}`}>
-                      <Avatar src={AppConsts.appBaseUrl + item.avatar!.url} />
+                      <Avatar src={item.avatar ? AppConsts.appBaseUrl + item.avatar!.url : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"} />
                     </Link>
-
-                    // </span>
                   }
                   title={
                     <span>
@@ -114,19 +103,8 @@ class Admin extends React.Component<IPropsEmployee> {
                       >
                         {item.firstname} {item.lastname}
                       </Button>
-                      {/* <Button icon={<IdcardFilled />}></Button> */}
-
-                      {/* <Button
-                      data-value={item.id}
-                      href={item.href}
-                      onClick={this.handleOnlick.bind(this, item.id)} 
-                      size="small"
-                    >
-                      {item.firstname} {item.lastname}
-                    </Button> */}
                     </span>
                   }
-                  // description={item.}
                 />
                 {item.content}
               </List.Item>
