@@ -41,7 +41,7 @@ export class Header extends React.Component<IHeaderProps> {
   async componentDidMount() {
     const user = await this.props.userStore?.getUserProfile(parseInt(await utils.getCookie('id')))
     console.log('Header', user);
-    this.setState({...this.state, avatar: AppConsts.appBaseUrl + user.avatar.url});
+    this.setState({...this.state, avatar: AppConsts.appBaseUrl + user.avatar?.url});
   }
   render() {
     const {avatar} = this.state;

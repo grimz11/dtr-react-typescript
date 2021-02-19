@@ -1,6 +1,6 @@
 import "./index.less";
 import * as React from "react";
-import { Avatar, Col, Row, Input, Button, Card, Image } from "antd";
+import { Avatar, Col, Row, Input, Button, Card, Image, Skeleton } from "antd";
 import Stores from "../../stores/storeIdentifier";
 import { inject, observer } from "mobx-react";
 import AppConsts from "../../utils/appconst";
@@ -99,25 +99,43 @@ class Profile extends React.Component<IPropsProfile, any> {
             style={{ width: "95%" }}
             cover={
               user.avatar ? (
-                <Avatar style={{ height: 220, width: 220 }} className="coverPhoto">
+                // <Avatar style={{ height: 220, width: 220 }} className="coverPhoto">
+                //   <Image
+                //     style={{ height: 220, width: 220, borderRadius: "100%" }}
+                //     src={
+                //       user.avatar &&
+                //       AppConsts.appBaseUrl + user.avatar?.url
+                //     }
+                //   />
+                // </Avatar>
+                 <div style={{display: "flex", justifyContent:"center" }}>
                   <Image
                     style={{ height: 220, width: 220, borderRadius: "100%" }}
                     src={
-                      user.avatar &&
-                      AppConsts.appBaseUrl + user.avatar?.url
-                    }
-                    
+                            user.avatar &&
+                            AppConsts.appBaseUrl + user.avatar?.url
+                          }
                   />
-                </Avatar>
+               </div>
+
               ) : (
-                <Avatar style={{ height: 220, width: 220 }} className="coverPhoto">
+              //   <Avatar style={{ height: 220, width: 220 }} className="coverPhoto">
+              //   <Image
+              //     style={{ height: 220, width: 220, borderRadius: "100%" }}
+              //     src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                  
+              //   />
+              // </Avatar>
+              <div style={{display: "flex", justifyContent:"center" }}>
                 <Image
                   style={{ height: 220, width: 220, borderRadius: "100%" }}
                   src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
                   
                 />
-              </Avatar>
+              </div>
+              // <Skeleton.Button active size='large' shape='circle' className="coverPhoto skeleton" style={{ height: 220, width: 220 }} />
               )
+              
             }
             actions={[
               <Button
