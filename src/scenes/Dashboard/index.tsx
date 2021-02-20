@@ -34,7 +34,7 @@ class Dashboard extends React.Component<any> {
     await this.props.userStore.getCurrentLoginUser(parseInt(await this.state!.id));
   }
   async getRecord() {
-    const userId = this.props.userStore!.currentLogin!.id;
+    const userId = this.props.userStore!.$currentLogin!.id;
     await this.props.recordStore.getRecord(userId);
     this.setState({
       ...this.state,

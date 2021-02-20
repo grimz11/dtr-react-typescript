@@ -4,148 +4,315 @@ import {
   Form,
   Input,
   Button,
-  Checkbox,
   DatePicker,
   Row,
-  Col,
   Typography,
   Skeleton,
-  List, Space, 
+  Space,
+  Card,
+  Image,
 } from "antd";
-import Avatar from "antd/lib/avatar/avatar";
 import AppConsts from "../../../utils/appconst";
 import {
   CalendarOutlined,
   HomeOutlined,
   MailOutlined,
   PhoneOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
 import moment from "moment";
-
+import { inject, observer } from "mobx-react";
+import Stores from "../../../stores/storeIdentifier";
+import utils from "../../../utils/utils";
 
 const { Text, Title } = Typography;
 
-const UpdateFields = ({ props, handleUpdateUser }: any) => {
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-  };
-  const onFinish = () => {};
+const UpdateFields = inject(Stores.UserStore)(
+  observer(({ userStore, id }: any) => {
+    const [active, setActive] = React.useState(false);
+    const [user, setUser] = React.useState(userStore.$userProfile);
 
-  const layout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 16 },
-  };
-  const tailLayout = {
-    wrapperCol: { offset: 8, span: 16 },
-  };
-  const config = {
-    rules: [
-      {
-        type: "object" as const,
-        required: true,
-        message: "Please select time!",
-      },
-    ],
-  };
-  console.log("props", props);
+    React.useEffect(() => {
+      const res = async () => {
+        if (id) {
+          await userStore.getUserProfile(parseInt(id));
+          setUser(userStore.$userProfile);
+        }
+        else {
+          await userStore.getUserProfile(parseInt(utils.getCookie("id")));
+          setUser(userStore.$userProfile);
+        }
+      };
+      res();
+    },[]);
 
-  return (
-     <Row className="user-form">
-      {/* <Col span={12}> */}
-      <Form
-        // {...layout}
-        layout="horizontal"
-        name="basic"
-        onFinish={handleUpdateUser}
-        // onFinishFailed={onFinishFailed}
-      >
-        {props.user.firstname ? (
-          <div>
-            <Form.Item name="name" className="profile-name">
-              <Title level={4}>
-                {props.user.firstname &&
-                  props.user.firstname +
-                    " " +
-                    (props.user ? props.user.lastname : "")}
-              </Title>
-              <div>{props.user.quotes && `${"“" + props.user.quotes + "”"}`}</div>
-            </Form.Item>
-            
-            <Form.Item
-              className="profile-detail-cont"
-              label={<MailOutlined style={{ width: "30px" }} />}
-              name="email"
-            >
-              <span>{props.user.email && props.user.email}</span>
-            </Form.Item>
+    const onFinish = async (values: any) => {
+      if (active) {
+        console.log("Edit", values);
+        await userStore.updateUser(parseInt(id ? id : utils.getCookie("id")), {
+          email: values.email,
+          phoneNumber: values.phoneNumber,
+          address: values.address,
+          birthday: moment(values.birthday).format("YYYY-MM-DD"),
+          department: values.department,
+          quotes: values.quotes,
+          firstname: values.fullname[0],
+          lastname: values.fullname[1],
+        });
+        await userStore.getUserProfile(parseInt(id ? id : utils.getCookie("id")));
+        setActive(false);
+      }
+    };
+    const cancelEdit = () => setActive(false);
+    const edit = () => setActive(true);
 
-            <Form.Item
-              className="profile-detail-cont"
-              name="phoneNumber"
-              label={<PhoneOutlined style={{ width: "30px" }} />}
-            >
-              {/* <Input
-                placeholder={props.user && props.user.phoneNumber}
-                ref={props.addresRef}
-              /> */}
-              <span>{props.user.phoneNumber && props.user.phoneNumber}</span>
-            </Form.Item>
+    const config = {
+      rules: [
+        {
+          type: "object" as const,
+          required: true,
+          message: "Please select time!",
+        },
+      ],
+    };
+    console.log("id", id);
+    console.log("UserStore", userStore);
 
-            <Form.Item
-              className="profile-detail-cont"
-              name="birthday"
-              label={<CalendarOutlined style={{ width: "30px" }} {...config} />}
-            >
-              {/* <DatePicker
-                defaultValue={
-                  props.user.birthday
-                    ? moment(props.user.birthday, "MM-DD-YYYY")
-                    : moment("2019-06-07")
-                }
-                format={"MM-DD-YYYY"}
-              /> */}
-              <span>{props.user.birthday && props.user.birthday}</span>
-            </Form.Item>
-            <Form.Item
-              className="profile-detail-cont"
-              name="address"
-              label={<HomeOutlined style={{ width: "30px" }} />}
-            >
-              {/* <Input placeholder={props.user.address && props.user.address} /> */}
-              <span>{props.user.address && props.user.address}</span>
-            </Form.Item>
-        </div>
-        ):(
-          <div>
-            <Skeleton.Input  className="skeleton-center"  style={{ width: 160 }} active size='small' />
-            <Skeleton.Input  className="skeleton-center" style={{ width: 360 }} active size='small' />
-            <br/>
-            <br/>
-            <Space  className="mb-10">
-              <Skeleton.Input  style={{ width: 30, marginRight:5 }} active size='small' />
-              <Skeleton.Input  style={{ width: 360 }} active size='small' />
-            </Space>
-            <Space  className="mb-10">
-              <Skeleton.Input  style={{ width: 30, marginRight:5 }} active size='small' />
-              <Skeleton.Input  style={{ width: 360 }} active size='small' />
-            </Space>
-            <Space  className="mb-10">
-              <Skeleton.Input  style={{ width: 30, marginRight:5 }} active size='small' />
-              <Skeleton.Input  style={{ width: 360 }} active size='small' />
-            </Space>
+    return (
+      <Row className="user-form">
+        <Card
+          hoverable
+          style={{ width: "95%" }}
+          cover={
+            user.avatar ? (
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Image
+                  style={{ height: 220, width: 220, borderRadius: "100%" }}
+                  src={user.avatar && user.avatar?.url}
+                />
+              </div>
+            ) : (
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Image
+                  style={{ height: 220, width: 220, borderRadius: "100%" }}
+                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                />
+              </div>
+            )
+          }
+        >
+          <Form layout="horizontal" name="basic" onFinish={onFinish}>
+            {user.firstname ? (
+              <div>
+                <Form.Item
+                  name="fullname"
+                  className="profile-name"
+                  initialValue={
+                    user.firstname && [user.firstname, user.lastname]
+                  }
+                >
+                  <Title level={4} disabled={active ? true : false}>
+                    {user.firstname &&
+                      user.firstname + " " + (user ? user.lastname : "")}
+                  </Title>
+                  <div>
+                    {active ? (
+                      <Form.Item
+                        name="quotes"
+                        className="quotesEdit"
+                        initialValue={user.quotes && user.quotes}
+                      >
+                        <TextArea
+                          placeholder={user.quotes}
+                          autoSize
+                          maxLength={150}
+                          allowClear
+                        />
+                      </Form.Item>
+                    ) : (
+                      user.quotes && `${"“" + user.quotes + "”"}`
+                    )}
+                  </div>
+                </Form.Item>
 
-          </div>
-        )}
-      </Form>
-      {/* </Col> */}
-      {/* <Col span={12}>
-        <span>
-          <Text type="secondary">{props.user.quotes}</Text>
-        </span>
-      </Col> */}
-    </Row>
-  );
-};
+                <Form.Item
+                  className={`${active ? "emailEdit" : "profile-detail-cont"} `}
+                  label={<MailOutlined style={{ width: "30px" }} />}
+                  name="email"
+                  initialValue={user.email && user.email}
+                >
+                  <span>
+                    {user.email ? (
+                      <Text disabled={active ? true : false}>{user.email}</Text>
+                    ) : (
+                      "n/a"
+                    )}
+                  </span>
+                </Form.Item>
+
+                <Form.Item
+                  className="profile-detail-cont"
+                  name="phoneNumber"
+                  label={<PhoneOutlined style={{ width: "30px" }} />}
+                  initialValue={user.phoneNumber && user.phoneNumber}
+                >
+                  <span>
+                    {active ? (
+                      <Input
+                        placeholder={user.phoneNumber}
+                        className="editFields"
+                      />
+                    ) : user.phoneNumber ? (
+                      user.phoneNumber
+                    ) : (
+                      "n/a"
+                    )}
+                  </span>
+                </Form.Item>
+
+                <Form.Item
+                  className="profile-detail-cont"
+                  name="birthday"
+                  label={
+                    <CalendarOutlined style={{ width: "30px" }} {...config} />
+                  }
+                  initialValue={user.birthday && user.birthday}
+                >
+                  <span>
+                    {active ? (
+                      <DatePicker
+                        className="editFields"
+                        defaultValue={
+                          user!.birthday && moment(user.birthday, "YYYY-MM-DD")
+                        }
+                        format={"MM-DD-YYYY"}
+                        style={{ width: "100%" }}
+                      />
+                    ) : user.birthday ? (
+                      moment(user.birthday).format("MMMM DD, YYYY")
+                    ) : (
+                      "n/a"
+                    )}
+                  </span>
+                </Form.Item>
+                <Form.Item
+                  className="profile-detail-cont"
+                  name="address"
+                  label={<HomeOutlined style={{ width: "30px" }} />}
+                  initialValue={user.address && user.address}
+                >
+                  <span>
+                    {active ? (
+                      <Input
+                        placeholder={user.address}
+                        className="editFields"
+                      />
+                    ) : user.address ? (
+                      user.address
+                    ) : (
+                      "n/a"
+                    )}
+                  </span>
+                </Form.Item>
+                <Form.Item
+                  className="profile-detail-cont"
+                  name="department"
+                  label={<TeamOutlined style={{ width: "30px" }} />}
+                  initialValue={user.department && user.department}
+                >
+                  <span>
+                    {active ? (
+                      <Input
+                        placeholder={user.department}
+                        className="editFields"
+                      />
+                    ) : user.department ? (
+                      user.department
+                    ) : (
+                      "n/a"
+                    )}
+                  </span>
+                </Form.Item>
+                <br />
+                <div className="submitBtns">
+                  {!active && (
+                    <Button type="primary" onClick={edit} size="large">
+                      Edit Information
+                    </Button>
+                  )}
+                  {active && (
+                    <>
+                      <Button type="primary" htmlType="submit" size="large">
+                        Submit
+                      </Button>
+                      <Button
+                        type="primary"
+                        danger
+                        onClick={cancelEdit}
+                        size="large"
+                      >
+                        Cancel
+                      </Button>
+                    </>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div>
+                <Skeleton.Input
+                  className="skeleton-center"
+                  style={{ width: 160 }}
+                  active
+                  size="small"
+                />
+                <Skeleton.Input
+                  className="skeleton-center"
+                  style={{ width: 360 }}
+                  active
+                  size="small"
+                />
+                <br />
+                <br />
+                <Space className="mb-10">
+                  <Skeleton.Input
+                    style={{ width: 30, marginRight: 5 }}
+                    active
+                    size="small"
+                  />
+                  <Skeleton.Input style={{ width: 360 }} active size="small" />
+                </Space>
+                <Space className="mb-10">
+                  <Skeleton.Input
+                    style={{ width: 30, marginRight: 5 }}
+                    active
+                    size="small"
+                  />
+                  <Skeleton.Input style={{ width: 360 }} active size="small" />
+                </Space>
+                <Space className="mb-10">
+                  <Skeleton.Input
+                    style={{ width: 30, marginRight: 5 }}
+                    active
+                    size="small"
+                  />
+                  <Skeleton.Input style={{ width: 360 }} active size="small" />
+                </Space>
+                <Space className="mb-10">
+                  <Skeleton.Input
+                    style={{ width: 30, marginRight: 5 }}
+                    active
+                    size="small"
+                  />
+                  <Skeleton.Input style={{ width: 360 }} active size="small" />
+                </Space>
+              </div>
+            )}
+          </Form>
+        </Card>
+      </Row>
+    );
+  })
+);
 
 export default UpdateFields;

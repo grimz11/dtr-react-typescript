@@ -3,7 +3,6 @@ import * as React from "react";
 import { Avatar, Col, List, Row, Input, Button } from "antd";
 import Stores from "../../stores/storeIdentifier";
 import { inject, observer } from "mobx-react";
-import AppConsts from "../../utils/appconst";
 import RecordDtrTable from "../../components/RecordDtrTable";
 import { Link } from "react-router-dom";
 import RecordStore from "../../stores/recordStore";
@@ -39,7 +38,7 @@ class Admin extends React.Component<IPropsEmployee> {
   handleOnchange = () => {
     this.setState({
       ...this.state,
-      peopleData: this.props.userStore.allUsers,
+      peopleData: this.props.userStore.$allUsers,
     });
   };
   handleClickProfile = async (id: any) => {
@@ -47,17 +46,17 @@ class Admin extends React.Component<IPropsEmployee> {
     <Link to={`profile/${id}`}></Link>;
   };
   handleOnSearch = async (value: any) => {
-    this.props.userStore.allUsers.find((item: any) => {
+    this.props.userStore.$allUsers.find((item: any) => {
       if (item.username.toLowerCase() === value.toLowerCase()) {
         this.setState({
-          peopleData: item ? [item] : this.props.userStore.allUsers,
+          peopleData: item ? [item] : this.props.userStore.$allUsers,
         });
       } else if (
         item.lastname &&
         item.lastname.toLowerCase() === value.toLowerCase()
       ) {
         this.setState({
-          peopleData: item ? [item] : this.props.userStore.allUsers,
+          peopleData: item ? [item] : this.props.userStore.$allUsers,
         });
       }
     });

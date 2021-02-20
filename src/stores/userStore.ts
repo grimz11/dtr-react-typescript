@@ -5,27 +5,28 @@ import IUserOutput from '../services/user/dto/userOutput';
 import userService from '../services/user/userService';
 
 class UserStore {
-  @observable currentLogin:any = new CurrentUserLogin();
-  @observable allUsers:[] = [];
-  @observable userProfile:[] = [];
+  @observable $currentLogin:any = new CurrentUserLogin();
+  @observable $allUsers:[] = [];
+  @observable $userProfile:[] = [];
+  @observable $userProfileEditable: [] = [];
 
   @action
   async getCurrentLoginUser(id: number) {
     let result = await userService.getCurrentLoginUser(id);
-    this.currentLogin = result;
+    this.$currentLogin = result;
     return result;
   }
   @action
   async getUserProfile(id: number) {
     let result = await userService.getUserProfile(id);
-    this.userProfile = result;
+    this.$userProfile = result;
     return result;
   }
 
   @action
   async getAllUsers() {
     let result = await userService.getAllUsers();
-    this.allUsers = result;
+    this.$allUsers = result;
     return result;
   }
 
