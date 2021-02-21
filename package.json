@@ -40,7 +40,8 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "lint": "eslint src/**/*.ts src/**/*.tsx"
+    "lint": "eslint src/**/*.ts src/**/*.tsx",
+    "format": "prettier --write \"src/**/*.tsx\""
   },
   "eslintConfig": {
     "extends": [
@@ -78,7 +79,7 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css}": [
-      "prettier --write"
+      "npm run format"
     ]
   },
   "jest": {
