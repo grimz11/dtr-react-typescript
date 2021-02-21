@@ -1,8 +1,8 @@
 // import * as React from 'react';
-import { Spin } from 'antd';
+import { Spin } from "antd";
 
 const Loading = () => (
-  <div style={{ paddingTop: 100, textAlign: 'center' }}>
+  <div style={{ paddingTop: 100, textAlign: "center" }}>
     <Spin size="large" />
   </div>
 );

@@ -1,14 +1,12 @@
-import './index.less';
-import 'famfamfam-flags/dist/sprite/famfamfam-flags.css';
+import "./index.less";
+import "famfamfam-flags/dist/sprite/famfamfam-flags.css";
 
-import * as React from 'react';
+import * as React from "react";
 
-import { Dropdown, Menu } from 'antd';
-import Icon from '@ant-design/icons';
+import { Dropdown, Menu } from "antd";
+import Icon from "@ant-design/icons";
 
-import classNames from 'classnames';
-
-
+import classNames from "classnames";
 
 class LanguageSelect extends React.Component<any> {
   // get languages() {
@@ -30,17 +28,16 @@ class LanguageSelect extends React.Component<any> {
   //   window.location.reload();
   // }
 
-  
   render() {
-    const langMenu = (
-      <Menu className={'menu'}>
-       
-      </Menu>
-    );
+    const langMenu = <Menu className={"menu"}></Menu>;
 
     return (
       <Dropdown overlay={langMenu} placement="bottomRight">
-        <Icon type="global" className={classNames('dropDown', 'className')} title={'Languages'} />
+        <Icon
+          type="global"
+          className={classNames("dropDown", "className")}
+          title={"Languages"}
+        />
       </Dropdown>
     );
   }

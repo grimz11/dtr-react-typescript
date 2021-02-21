@@ -1,8 +1,4 @@
-import {
-  Col,
-  Button,
-
-} from "antd";
+import { Col, Button } from "antd";
 import { FieldTimeOutlined } from "@ant-design/icons";
 
 import RecordDtrTable from "../../../components/RecordDtrTable";
@@ -24,7 +20,7 @@ const DTR = ({ data: props, handleOnClick }: any) => {
         </Button>
       </div>
       <br></br>
-      <RecordDtrTable data={data} dataSize={9}/>
+      <RecordDtrTable data={data} dataSize={9} />
     </Col>
   );
 };

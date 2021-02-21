@@ -40,7 +40,7 @@ class AppLayout extends React.Component<any> {
     const { path } = this.props.match;
     const { collapsed } = this.state;
     console.log("path", pathname);
-    
+
     const layout = (
       <Layout style={{ minHeight: "100vh" }}>
         <SiderMenu
@@ -54,7 +54,7 @@ class AppLayout extends React.Component<any> {
             className="site-layout-background"
             style={{ background: "#fff", minHeight: 52, padding: 0 }}
           >
-            <Header collapsed={this.state.collapsed} toggle={this.toggle}/>
+            <Header collapsed={this.state.collapsed} toggle={this.toggle} />
           </Layout.Header>
           <Content
             className="site-layout-background"
@@ -62,7 +62,7 @@ class AppLayout extends React.Component<any> {
               margin: "24px 16px",
               padding: 24,
               minHeight: 280,
-              background: pathname === "/profile" ? "" : "#fff"
+              background: pathname === "/profile" ? "" : "#fff",
             }}
           >
             <Switch>

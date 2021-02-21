@@ -21,7 +21,7 @@ class Profile extends React.Component<any> {
   render() {
     return (
       <Row>
-        <Col style={{margin: "auto"}}>
+        <Col style={{ margin: "auto" }}>
           <Result
             status="403"
             title="Coming Soon....."

@@ -36,12 +36,12 @@ class Profile extends React.Component<IPropsProfile, any> {
   async componentDidMount() {
     if (this.props.match.params.id) {
       await this.props.userStore.getUserProfile(
-        parseInt(this.props.match.params.id)
+        parseInt(this.props.match.params.id),
       );
       this.setState({ ...this.state, user: this.props.userStore.$userProfile });
     } else {
       await this.props.userStore.getCurrentLoginUser(
-        parseInt(await utils.getCookie("id"))
+        parseInt(await utils.getCookie("id")),
       );
       this.setState({
         ...this.state,

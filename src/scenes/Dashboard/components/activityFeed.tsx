@@ -9,7 +9,9 @@ const ActivityFeed = ({ peopleRecords }: any) => {
   return (
     <Col span={6}>
       <div>
-        <span style={{fontSize: "25px", fontWeight: "bold"}}>Activity Feed</span>
+        <span style={{ fontSize: "25px", fontWeight: "bold" }}>
+          Activity Feed
+        </span>
       </div>
       <br></br>
       <List
@@ -20,7 +22,15 @@ const ActivityFeed = ({ peopleRecords }: any) => {
             <List.Item.Meta
               avatar={
                 <Link to={`profile/${item.userId?.id}`}>
-                <Avatar size={40} src={item.userId?.avatar ? item.userId?.avatar.url : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"} style={{cursor: "pointer"}}/>
+                  <Avatar
+                    size={40}
+                    src={
+                      item.userId?.avatar
+                        ? item.userId?.avatar.url
+                        : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                    }
+                    style={{ cursor: "pointer" }}
+                  />
                 </Link>
               }
               title={

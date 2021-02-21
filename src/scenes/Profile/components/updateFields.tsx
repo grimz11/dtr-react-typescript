@@ -38,14 +38,13 @@ const UpdateFields = inject(Stores.UserStore)(
         if (id) {
           await userStore.getUserProfile(parseInt(id));
           setUser(userStore.$userProfile);
-        }
-        else {
+        } else {
           await userStore.getUserProfile(parseInt(utils.getCookie("id")));
           setUser(userStore.$userProfile);
         }
       };
       res();
-    },[]);
+    }, []);
 
     const onFinish = async (values: any) => {
       if (active) {
@@ -60,7 +59,9 @@ const UpdateFields = inject(Stores.UserStore)(
           firstname: values.fullname[0],
           lastname: values.fullname[1],
         });
-        await userStore.getUserProfile(parseInt(id ? id : utils.getCookie("id")));
+        await userStore.getUserProfile(
+          parseInt(id ? id : utils.getCookie("id")),
+        );
         setActive(false);
       }
     };
@@ -312,7 +313,7 @@ const UpdateFields = inject(Stores.UserStore)(
         </Card>
       </Row>
     );
-  })
+  }),
 );
 
 export default UpdateFields;

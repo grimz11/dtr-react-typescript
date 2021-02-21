@@ -1,6 +1,6 @@
 import "./index.less";
 import * as React from "react";
-import { Col,Row } from "antd";
+import { Col, Row } from "antd";
 
 import moment from "moment";
 
@@ -31,7 +31,9 @@ class Dashboard extends React.Component<any> {
     await this.checkWorkingStatus();
   }
   async getCurrentLoginUser() {
-    await this.props.userStore.getCurrentLoginUser(parseInt(await this.state!.id));
+    await this.props.userStore.getCurrentLoginUser(
+      parseInt(await this.state!.id),
+    );
   }
   async getRecord() {
     const userId = this.props.userStore!.$currentLogin!.id;
