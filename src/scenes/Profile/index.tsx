@@ -24,56 +24,54 @@ class Profile extends React.Component<IPropsProfile, any> {
     super(props);
     this.state = {
       user: [],
-      coverPhotoRef: React.createRef(),
-      emailRef: React.createRef(),
-      phoneRef: React.createRef(),
-      birthdayRef: React.createRef(),
-      addressRef: React.createRef(),
-      fileRef: undefined,
     };
   }
 
   async componentDidMount() {
-    if (this.props.match.params.id) {
-      await this.props.userStore.getUserProfile(
-        parseInt(this.props.match.params.id)
-      );
-      this.setState({ ...this.state, user: this.props.userStore.$userProfile });
-    } else {
-      await this.props.userStore.getCurrentLoginUser(
-        parseInt(await utils.getCookie("id"))
-      );
-      this.setState({
-        ...this.state,
-        user: this.props.userStore.$currentLogin,
-      });
+    // if (this.props.match.params.id) {
+    //   await this.props.userStore.getUserProfile(
+    //     parseInt(this.props.match.params.id)
+    //   );
+    //   this.setState({ ...this.state, user: this.props.userStore.$userProfile });
+    // } else {
+    //   await this.props.userStore.getCurrentLoginUser(
+    //     parseInt(await utils.getCookie("id"))
+    //   );
+    //   this.setState({
+    //     ...this.state,
+    //     user: this.props.userStore.$currentLogin,
+    //   });
+    // }
+    // console.log("Profile", this.props.userStore.$currentLogin);
+    if(this.props.match.params.id === undefined){
+      console.log('undifined');
+      
     }
-    console.log("Profile", this.props.userStore.$currentLogin);
     console.log("Params", this.props.match.params.id);
   }
 
-  handleChangeCoverPhoto = async (picture: any, successImages: any) => {
-    document
-      .querySelector(".coverPhoto")
-      ?.setAttribute("src", successImages[0]);
-    console.log("successImages", successImages[0]);
-    console.log("picture", picture);
+  // handleChangeCoverPhoto = async (picture: any, successImages: any) => {
+  //   document
+  //     .querySelector(".coverPhoto")
+  //     ?.setAttribute("src", successImages[0]);
+  //   console.log("successImages", successImages[0]);
+  //   console.log("picture", picture);
 
-    const name = successImages[0].split(";")[1];
-    const formData = new FormData();
+  //   const name = successImages[0].split(";")[1];
+  //   const formData = new FormData();
 
-    formData.append("files", picture[0]);
-    formData.append("field", "image");
-    formData.append("ref", "user");
-    formData.append("refId", "3");
+  //   formData.append("files", picture[0]);
+  //   formData.append("field", "image");
+  //   formData.append("ref", "user");
+  //   formData.append("refId", "3");
 
-    await this.props.userStore.uploadImage(formData);
-  };
-  handleChangeAvatar = (picture: any, successImages: any) => {
-    document
-      .querySelector(".avatar img")
-      ?.setAttribute("src", successImages[0]);
-  };
+  //   await this.props.userStore.uploadImage(formData);
+  // };
+  // handleChangeAvatar = (picture: any, successImages: any) => {
+  //   document
+  //     .querySelector(".avatar img")
+  //     ?.setAttribute("src", successImages[0]);
+  // };
 
   render() {
     const { user }: any = this.state;
@@ -84,13 +82,13 @@ class Profile extends React.Component<IPropsProfile, any> {
         </Col>
         <Col span={12}>
           <Card hoverable style={{ width: "100%" }}>
-            <Meta
+            {/* <Meta
               title={
                 user.firstname &&
                 user.firstname + " " + (user.lastname ? user.lastname : "")
               }
               description="Hello from hyperstacks"
-            />
+            /> */}
           </Card>
         </Col>
       </Row>

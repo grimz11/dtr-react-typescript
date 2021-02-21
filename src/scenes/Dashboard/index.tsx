@@ -38,7 +38,7 @@ class Dashboard extends React.Component<any> {
     await this.props.recordStore.getRecord(userId);
     this.setState({
       ...this.state,
-      personRecord: this.props.recordStore.personRecords.sort().reverse(),
+      personRecord: this.props.recordStore.$personRecords.sort().reverse(),
       id: utils.getCookie("id"),
     });
   }
@@ -46,7 +46,7 @@ class Dashboard extends React.Component<any> {
     const recordData = await this.props.recordStore.getAllRecords();
     this.setState({
       ...this.state,
-      peopleRecords: this.props.recordStore.peopleRecords
+      peopleRecords: this.props.recordStore.$peopleRecords
         .sort()
         .reverse()
         .slice(0, 8),
@@ -88,7 +88,7 @@ class Dashboard extends React.Component<any> {
     if (this.state.timeBtn) {
       const payloadOut: IRecordInput = {
         currentlyWorking: false,
-        userId: this.props.userStore!.currentLogin,
+        userId: this.props.userStore!.$currentLogin,
         timeOut: new Date().getTime(),
         hoursRendered: recordTime,
       };
@@ -96,7 +96,7 @@ class Dashboard extends React.Component<any> {
     } else {
       const payloadIn: IRecordInput = {
         currentlyWorking: true,
-        userId: this.props.userStore!.currentLogin,
+        userId: this.props.userStore!.$currentLogin,
         hoursRendered: "00.00:00",
       };
       await this.props.recordStore.timeIn(payloadIn);
