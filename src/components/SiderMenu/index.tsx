@@ -1,7 +1,6 @@
 import "./index.less";
 
 import { Layout, Menu } from "antd";
-import logo from "../../assets/images/hyperstacks-logo.jpg";
 
 import { appRouters } from "../../components/Router/router.config";
 import utils from "../../utils/utils";

@@ -1,4 +1,4 @@
-import { action, observable } from "mobx";
+import { action } from "mobx";
 
 import accountAuthService from "../services/accountAuth/accountAuthService";
 import ILoginInput from "../services/accountAuth/dto/loginInput";

@@ -1,2 +1,0 @@
-import AppConsts from './appconst';
-

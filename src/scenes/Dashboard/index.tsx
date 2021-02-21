@@ -45,7 +45,6 @@ class Dashboard extends React.Component<any> {
     });
   }
   async getAllRecords() {
-    const recordData = await this.props.recordStore.getAllRecords();
     this.setState({
       ...this.state,
       peopleRecords: this.props.recordStore.peopleRecords
@@ -63,6 +62,8 @@ class Dashboard extends React.Component<any> {
         recordId: item.id,
         timeInRecord: date,
       });
+
+      return true;
     });
   }
   toggle = () => {

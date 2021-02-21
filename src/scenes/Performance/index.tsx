@@ -1,10 +1,8 @@
 import "./index.less";
 import * as React from "react";
-import { Avatar, Col, List, Row, Input, Button, Result, Progress } from "antd";
+import { Col, Row, Result, Progress } from "antd";
 import Stores from "../../stores/storeIdentifier";
 import { inject, observer } from "mobx-react";
-import AppConsts from "../../utils/appconst";
-import RecordDtrTable from "../../components/RecordDtrTable";
 
 @inject(Stores.RecordStore, Stores.UserStore)
 @observer

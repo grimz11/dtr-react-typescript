@@ -1,13 +1,12 @@
-import { action, observable } from 'mobx';
-import CurrentUserLogin from '../services/accountAuth/dto/currentUserLogin';
-import IUserOutput from '../services/user/dto/userOutput';
+import { action, observable } from "mobx";
+import CurrentUserLogin from "../services/accountAuth/dto/currentUserLogin";
 // import ILoginOutput from '../services/accountAuth/dto/loginOutput';
-import userService from '../services/user/userService';
+import userService from "../services/user/userService";
 
 class UserStore {
-  @observable $currentLogin:any = new CurrentUserLogin();
-  @observable $allUsers:[] = [];
-  @observable $userProfile:[] = [];
+  @observable $currentLogin: any = new CurrentUserLogin();
+  @observable $allUsers: [] = [];
+  @observable $userProfile: [] = [];
   @observable $userProfileEditable: [] = [];
 
   @action
@@ -31,14 +30,14 @@ class UserStore {
   }
 
   @action
-  async updateUser(id:number, payload:any){
+  async updateUser(id: number, payload: any) {
     let result = await userService.updateUser(id, payload);
     return result;
   }
   @action
-  async uploadImage(formData: any){
-    console.log('uploadImage', ...formData);
-    
+  async uploadImage(formData: any) {
+    console.log("uploadImage", ...formData);
+
     let result = await userService.uploadImage(formData);
     return result;
   }

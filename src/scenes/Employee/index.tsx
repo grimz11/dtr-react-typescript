@@ -42,7 +42,6 @@ class Admin extends React.Component<IPropsEmployee> {
     });
   };
   handleClickProfile = async (id: any) => {
-    const user = await this.props.userStore.getUserProfile(parseInt(id));
     <Link to={`profile/${id}`}></Link>;
   };
   handleOnSearch = async (value: any) => {
@@ -59,6 +58,8 @@ class Admin extends React.Component<IPropsEmployee> {
           peopleData: item ? [item] : this.props.userStore.$allUsers,
         });
       }
+
+      return true;
     });
   };
 

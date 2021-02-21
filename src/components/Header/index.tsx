@@ -15,7 +15,6 @@ import { inject, observer } from "mobx-react";
 import UserStore from "../../stores/userStore";
 import utils from "../../utils/utils";
 import RecordStore from "../../stores/recordStore";
-import AppConsts from "../../utils/appconst";
 
 export interface IHeaderProps {
   collapsed?: any;

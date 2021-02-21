@@ -83,7 +83,7 @@ class Login extends React.Component<ILoginUserStore> {
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
 
-          <a className="login-form-forgot" href="">
+          <a className="login-form-forgot" href="/">
             Forgot password
           </a>
         </Form.Item>

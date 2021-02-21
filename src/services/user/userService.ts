@@ -1,4 +1,3 @@
-import IUserOutput from "./dto/userOutput";
 import http from "../httpService";
 import AppConsts from "../../utils/appconst";
 
@@ -29,15 +28,11 @@ class UserService {
     // const {} = payload;
     console.log("userService", ...formData);
 
-    const res = await http.post(
-      `${AppConsts.appBaseUrl}/users`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    const res = await http.post(`${AppConsts.appBaseUrl}/users`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return res.data;
   }
 }

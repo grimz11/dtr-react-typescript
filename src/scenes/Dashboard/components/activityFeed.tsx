@@ -3,7 +3,6 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 
 import IRecordInput from "../../../services/record/dto/recordInput";
-import AppConsts from "../../../utils/appconst";
 
 const ActivityFeed = ({ peopleRecords }: any) => {
   return (

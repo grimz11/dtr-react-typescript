@@ -12,7 +12,6 @@ import {
   Card,
   Image,
 } from "antd";
-import AppConsts from "../../../utils/appconst";
 import {
   CalendarOutlined,
   HomeOutlined,
@@ -44,7 +43,7 @@ const UpdateFields = inject(Stores.UserStore)(
         }
       };
       res();
-    }, []);
+    }, [id, userStore]);
 
     const onFinish = async (values: any) => {
       if (active) {

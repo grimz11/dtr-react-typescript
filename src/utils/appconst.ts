@@ -1,11 +1,10 @@
 const AppConsts = {
   userManagement: {
-    defaultAdminUserName: 'admin',
+    defaultAdminUserName: "admin",
   },
-  localization: {
-  },
+  localization: {},
   authorization: {
-    encrptedAuthTokenName: '',
+    encrptedAuthTokenName: "",
   },
   appBaseUrl: process.env.REACT_APP_APP_BASE_URL,
 };

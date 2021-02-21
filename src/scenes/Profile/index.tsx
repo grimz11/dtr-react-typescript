@@ -1,12 +1,10 @@
 import "./index.less";
 import * as React from "react";
-import { Col, Row, Card, Image } from "antd";
+import { Col, Row, Card } from "antd";
 import Stores from "../../stores/storeIdentifier";
 import { inject, observer } from "mobx-react";
-import AppConsts from "../../utils/appconst";
 import UserStore from "../../stores/userStore";
 import utils from "../../utils/utils";
-import ImageUploader from "react-images-upload";
 
 import UpdateFields from "./components/updateFields";
 
@@ -59,7 +57,6 @@ class Profile extends React.Component<IPropsProfile, any> {
     console.log("successImages", successImages[0]);
     console.log("picture", picture);
 
-    const name = successImages[0].split(";")[1];
     const formData = new FormData();
 
     formData.append("files", picture[0]);
