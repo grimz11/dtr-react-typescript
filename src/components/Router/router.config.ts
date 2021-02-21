@@ -1,4 +1,10 @@
-import { DashboardOutlined, LogoutOutlined, ProfileOutlined, RadarChartOutlined, TeamOutlined } from "@ant-design/icons";
+import {
+  DashboardOutlined,
+  LogoutOutlined,
+  ProfileOutlined,
+  RadarChartOutlined,
+  TeamOutlined,
+} from "@ant-design/icons";
 import LoadableComponent from "./../Loadable/index";
 
 export const userRouter: any = [
@@ -7,7 +13,7 @@ export const userRouter: any = [
     name: "user",
     title: "User",
     component: LoadableComponent(
-      () => import("../../components/Layout/UserLayout")
+      () => import("../../components/Layout/UserLayout"),
     ),
     isLayout: true,
     showInMenu: false,
@@ -30,7 +36,7 @@ export const appRouters: any = [
     title: "Home",
     icon: "home",
     component: LoadableComponent(
-      () => import("../../components/Layout/AppLayout")
+      () => import("../../components/Layout/AppLayout"),
     ),
     isLayout: true,
     showInMenu: false,
@@ -54,16 +60,16 @@ export const appRouters: any = [
     component: LoadableComponent(() => import("../../scenes/Employee")),
   },
   {
-    path: "/profile",
+    path: "/account/profile",
     name: "profile",
     permission: "",
-    title: "Profile",
+    title: "Account",
     icon: ProfileOutlined,
     showInMenu: true,
     component: LoadableComponent(() => import("../../scenes/Profile")),
   },
   {
-    path: "/profile/:id",
+    path: "/account/profile/:id",
     name: "profile",
     permission: "",
     title: "Profile",

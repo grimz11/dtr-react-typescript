@@ -1,16 +1,15 @@
 import "./index.less";
 import * as React from "react";
-import { Col, Row, Card, Image } from "antd";
+import { Col, Row, Tabs } from "antd";
 import Stores from "../../stores/storeIdentifier";
 import { inject, observer } from "mobx-react";
-import AppConsts from "../../utils/appconst";
 import UserStore from "../../stores/userStore";
 import utils from "../../utils/utils";
-import ImageUploader from "react-images-upload";
 
 import UpdateFields from "./components/updateFields";
+import SecuritySettings from "./components/securitySettings";
 
-const { Meta } = Card;
+const { TabPane } = Tabs;
 
 interface IPropsProfile {
   userStore: UserStore;
@@ -27,69 +26,29 @@ class Profile extends React.Component<IPropsProfile, any> {
     };
   }
 
-  async componentDidMount() {
-    // if (this.props.match.params.id) {
-    //   await this.props.userStore.getUserProfile(
-    //     parseInt(this.props.match.params.id)
-    //   );
-    //   this.setState({ ...this.state, user: this.props.userStore.$userProfile });
-    // } else {
-    //   await this.props.userStore.getCurrentLoginUser(
-    //     parseInt(await utils.getCookie("id"))
-    //   );
-    //   this.setState({
-    //     ...this.state,
-    //     user: this.props.userStore.$currentLogin,
-    //   });
-    // }
-    // console.log("Profile", this.props.userStore.$currentLogin);
-    if(this.props.match.params.id === undefined){
-      console.log('undifined');
-      
-    }
-    console.log("Params", this.props.match.params.id);
-  }
-
-  // handleChangeCoverPhoto = async (picture: any, successImages: any) => {
-  //   document
-  //     .querySelector(".coverPhoto")
-  //     ?.setAttribute("src", successImages[0]);
-  //   console.log("successImages", successImages[0]);
-  //   console.log("picture", picture);
-
-  //   const name = successImages[0].split(";")[1];
-  //   const formData = new FormData();
-
-  //   formData.append("files", picture[0]);
-  //   formData.append("field", "image");
-  //   formData.append("ref", "user");
-  //   formData.append("refId", "3");
-
-  //   await this.props.userStore.uploadImage(formData);
-  // };
-  // handleChangeAvatar = (picture: any, successImages: any) => {
-  //   document
-  //     .querySelector(".avatar img")
-  //     ?.setAttribute("src", successImages[0]);
-  // };
-
   render() {
-    const { user }: any = this.state;
+    const { id }: any = this.props.match.params;
     return (
       <Row>
-        <Col span={12}>
-          <UpdateFields id={this.props.match.params.id} />
-        </Col>
-        <Col span={12}>
-          <Card hoverable style={{ width: "100%" }}>
-            {/* <Meta
-              title={
-                user.firstname &&
-                user.firstname + " " + (user.lastname ? user.lastname : "")
+        <Col span={24}>
+          <Tabs tabPosition="left">
+            <TabPane tab="Profile" key="1">
+              <UpdateFields id={this.props.match.params.id} />
+            </TabPane>
+            <TabPane
+              tab="Security Settings"
+              key="2"
+              disabled={
+                parseInt(id) === parseInt(utils.getCookie("id")) ||
+                id === undefined
+                  ? false
+                  : true
               }
-              description="Hello from hyperstacks"
-            /> */}
-          </Card>
+            >
+              <SecuritySettings />
+            </TabPane>
+            <TabPane tab="Delete Account" key="3" disabled={true}></TabPane>
+          </Tabs>
         </Col>
       </Row>
     );

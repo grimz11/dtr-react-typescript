@@ -1,6 +1,7 @@
 import IUserOutput from "./dto/userOutput";
 import http from "../httpService";
 import AppConsts from "../../utils/appconst";
+import { config } from "process";
 
 class UserService {
   public async getCurrentLoginUser(id: number): Promise<any> {
@@ -19,25 +20,13 @@ class UserService {
     return res.data;
   }
   public async updateUser(id: number, payload: any): Promise<any> {
-    // const {} = payload;
     const res = await http.put(`${AppConsts.appBaseUrl}/users/${id}`, {
       ...payload,
     });
     return res.data;
   }
   public async uploadImage(formData: any): Promise<any> {
-    // const {} = payload;
-    console.log("userService", ...formData);
-
-    const res = await http.post(
-      `${AppConsts.appBaseUrl}/users`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    const res = await http.post(`${AppConsts.appBaseUrl}/upload`, formData);
     return res.data;
   }
 }
