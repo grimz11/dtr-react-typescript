@@ -42,6 +42,7 @@ class Admin extends React.Component<IPropsEmployee> {
     });
   };
   handleClickProfile = async (id: any) => {
+    await this.props.userStore.getUserProfile(parseInt(id));
     <Link to={`profile/${id}`}></Link>;
   };
   handleOnSearch = async (value: any) => {

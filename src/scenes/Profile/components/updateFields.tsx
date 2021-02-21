@@ -31,8 +31,10 @@ const UpdateFields = inject(Stores.UserStore)(
   observer(({ userStore, id }: any) => {
     const [active, setActive] = React.useState(false);
     const [user, setUser] = React.useState(userStore.$userProfile);
+    const [form] = Form.useForm();
 
     React.useEffect(() => {
+      form.resetFields();
       const res = async () => {
         if (id) {
           await userStore.getUserProfile(parseInt(id));
@@ -43,11 +45,14 @@ const UpdateFields = inject(Stores.UserStore)(
         }
       };
       res();
-    }, [id, userStore]);
+      return () => {
+        setUser({});
+        form.resetFields();
+      };
+    }, [active]);
 
     const onFinish = async (values: any) => {
       if (active) {
-        console.log("Edit", values);
         await userStore.updateUser(parseInt(id ? id : utils.getCookie("id")), {
           email: values.email,
           phoneNumber: values.phoneNumber,
@@ -64,8 +69,6 @@ const UpdateFields = inject(Stores.UserStore)(
         setActive(false);
       }
     };
-    const cancelEdit = () => setActive(false);
-    const edit = () => setActive(true);
 
     const config = {
       rules: [
@@ -102,7 +105,12 @@ const UpdateFields = inject(Stores.UserStore)(
             )
           }
         >
-          <Form layout="horizontal" name="basic" onFinish={onFinish}>
+          <Form
+            layout="horizontal"
+            name="basic"
+            form={form}
+            onFinish={onFinish}
+          >
             {user.firstname ? (
               <div>
                 <Form.Item
@@ -236,11 +244,17 @@ const UpdateFields = inject(Stores.UserStore)(
                 </Form.Item>
                 <br />
                 <div className="submitBtns">
-                  {!active && (
-                    <Button type="primary" onClick={edit} size="large">
-                      Edit Information
-                    </Button>
-                  )}
+                  {!active &&
+                    (parseInt(id) === parseInt(utils.getCookie("id")) ||
+                      id === undefined) && (
+                      <Button
+                        type="primary"
+                        onClick={() => setActive(true)}
+                        size="large"
+                      >
+                        Edit Information
+                      </Button>
+                    )}
                   {active && (
                     <>
                       <Button type="primary" htmlType="submit" size="large">
@@ -249,7 +263,7 @@ const UpdateFields = inject(Stores.UserStore)(
                       <Button
                         type="primary"
                         danger
-                        onClick={cancelEdit}
+                        onClick={() => setActive(false)}
                         size="large"
                       >
                         Cancel
