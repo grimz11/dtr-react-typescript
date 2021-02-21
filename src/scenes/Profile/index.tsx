@@ -4,11 +4,8 @@ import { Col, Row, Card } from "antd";
 import Stores from "../../stores/storeIdentifier";
 import { inject, observer } from "mobx-react";
 import UserStore from "../../stores/userStore";
-import utils from "../../utils/utils";
 
 import UpdateFields from "./components/updateFields";
-
-const { Meta } = Card;
 
 interface IPropsProfile {
   userStore: UserStore;
@@ -71,7 +68,6 @@ class Profile extends React.Component<IPropsProfile, any> {
   // };
 
   render() {
-    const { user }: any = this.state;
     return (
       <Row>
         <Col span={12}>

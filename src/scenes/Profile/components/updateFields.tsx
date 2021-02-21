@@ -49,7 +49,7 @@ const UpdateFields = inject(Stores.UserStore)(
         setUser({});
         form.resetFields();
       };
-    }, [active]);
+    }, [active, form, id, userStore]);
 
     const onFinish = async (values: any) => {
       if (active) {
