@@ -1,4 +1,4 @@
-import { Col, List, Avatar } from "antd";
+import { Col, List, Avatar, Tooltip } from "antd";
 import moment from "moment";
 import { Link } from "react-router-dom";
 
@@ -14,23 +14,26 @@ const ActivityFeed = ({ peopleRecords }: any) => {
       </div>
       <br></br>
       <List
+        style={{ maxHeight: "60vh", overflowY: "auto" }}
         itemLayout="horizontal"
         dataSource={peopleRecords}
         renderItem={(item: IRecordInput) => (
           <List.Item>
             <List.Item.Meta
               avatar={
-                <Link to={`account/profile/${item.userId?.id}`}>
-                  <Avatar
-                    size={40}
-                    src={
-                      item.userId?.avatar
-                        ? item.userId?.avatar.url
-                        : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                    }
-                    style={{ cursor: "pointer" }}
-                  />
-                </Link>
+                <Tooltip title="View Profile" color="#ff9100">
+                  <Link to={`account/profile/${item.userId?.id}`}>
+                    <Avatar
+                      size={40}
+                      src={
+                        item.userId?.avatar
+                          ? item.userId?.avatar.url
+                          : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                      }
+                      style={{ cursor: "pointer" }}
+                    />
+                  </Link>
+                </Tooltip>
               }
               title={
                 `${item.userId?.firstname?.charAt(0).toLocaleUpperCase()}` +

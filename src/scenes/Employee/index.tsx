@@ -1,6 +1,6 @@
 import "./index.less";
 import * as React from "react";
-import { Avatar, Col, List, Row, Input, Button } from "antd";
+import { Avatar, Col, List, Row, Input, Button, Tooltip } from "antd";
 import Stores from "../../stores/storeIdentifier";
 import { inject, observer } from "mobx-react";
 import RecordDtrTable from "../../components/RecordDtrTable";
@@ -90,18 +90,20 @@ class Admin extends React.Component<IPropsEmployee> {
               <List.Item key={item.id}>
                 <List.Item.Meta
                   avatar={
-                    <Link to={`account/profile/${item.id}`}>
-                      <Avatar
-                        src={
-                          item.avatar
-                            ? item.avatar!.url
-                            : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                        }
-                      />
-                    </Link>
+                    <Tooltip title="View Profile" color="#ff9100">
+                      <Link to={`account/profile/${item.id}`}>
+                        <Avatar
+                          src={
+                            item.avatar
+                              ? item.avatar!.url
+                              : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                          }
+                        />
+                      </Link>
+                    </Tooltip>
                   }
                   title={
-                    <span>
+                    <Tooltip title="View Record" color="#ff9100">
                       <Button
                         data-value={item.id}
                         href={item.href}
@@ -110,7 +112,7 @@ class Admin extends React.Component<IPropsEmployee> {
                       >
                         {item.firstname} {item.lastname}
                       </Button>
-                    </span>
+                    </Tooltip>
                   }
                 />
                 {item.content}
