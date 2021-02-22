@@ -39,7 +39,6 @@ class AppLayout extends React.Component<any> {
 
     const { path } = this.props.match;
     const { collapsed } = this.state;
-    console.log("path", pathname);
 
     const layout = (
       <Layout style={{ minHeight: "100vh" }}>
@@ -62,7 +61,7 @@ class AppLayout extends React.Component<any> {
               margin: "24px 16px",
               padding: 24,
               minHeight: 280,
-              background: pathname === "/profile" ? "" : "#fff",
+              background: "#fff",
             }}
           >
             <Switch>

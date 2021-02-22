@@ -11,6 +11,7 @@ import {
   Space,
   Card,
   Image,
+  Progress,
 } from "antd";
 import {
   CalendarOutlined,
@@ -24,6 +25,10 @@ import moment from "moment";
 import { inject, observer } from "mobx-react";
 import Stores from "../../../stores/storeIdentifier";
 import utils from "../../../utils/utils";
+import ImageUploader from "react-images-upload";
+import AppConsts from "../../../utils/appconst";
+import axios from "axios";
+import ProgressModal from "../../../components/Modal";
 
 const { Text, Title } = Typography;
 
@@ -32,6 +37,9 @@ const UpdateFields = inject(Stores.UserStore)(
     const [active, setActive] = React.useState(false);
     const [user, setUser] = React.useState(userStore.$userProfile);
     const [form] = Form.useForm();
+    const [avatar, setAvatar] = React.useState("");
+    const [percent, setPercent] = React.useState(0);
+    const [modalStatus, setModalStatus] = React.useState(false);
 
     React.useEffect(() => {
       form.resetFields();
@@ -49,10 +57,11 @@ const UpdateFields = inject(Stores.UserStore)(
         setUser({});
         form.resetFields();
       };
-    }, [active, form, id, userStore]);
+    }, [active, modalStatus]);
 
     const onFinish = async (values: any) => {
       if (active) {
+        setModalStatus(true);
         await userStore.updateUser(parseInt(id ? id : utils.getCookie("id")), {
           email: values.email,
           phoneNumber: values.phoneNumber,
@@ -66,8 +75,36 @@ const UpdateFields = inject(Stores.UserStore)(
         await userStore.getUserProfile(
           parseInt(id ? id : utils.getCookie("id")),
         );
+        await uploadImage();
         setActive(false);
       }
+    };
+    const calculatePercentProgress = (value: any, total: any) =>
+      Math.round((value / total) * 100);
+
+    const uploadImage = async () => {
+      const formData = new FormData();
+      formData.append("files", avatar);
+      formData.append("ref", "user");
+      formData.append("refId", utils.getCookie("id"));
+      formData.append("field", "avatar");
+      formData.append("source", "users-permissions");
+
+      await axios({
+        method: "POST",
+        url: `${AppConsts.appBaseUrl}/upload`,
+        data: formData,
+        onUploadProgress: (progress) =>
+          setPercent(calculatePercentProgress(progress.loaded, progress.total)),
+        headers: {
+          Authorization: "Bearer " + utils.getCookie("access_token"),
+        },
+      });
+    };
+
+    const onChangeAvatar = async (file: any, localAvatar: any) => {
+      document.querySelector(".avatar")?.setAttribute("src", localAvatar[0]);
+      setAvatar(file[0]);
     };
 
     const config = {
@@ -79,22 +116,44 @@ const UpdateFields = inject(Stores.UserStore)(
         },
       ],
     };
-    console.log("id", id);
-    console.log("UserStore", userStore);
-
     return (
       <Row className="user-form">
         <Card
-          hoverable
           style={{ width: "95%" }}
           cover={
-            user.avatar ? (
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <Image
-                  style={{ height: 220, width: 220, borderRadius: "100%" }}
-                  src={user.avatar && user.avatar?.url}
-                />
-              </div>
+            user ? (
+              <>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "1.5rem",
+                  }}
+                >
+                  <Image
+                    className="avatar"
+                    style={{ height: 220, width: 220, borderRadius: "100%" }}
+                    src={
+                      user.avatar
+                        ? user.avatar?.url
+                        : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                    }
+                  />
+                </div>
+                {active && (
+                  <div>
+                    <ImageUploader
+                      withIcon={false}
+                      maxFileSize={5242880}
+                      imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                      onChange={onChangeAvatar}
+                      label="Max file size: 5mb, accepted: jpg | gif | png "
+                      singleImage={true}
+                      withPreview
+                    />
+                  </div>
+                )}
+              </>
             ) : (
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <Image
@@ -324,6 +383,7 @@ const UpdateFields = inject(Stores.UserStore)(
             )}
           </Form>
         </Card>
+        {modalStatus && <ProgressModal percent={percent} />}
       </Row>
     );
   }),

@@ -20,7 +20,7 @@ const ActivityFeed = ({ peopleRecords }: any) => {
           <List.Item>
             <List.Item.Meta
               avatar={
-                <Link to={`profile/${item.userId?.id}`}>
+                <Link to={`account/profile/${item.userId?.id}`}>
                   <Avatar
                     size={40}
                     src={

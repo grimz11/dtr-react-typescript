@@ -43,7 +43,7 @@ class Admin extends React.Component<IPropsEmployee> {
   };
   handleClickProfile = async (id: any) => {
     await this.props.userStore.getUserProfile(parseInt(id));
-    <Link to={`profile/${id}`}></Link>;
+    <Link to={`account/profile/${id}`}></Link>;
   };
   handleOnSearch = async (value: any) => {
     this.props.userStore.$allUsers.find((item: any) => {
@@ -90,7 +90,7 @@ class Admin extends React.Component<IPropsEmployee> {
               <List.Item key={item.id}>
                 <List.Item.Meta
                   avatar={
-                    <Link to={`profile/${item.id}`}>
+                    <Link to={`account/profile/${item.id}`}>
                       <Avatar
                         src={
                           item.avatar

@@ -45,6 +45,7 @@ class Dashboard extends React.Component<any> {
     });
   }
   async getAllRecords() {
+    await this.props.recordStore.getAllRecordsLimit();
     this.setState({
       ...this.state,
       peopleRecords: this.props.recordStore.$peopleRecords

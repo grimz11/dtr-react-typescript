@@ -1,5 +1,6 @@
 import { action, observable } from "mobx";
 import CurrentUserLogin from "../services/accountAuth/dto/currentUserLogin";
+import IUserOutput from "../services/user/dto/userOutput";
 // import ILoginOutput from '../services/accountAuth/dto/loginOutput';
 import userService from "../services/user/userService";
 
@@ -36,8 +37,6 @@ class UserStore {
   }
   @action
   async uploadImage(formData: any) {
-    console.log("uploadImage", ...formData);
-
     let result = await userService.uploadImage(formData);
     return result;
   }

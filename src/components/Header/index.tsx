@@ -15,6 +15,7 @@ import { inject, observer } from "mobx-react";
 import UserStore from "../../stores/userStore";
 import utils from "../../utils/utils";
 import RecordStore from "../../stores/recordStore";
+import AppConsts from "../../utils/appconst";
 
 export interface IHeaderProps {
   collapsed?: any;
@@ -44,7 +45,7 @@ export class Header extends React.Component<IHeaderProps> {
     const user = await this.props.userStore?.getUserProfile(
       parseInt(await utils.getCookie("id")),
     );
-    console.log("Header", user);
+
     this.setState({ ...this.state, avatar: user.avatar?.url });
   }
   render() {

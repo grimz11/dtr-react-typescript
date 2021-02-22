@@ -15,7 +15,7 @@ const Router = () => {
         render={(props: any) => <AppLayout {...props} exact />}
       />
       <ProtectedRoute
-        path="/profile/:id"
+        path="/account/profile/:id"
         render={(props: any) => <AppLayout {...props} />}
       />
     </Switch>
