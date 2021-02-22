@@ -90,7 +90,11 @@ class Admin extends React.Component<IPropsEmployee> {
               <List.Item key={item.id}>
                 <List.Item.Meta
                   avatar={
-                    <Tooltip title="View Profile" color="#ff9100">
+                    <Tooltip
+                      title="View Profile"
+                      color="#1890ff"
+                      placement="bottom"
+                    >
                       <Link to={`account/profile/${item.id}`}>
                         <Avatar
                           src={
@@ -103,7 +107,11 @@ class Admin extends React.Component<IPropsEmployee> {
                     </Tooltip>
                   }
                   title={
-                    <Tooltip title="View Record" color="#ff9100">
+                    <Tooltip
+                      title="View Record"
+                      color="#1890ff"
+                      placement="bottom"
+                    >
                       <Button
                         data-value={item.id}
                         href={item.href}

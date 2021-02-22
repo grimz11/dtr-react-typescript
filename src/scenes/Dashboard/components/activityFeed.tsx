@@ -21,7 +21,11 @@ const ActivityFeed = ({ peopleRecords }: any) => {
           <List.Item>
             <List.Item.Meta
               avatar={
-                <Tooltip title="View Profile" color="#ff9100">
+                <Tooltip
+                  title="View Profile"
+                  color="#1890ff"
+                  placement="bottom"
+                >
                   <Link to={`account/profile/${item.userId?.id}`}>
                     <Avatar
                       size={40}
