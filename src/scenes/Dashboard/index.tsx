@@ -55,11 +55,12 @@ class Dashboard extends React.Component<any> {
     });
   }
   async checkWorkingStatus() {
-    this.state.personRecord.every((item: IRecordInput) => {
+    this.state.personRecord.find((item: IRecordInput) => {
+      // console.log("every", item);
       const date = item.created_at;
       this.setState({
         ...this.state,
-        timeBtn: item.currentlyWorking ? true : false,
+        timeBtn: item!.currentlyWorking ? true : false,
         recordId: item.id,
         timeInRecord: date,
       });
