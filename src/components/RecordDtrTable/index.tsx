@@ -5,8 +5,11 @@ import IRecordInput from "../../services/record/dto/recordInput";
 const { Column } = Table;
 
 const RecordDtrTable = ({ data, dataSize }: any) => {
+  data.map((item: any, i: number) => {
+    data[i].key = "item" + item.id;
+  });
   return (
-    <Table dataSource={data} pagination={{ pageSize: dataSize }}>
+    <Table dataSource={data} pagination={{ pageSize: dataSize }} key="id">
       <Column
         title="Status"
         dataIndex={["created_at", "currentlyWorking"]}
@@ -36,7 +39,7 @@ const RecordDtrTable = ({ data, dataSize }: any) => {
       <Column
         title="Clocked Out"
         dataIndex="timeOut"
-        key="id"
+        key="timeOut"
         render={(timeOut: Date) => (
           <span>
             {timeOut
@@ -48,14 +51,38 @@ const RecordDtrTable = ({ data, dataSize }: any) => {
       <Column
         title="Date"
         dataIndex="created_at"
-        key="id"
+        key="created_at"
         render={(created_at: Date) => (
           <span>
             {moment(created_at, "YYYY MM DD hh:mm:ss A Z").format("MM-DD-YYYY")}
           </span>
         )}
       />
-      <Column title="Hours Rendered" dataIndex="hoursRendered" key="id" />
+      {/* <Column title="Hours Rendered" dataIndex="hoursRendered" key="id" /> */}
+      <Column
+        title="Hours Rendered"
+        // dataIndex="renderedHours"
+        key="hoursRendered"
+        render={(text, record: any) => {
+          let hoursRendered = "";
+          let startTime = moment(record.created_at);
+          let now = record.timeOut == null ? moment() : moment(record.timeOut);
+          let duration: any = moment.duration(now.diff(startTime));
+          let hours = duration.days() * 24 + duration.hours();
+          hours = hours < 10 ? "0" + hours : hours;
+          let minutes =
+            duration.minutes() < 10
+              ? "0" + duration.minutes()
+              : duration.minutes();
+          let seconds =
+            duration.seconds() < 10
+              ? "0" + duration.seconds()
+              : duration.seconds();
+          hoursRendered = hours + ":" + minutes + ":" + seconds;
+
+          return <span>{hoursRendered}</span>;
+        }}
+      />
     </Table>
   );
 };

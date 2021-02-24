@@ -73,18 +73,33 @@ class Dashboard extends React.Component<any> {
       collapsed: !this.state.collapsed,
     });
   };
-  async calculateTimeElapse(date: string) {
-    let startTime: any, endTime: any;
-    startTime = new Date(date);
-    endTime = new Date();
-    let timeDiff = endTime - startTime;
-    timeDiff /= 1000;
-    let seconds = Math.round(timeDiff);
-    const hours = moment
-      .utc(moment.duration(seconds, "seconds").asMilliseconds())
-      .format("HH:mm:ss");
+  // async calculateTimeElapse(date: string) {
+  //   let startTime: any, endTime: any;
+  //   startTime = new Date(date);
+  //   endTime = new Date();
+  //   let timeDiff = endTime - startTime;
+  //   timeDiff /= 1000;
+  //   let seconds = Math.round(timeDiff);
+  //   const hours = moment
+  //     .utc(moment.duration(seconds, "seconds").asMilliseconds())
+  //     .format("HH:mm:ss");
 
-    return hours;
+  //   return hours;
+  // }
+
+  async calculateTimeElapse(date: string) {
+    let hoursRendered = "";
+    let startTime = moment(date);
+    let now = moment();
+    let duration: any = moment.duration(now.diff(startTime));
+    let hours = duration.days() * 24 + duration.hours();
+    hours = hours < 10 ? "0" + hours : hours;
+    let minutes =
+      duration.minutes() < 10 ? "0" + duration.minutes() : duration.minutes();
+    let seconds =
+      duration.seconds() < 10 ? "0" + duration.seconds() : duration.seconds();
+    hoursRendered = hours + ":" + minutes + ":" + seconds;
+    return hoursRendered;
   }
 
   public handleOnClick = async () => {
@@ -102,7 +117,7 @@ class Dashboard extends React.Component<any> {
       const payloadIn: IRecordInput = {
         currentlyWorking: true,
         userId: this.props.userStore!.$currentLogin,
-        hoursRendered: "00.00:00",
+        hoursRendered: "00:00:00",
       };
       await this.props.recordStore.timeIn(payloadIn);
     }

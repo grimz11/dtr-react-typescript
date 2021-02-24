@@ -17,8 +17,8 @@ const ActivityFeed = ({ peopleRecords }: any) => {
         style={{ maxHeight: "60vh", overflowY: "auto" }}
         itemLayout="horizontal"
         dataSource={peopleRecords}
-        renderItem={(item: IRecordInput) => (
-          <List.Item>
+        renderItem={(item: IRecordInput, i) => (
+          <List.Item key={i}>
             <List.Item.Meta
               avatar={
                 <Tooltip
@@ -52,7 +52,7 @@ const ActivityFeed = ({ peopleRecords }: any) => {
                       .startOf("minutes")
                       .fromNow())
               }
-              description={"Test"}
+              // description={"Test"}
             />
           </List.Item>
         )}
