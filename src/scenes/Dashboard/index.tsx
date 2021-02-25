@@ -13,7 +13,7 @@ import DTR from "./components/dtr";
 
 @inject(Stores.RecordStore, Stores.UserStore)
 @observer
-class Dashboard extends React.Component<any> {
+class Dashboard extends React.Component<any, any> {
   state = {
     collapsed: false,
     time: new Date(),
@@ -48,8 +48,7 @@ class Dashboard extends React.Component<any> {
     await this.props.recordStore.getAllRecordsLimit();
     this.setState({
       ...this.state,
-      peopleRecords: this.props.recordStore.$peopleRecords
-        .sort()
+      peopleRecords: [...this.props.recordStore.$peopleRecords]
         .reverse()
         .slice(0, 40),
     });

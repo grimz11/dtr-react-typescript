@@ -1,4 +1,4 @@
-import { action } from "mobx";
+import { makeAutoObservable } from "mobx";
 
 import accountAuthService from "../services/accountAuth/accountAuthService";
 import ILoginInput from "../services/accountAuth/dto/loginInput";
@@ -6,7 +6,10 @@ import ILoginOutput from "../services/accountAuth/dto/loginOutput";
 import utils from "../utils/utils";
 
 class AccountAuthStore {
-  @action
+  constructor() {
+    makeAutoObservable(this);
+  }
+
   async login(model: ILoginInput): Promise<ILoginOutput> {
     const res = await accountAuthService.login({
       identifier: model.identifier,
@@ -23,7 +26,6 @@ class AccountAuthStore {
     return true;
   }
 
-  @action
   async logout() {
     await utils.removeToken();
   }
