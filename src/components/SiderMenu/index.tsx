@@ -21,6 +21,8 @@ const SiderMenu = (props: ISiderMenuProps) => {
   return (
     <Sider
       trigger={null}
+      breakpoint="lg"
+      collapsedWidth="80"
       collapsible
       collapsed={collapsed}
       onCollapse={onCollapse}

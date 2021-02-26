@@ -1,6 +1,6 @@
 import "./index.less";
 import * as React from "react";
-import { Col, Row } from "antd";
+import { Col, Row, Card } from "antd";
 
 import moment from "moment";
 
@@ -23,6 +23,8 @@ class Dashboard extends React.Component<any, any> {
     timeBtn: false,
     recordId: 0,
     timeInRecord: "",
+    loadingDtr: true,
+    loadingActivity: true,
   };
   async componentDidMount() {
     await this.getCurrentLoginUser();
@@ -42,6 +44,7 @@ class Dashboard extends React.Component<any, any> {
       ...this.state,
       personRecord: this.props.recordStore.$personRecords.sort().reverse(),
       id: utils.getCookie("id"),
+      loadingDtr: false,
     });
   }
   async getAllRecords() {
@@ -49,8 +52,16 @@ class Dashboard extends React.Component<any, any> {
     this.setState({
       ...this.state,
       peopleRecords: [...this.props.recordStore.$peopleRecords]
+        .sort((a, b) =>
+          a.published_at > b.published_at
+            ? 1
+            : b.published_at > a.published_at
+            ? -1
+            : 0,
+        )
         .reverse()
         .slice(0, 40),
+      loadingActivity: false,
     });
   }
   async checkWorkingStatus() {
@@ -127,12 +138,19 @@ class Dashboard extends React.Component<any, any> {
   };
 
   render() {
-    const { peopleRecords } = this.state;
+    const { peopleRecords, loadingDtr, loadingActivity } = this.state;
     return (
-      <Row>
-        <DTR data={this.state} handleOnClick={this.handleOnClick} />
-        <Col span={2} />
-        <ActivityFeed peopleRecords={peopleRecords} />
+      <Row justify="start" gutter={[16, 16]}>
+        <Col span={24} xs={24} lg={17} xl={18} xxl={15}>
+          <Card size="small" loading={loadingDtr}>
+            <DTR data={this.state} handleOnClick={this.handleOnClick} />
+          </Card>
+        </Col>
+        <Col span={24} xs={24} lg={7} xl={6} xxl={5}>
+          <Card size="small" loading={loadingActivity}>
+            <ActivityFeed peopleRecords={peopleRecords} />
+          </Card>
+        </Col>
       </Row>
     );
   }

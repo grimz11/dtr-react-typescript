@@ -9,7 +9,12 @@ const RecordDtrTable = ({ data, dataSize }: any) => {
     data[i].key = "item" + item.id;
   });
   return (
-    <Table dataSource={data} pagination={{ pageSize: dataSize }} key="id">
+    <Table
+      dataSource={data}
+      pagination={{ pageSize: dataSize }}
+      key="id"
+      scroll={{ x: 650 }}
+    >
       <Column
         title="Status"
         dataIndex={["created_at", "currentlyWorking"]}

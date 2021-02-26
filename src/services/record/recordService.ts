@@ -1,8 +1,8 @@
 import http from "../httpService";
 import IRecordInput from "./dto/recordInput";
 
-class RecordService{
-  public async getRecord(id:number) {
+class RecordService {
+  public async getRecord(id: number) {
     const res = await http.get(`records?userId=${id}`);
     return res.data;
   }
