@@ -68,7 +68,7 @@ const RecordDtrTable = ({ data, dataSize }: any) => {
         title="Hours Rendered"
         // dataIndex="renderedHours"
         key="hoursRendered"
-        render={(text, record: any) => {
+        render={(text, record: IRecordInput) => {
           let hoursRendered = "";
           let startTime = moment(record.created_at);
           let now = record.timeOut == null ? moment() : moment(record.timeOut);

@@ -15,9 +15,9 @@ import { inject, observer } from "mobx-react";
 import UserStore from "../../stores/userStore";
 import utils from "../../utils/utils";
 import RecordStore from "../../stores/recordStore";
-import AppConsts from "../../utils/appconst";
+import { toJS } from "mobx";
 
-export interface IHeaderProps {
+export interface ILocalProps {
   collapsed?: any;
   toggle?: any;
   userStore?: UserStore;
@@ -37,17 +37,19 @@ const userDropdownMenu = (
 
 @inject(Stores.UserStore, Stores.RecordStore)
 @observer
-export class Header extends React.Component<IHeaderProps> {
+export class Header extends React.Component<ILocalProps> {
   state = {
     avatar: "",
   };
+
   async componentDidMount() {
-    const user = await this.props.userStore?.getUserProfile(
+    await this.props.userStore?.getUserProfile(
       parseInt(await utils.getCookie("id")),
     );
-
-    this.setState({ ...this.state, avatar: user.avatar?.url });
+    const userProfile: any = toJS(this.props.userStore?.$userProfile);
+    this.setState({ ...this.state, avatar: userProfile?.avatar?.url });
   }
+
   render() {
     const { avatar } = this.state;
     return (
@@ -71,7 +73,11 @@ export class Header extends React.Component<IHeaderProps> {
               style={{ height: 35, width: 35, cursor: "pointer" }}
               shape="circle"
               alt={"profile"}
-              src={avatar}
+              src={
+                avatar
+                  ? avatar
+                  : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+              }
             />
           </Dropdown>
         </Col>

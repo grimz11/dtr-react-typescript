@@ -1,43 +1,38 @@
 import { makeAutoObservable } from "mobx";
 import CurrentUserLogin from "../services/accountAuth/dto/currentUserLogin";
-// import IUserOutput from "../services/user/dto/userOutput";
-// import ILoginOutput from '../services/accountAuth/dto/loginOutput';
+import IUserOutput from "../services/user/dto/userOutput";
 import userService from "../services/user/userService";
 
 class UserStore {
-  $currentLogin: any = new CurrentUserLogin();
-  $allUsers: [] = [];
-  $userProfile: [] = [];
-  $userProfileEditable: [] = [];
+  $currentLogin: IUserOutput = new CurrentUserLogin().user;
+  $allUsers: Array<IUserOutput> = [];
+  $userProfile: Array<IUserOutput> = [];
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  async getCurrentLoginUser(id: number) {
+  async getCurrentLoginUser(id: number): Promise<void> {
     let result = await userService.getCurrentLoginUser(id);
     this.$currentLogin = result;
-    return result;
   }
 
-  async getUserProfile(id: number) {
+  async getUserProfile(id: number): Promise<void> {
     let result = await userService.getUserProfile(id);
-    this.$userProfile = result;
-    return result;
+    this.$userProfile = await result;
   }
 
-  async getAllUsers() {
+  async getAllUsers(): Promise<void> {
     let result = await userService.getAllUsers();
     this.$allUsers = result;
-    return result;
   }
 
-  async updateUser(id: number, payload: any) {
+  async updateUser(id: number, payload: any): Promise<any> {
     let result = await userService.updateUser(id, payload);
     return result;
   }
 
-  async uploadImage(formData: any) {
+  async uploadImage(formData: any): Promise<any> {
     let result = await userService.uploadImage(formData);
     return result;
   }

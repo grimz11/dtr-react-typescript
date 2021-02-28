@@ -5,7 +5,6 @@ import RecordDtrTable from "../../../components/RecordDtrTable";
 
 const DTR = ({ data: props, handleOnClick }: any) => {
   const data = props.personRecord;
-  // console.log("data", props);
   return (
     <Row>
       <Col span={24} className="col-1-time-in">

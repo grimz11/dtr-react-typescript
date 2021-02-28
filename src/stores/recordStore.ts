@@ -1,40 +1,37 @@
 import recordService from "../services/record/recordService";
-import { action, makeAutoObservable, observable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import IRecordInput from "../services/record/dto/recordInput";
+import IUsersRecord from "../services/user/dto/userRecord";
 
 class RecordStore {
   $currentLogin: string = "";
-  $personRecords: [] = [];
-  $peopleRecords: [] = [];
+  $personRecords: Array<IUsersRecord> = [];
+  $peopleRecords: Array<IUsersRecord> = [];
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  async getRecord(id: number) {
+  async getRecord(id: number): Promise<void> {
     const res = await recordService.getRecord(id);
     this.$personRecords = res;
-
-    return res;
   }
 
-  async getAllRecords() {
+  async getAllRecords(): Promise<void> {
     const res = await recordService.getAllRecords();
     this.$peopleRecords = res;
-    return res;
   }
 
-  async getAllRecordsLimit() {
+  async getAllRecordsLimit(): Promise<void> {
     const res = await recordService.getAllRecordsLimit();
     this.$peopleRecords = res;
-    return res;
   }
 
-  async timeIn(payload: IRecordInput) {
+  async timeIn(payload: IRecordInput): Promise<void> {
     await recordService.timeIn(payload);
   }
 
-  async timeOut(id: number, payload: IRecordInput) {
+  async timeOut(id: number, payload: IRecordInput): Promise<void> {
     await recordService.timeOut(id, payload);
   }
 }

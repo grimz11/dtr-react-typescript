@@ -10,10 +10,30 @@ import utils from "../../utils/utils";
 import IRecordInput from "../../services/record/dto/recordInput";
 import ActivityFeed from "./components/activityFeed";
 import DTR from "./components/dtr";
+import UserStore from "../../stores/userStore";
+import RecordStore from "../../stores/recordStore";
+import IUsersRecord from "../../services/user/dto/userRecord";
+
+interface ILocalProps {
+  userStore: UserStore;
+  recordStore: RecordStore;
+}
+interface ILocalState {
+  collapsed: any;
+  time: Date;
+  personRecord: Array<IUsersRecord>;
+  peopleRecords: Array<IUsersRecord>;
+  id: string;
+  timeBtn: boolean;
+  recordId: number;
+  timeInRecord: string;
+  loadingDtr: boolean;
+  loadingActivity: boolean;
+}
 
 @inject(Stores.RecordStore, Stores.UserStore)
 @observer
-class Dashboard extends React.Component<any, any> {
+class Dashboard extends React.Component<ILocalProps, ILocalState> {
   state = {
     collapsed: false,
     time: new Date(),
@@ -26,18 +46,21 @@ class Dashboard extends React.Component<any, any> {
     loadingDtr: true,
     loadingActivity: true,
   };
+
   async componentDidMount() {
     await this.getCurrentLoginUser();
     await this.getRecord();
     await this.getAllRecords();
     await this.checkWorkingStatus();
   }
-  async getCurrentLoginUser() {
+
+  async getCurrentLoginUser(): Promise<void> {
     await this.props.userStore.getCurrentLoginUser(
       parseInt(await this.state!.id),
     );
   }
-  async getRecord() {
+
+  async getRecord(): Promise<void> {
     const userId = this.props.userStore!.$currentLogin!.id;
     await this.props.recordStore.getRecord(userId);
     this.setState({
@@ -47,12 +70,13 @@ class Dashboard extends React.Component<any, any> {
       loadingDtr: false,
     });
   }
-  async getAllRecords() {
+
+  async getAllRecords(): Promise<void> {
     await this.props.recordStore.getAllRecordsLimit();
     this.setState({
       ...this.state,
       peopleRecords: [...this.props.recordStore.$peopleRecords]
-        .sort((a, b) =>
+        .sort((a: any, b: any) =>
           a.published_at > b.published_at
             ? 1
             : b.published_at > a.published_at
@@ -64,40 +88,27 @@ class Dashboard extends React.Component<any, any> {
       loadingActivity: false,
     });
   }
-  async checkWorkingStatus() {
+
+  async checkWorkingStatus(): Promise<void> {
     this.state.personRecord.find((item: IRecordInput) => {
-      // console.log("every", item);
       const date = item.created_at;
       this.setState({
         ...this.state,
-        timeBtn: item!.currentlyWorking ? true : false,
-        recordId: item.id,
+        timeBtn: item.currentlyWorking ? true : false,
+        recordId: item.id ?? 0,
         timeInRecord: date,
       });
-
       return true;
     });
   }
-  toggle = () => {
+
+  toggle = (): void => {
     this.setState({
       collapsed: !this.state.collapsed,
     });
   };
-  // async calculateTimeElapse(date: string) {
-  //   let startTime: any, endTime: any;
-  //   startTime = new Date(date);
-  //   endTime = new Date();
-  //   let timeDiff = endTime - startTime;
-  //   timeDiff /= 1000;
-  //   let seconds = Math.round(timeDiff);
-  //   const hours = moment
-  //     .utc(moment.duration(seconds, "seconds").asMilliseconds())
-  //     .format("HH:mm:ss");
 
-  //   return hours;
-  // }
-
-  async calculateTimeElapse(date: string) {
+  async calculateTimeElapse(date: string): Promise<string> {
     let hoursRendered = "";
     let startTime = moment(date);
     let now = moment();
@@ -112,7 +123,7 @@ class Dashboard extends React.Component<any, any> {
     return hoursRendered;
   }
 
-  public handleOnClick = async () => {
+  handleOnClick = async (): Promise<void> => {
     await this.checkWorkingStatus();
     const recordTime = await this.calculateTimeElapse(this.state.timeInRecord);
     if (this.state.timeBtn) {
@@ -128,6 +139,7 @@ class Dashboard extends React.Component<any, any> {
         currentlyWorking: true,
         userId: this.props.userStore!.$currentLogin,
         hoursRendered: "00:00:00",
+        timeOut: null,
       };
       await this.props.recordStore.timeIn(payloadIn);
     }

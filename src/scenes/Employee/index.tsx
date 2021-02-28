@@ -17,54 +17,68 @@ import RecordDtrTable from "../../components/RecordDtrTable";
 import { Link } from "react-router-dom";
 import RecordStore from "../../stores/recordStore";
 import UserStore from "../../stores/userStore";
+import IUserOutput from "../../services/user/dto/userOutput";
+import { toJS } from "mobx";
+import IUsersRecord from "../../services/user/dto/userRecord";
 
 const { Search } = Input;
-const { Meta } = Card;
 
-interface IPropsEmployee {
+interface ILocalProps {
   recordStore: RecordStore;
   userStore: UserStore;
+}
+interface ILocalState {
+  personRecords: Array<IUsersRecord>;
+  peopleData: Array<IUserOutput>;
+  loading: boolean;
+  isClick: boolean;
 }
 
 @inject(Stores.RecordStore, Stores.UserStore)
 @observer
-class Admin extends React.Component<IPropsEmployee> {
+class Admin extends React.Component<ILocalProps, ILocalState> {
   state = {
-    personData: [],
+    personRecords: [],
     peopleData: [],
     loading: true,
     isClick: true,
   };
+
   async componentDidMount() {
-    const allusers = await this.props.userStore.getAllUsers();
+    await this.props.userStore.getAllUsers();
+    const allUsers = toJS(this.props.userStore.$allUsers);
+
     this.setState({
       ...this.state,
-      peopleData: allusers,
+      peopleData: allUsers,
       loading: false,
       isClick: false,
     });
-    console.log("personData", !!this.state.personData.length);
   }
-  handleOnlick = async (id: any, e: any) => {
+
+  handleOnclick = async (id: number, e: any): Promise<void> => {
     this.setState({ isClick: true });
-    const res = await this.props.recordStore.getRecord(id);
+    await this.props.recordStore.getRecord(id);
+    const userRecord = toJS(this.props.recordStore.$personRecords);
     this.setState({
-      personData: res,
+      personRecords: userRecord,
       isClick: false,
     });
-    console.log("personData", !!this.state.personData.length);
   };
-  handleOnchange = () => {
+
+  handleOnchange = (): void => {
     this.setState({
       ...this.state,
       peopleData: this.props.userStore.$allUsers,
     });
   };
-  handleClickProfile = async (id: any) => {
+
+  handleClickProfile = async (id: string): Promise<void> => {
     await this.props.userStore.getUserProfile(parseInt(id));
     <Link to={`account/profile/${id}`}></Link>;
   };
-  handleOnSearch = async (value: any) => {
+
+  handleOnSearch = async (value: any): Promise<void> => {
     this.props.userStore.$allUsers.find((item: any) => {
       if (item.username.toLowerCase() === value.toLowerCase()) {
         this.setState({
@@ -78,13 +92,12 @@ class Admin extends React.Component<IPropsEmployee> {
           peopleData: item ? [item] : this.props.userStore.$allUsers,
         });
       }
-
       return true;
     });
   };
 
   render() {
-    const { personData, peopleData, loading, isClick } = this.state;
+    const { personRecords, peopleData, loading, isClick } = this.state;
     return (
       <Row justify="start" gutter={[16, 16]}>
         <Col span={24} xs={24} lg={8} xl={6} xxl={5} className="col-1-time-in">
@@ -138,7 +151,7 @@ class Admin extends React.Component<IPropsEmployee> {
                           <Button
                             data-value={item.id}
                             href={item.href}
-                            onClick={this.handleOnlick.bind(this, item.id)}
+                            onClick={this.handleOnclick.bind(this, item.id)}
                             size="small"
                           >
                             {item.firstname} {item.lastname}
@@ -161,8 +174,11 @@ class Admin extends React.Component<IPropsEmployee> {
           xxl={15}
           className="col-1-time-in"
         >
-          <Card size="small" loading={isClick && !!personData}>
-            <RecordDtrTable data={personData.sort().reverse()} dataSize={8} />
+          <Card size="small" loading={isClick && !!personRecords}>
+            <RecordDtrTable
+              data={personRecords.sort().reverse()}
+              dataSize={8}
+            />
           </Card>
         </Col>
       </Row>
