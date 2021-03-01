@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "carlohyper",
+      "name": "Carlo Tumala",
+      "avatar_url": "https://avatars.githubusercontent.com/u/68207500?v=4",
+      "profile": "https://hyperstacksinc.com/",
+      "contributions": [
+        "maintenance"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "hyperstacksinc-dtr-frontend",
+  "projectOwner": "Hyperstacks-Inc",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
