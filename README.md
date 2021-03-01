@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -59,6 +59,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://hyperstacksinc.com/"><img src="https://avatars.githubusercontent.com/u/68207500?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Carlo Tumala</b></sub></a><br /><a href="#maintenance-carlohyper" title="Maintenance">🚧</a></td>
     <td align="center"><a href="https://www.facebook.com/grimz11"><img src="https://avatars.githubusercontent.com/u/53614600?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mark Andog</b></sub></a><br /><a href="#maintenance-grimz11" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://hyperstacksinc.com/"><img src="https://avatars.githubusercontent.com/u/40879868?v=4?s=100" width="100px;" alt=""/><br /><sub><b>j3sie</b></sub></a><br /><a href="#maintenance-j3sie" title="Maintenance">🚧</a></td>
   </tr>
 </table>
 
