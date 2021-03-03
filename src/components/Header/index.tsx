@@ -48,7 +48,7 @@ export class Header extends React.Component<ILocalProps> {
       parseInt(await utils.getCookie("id")),
     );
     const userProfile: any = toJS(this.props.userStore?.$userProfile);
-    console.log("userProfile", userProfile);
+    // console.log("userProfile", userProfile);
     this.setState({
       ...this.state,
       avatar: userProfile?.avatar?.url,

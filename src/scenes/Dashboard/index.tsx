@@ -147,7 +147,11 @@ class Dashboard extends React.Component<ILocalProps, ILocalState> {
     await this.getRecord();
     await this.getAllRecords();
 
-    this.setState({ ...this.state, timeBtn: !this.state.timeBtn });
+    this.setState({
+      ...this.state,
+      timeBtn: !this.state.timeBtn,
+      loadingDtr: false,
+    });
   };
 
   render() {
