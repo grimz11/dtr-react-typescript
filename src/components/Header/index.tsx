@@ -1,4 +1,4 @@
-// import './index.less';
+import "./index.less";
 
 import * as React from "react";
 
@@ -40,6 +40,7 @@ const userDropdownMenu = (
 export class Header extends React.Component<ILocalProps> {
   state = {
     avatar: "",
+    name: "",
   };
 
   async componentDidMount() {
@@ -47,11 +48,16 @@ export class Header extends React.Component<ILocalProps> {
       parseInt(await utils.getCookie("id")),
     );
     const userProfile: any = toJS(this.props.userStore?.$userProfile);
-    this.setState({ ...this.state, avatar: userProfile?.avatar?.url });
+    console.log("userProfile", userProfile);
+    this.setState({
+      ...this.state,
+      avatar: userProfile?.avatar?.url,
+      name: userProfile && `${userProfile.firstname}`,
+    });
   }
 
   render() {
-    const { avatar } = this.state;
+    const { avatar, name } = this.state;
     return (
       <Row className={"header-container"}>
         <Col style={{ textAlign: "left" }} span={12}>
@@ -69,16 +75,19 @@ export class Header extends React.Component<ILocalProps> {
           span={12}
         >
           <Dropdown overlay={userDropdownMenu} trigger={["click"]}>
-            <Avatar
-              style={{ height: 35, width: 35, cursor: "pointer" }}
-              shape="circle"
-              alt={"profile"}
-              src={
-                avatar
-                  ? avatar
-                  : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-              }
-            />
+            <span>
+              <span className="user-name">{name}</span>
+              <Avatar
+                style={{ height: 35, width: 35, cursor: "pointer" }}
+                shape="circle"
+                alt={"profile"}
+                src={
+                  avatar
+                    ? avatar
+                    : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                }
+              />
+            </span>
           </Dropdown>
         </Col>
       </Row>

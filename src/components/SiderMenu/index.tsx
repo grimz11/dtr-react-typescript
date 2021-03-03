@@ -1,11 +1,13 @@
 import "./index.less";
 
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Modal } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 import { appRouters } from "../../components/Router/router.config";
 import utils from "../../utils/utils";
 
 const { Sider } = Layout;
+const { confirm } = Modal;
 
 export interface ISiderMenuProps {
   path: any;
@@ -47,7 +49,22 @@ const SiderMenu = (props: ISiderMenuProps) => {
             return (
               <Menu.Item
                 key={route.path}
-                onClick={() => history.push(route.path)}
+                onClick={() => {
+                  if (route.path !== "/logout") {
+                    history.push(route.path);
+                  } else {
+                    confirm({
+                      title: "Are you sure you want to logout?",
+                      icon: <ExclamationCircleOutlined />,
+                      content: "You can login again if you want.",
+                      okText: "Yes",
+                      okType: "danger",
+                      onOk() {
+                        history.push(route.path);
+                      },
+                    });
+                  }
+                }}
               >
                 <route.icon />
                 <span>{route.title}</span>

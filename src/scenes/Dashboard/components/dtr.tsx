@@ -1,4 +1,4 @@
-import { Row, Col, Button } from "antd";
+import { Row, Col, Button, Spin } from "antd";
 import { FieldTimeOutlined } from "@ant-design/icons";
 
 import RecordDtrTable from "../../../components/RecordDtrTable";
@@ -21,7 +21,9 @@ const DTR = ({ data: props, handleOnClick }: any) => {
           </Button>
         </div>
         <br></br>
-        <RecordDtrTable data={data} dataSize={8} />
+        <Spin spinning={props?.loadingDtr} size="large" tip="Loading...">
+          <RecordDtrTable data={data} dataSize={8} />
+        </Spin>
       </Col>
     </Row>
   );

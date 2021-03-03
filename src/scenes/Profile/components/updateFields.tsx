@@ -38,6 +38,7 @@ const UpdateFields = inject(Stores.UserStore)(
     const [user, setUser] = React.useState(userStore.$userProfile);
     const [form] = Form.useForm();
     const [avatar, setAvatar] = React.useState("");
+    const [avatarChanged, setAvatarChanged] = React.useState(false);
     const [percent, setPercent] = React.useState(0);
     const [modalStatus, setModalStatus] = React.useState(false);
 
@@ -59,14 +60,23 @@ const UpdateFields = inject(Stores.UserStore)(
       };
     }, [active, modalStatus]);
 
+    const onChangeBirthday = async (date: any, dateString: string) => {
+      console.log("onChangeBirthday", dateString);
+      const newBday = moment(dateString).format("YYYY-MM-DD");
+      console.log("onChangeBirthday::newBday", newBday);
+      setUser({ ...user, birthday: newBday });
+    };
+
     const onFinish = async (values: any) => {
+      console.log("values", values);
+      console.log("user", user);
       if (active) {
-        setModalStatus(true);
+        avatarChanged && setModalStatus(true);
         await userStore.updateUser(parseInt(id ? id : utils.getCookie("id")), {
           email: values.email,
           phoneNumber: values.phoneNumber,
           address: values.address,
-          birthday: moment(values.birthday).format("YYYY-MM-DD"),
+          birthday: user.birthday, //moment(values.birthday).format("YYYY-MM-DD"),
           department: values.department,
           quotes: values.quotes,
           firstname: values.fullname[0],
@@ -75,7 +85,7 @@ const UpdateFields = inject(Stores.UserStore)(
         await userStore.getUserProfile(
           parseInt(id ? id : utils.getCookie("id")),
         );
-        await uploadImage();
+        avatarChanged && (await uploadImage());
         setActive(false);
       }
     };
@@ -105,6 +115,7 @@ const UpdateFields = inject(Stores.UserStore)(
     const onChangeAvatar = async (file: any, localAvatar: any) => {
       document.querySelector(".avatar")?.setAttribute("src", localAvatar[0]);
       setAvatar(file[0]);
+      setAvatarChanged(true);
     };
 
     const config = {
@@ -227,6 +238,7 @@ const UpdateFields = inject(Stores.UserStore)(
                   <span>
                     {active ? (
                       <Input
+                        defaultValue={user.phoneNumber}
                         placeholder={user.phoneNumber}
                         className="editFields"
                       />
@@ -255,6 +267,7 @@ const UpdateFields = inject(Stores.UserStore)(
                         }
                         format={"MM-DD-YYYY"}
                         style={{ width: "100%" }}
+                        onChange={onChangeBirthday}
                       />
                     ) : user.birthday ? (
                       moment(user.birthday).format("MMMM DD, YYYY")
@@ -272,6 +285,7 @@ const UpdateFields = inject(Stores.UserStore)(
                   <span>
                     {active ? (
                       <Input
+                        defaultValue={user.address}
                         placeholder={user.address}
                         className="editFields"
                       />
@@ -291,6 +305,7 @@ const UpdateFields = inject(Stores.UserStore)(
                   <span>
                     {active ? (
                       <Input
+                        defaultValue={user.department}
                         placeholder={user.department}
                         className="editFields"
                       />

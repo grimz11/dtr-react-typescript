@@ -13,6 +13,7 @@ import DTR from "./components/dtr";
 import UserStore from "../../stores/userStore";
 import RecordStore from "../../stores/recordStore";
 import IUsersRecord from "../../services/user/dto/userRecord";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 interface ILocalProps {
   userStore: UserStore;
@@ -27,8 +28,9 @@ interface ILocalState {
   timeBtn: boolean;
   recordId: number;
   timeInRecord: string;
-  loadingDtr: boolean;
+  loadingDtrCard: boolean;
   loadingActivity: boolean;
+  loadingDtr: boolean;
 }
 
 @inject(Stores.RecordStore, Stores.UserStore)
@@ -43,8 +45,9 @@ class Dashboard extends React.Component<ILocalProps, ILocalState> {
     timeBtn: false,
     recordId: 0,
     timeInRecord: "",
-    loadingDtr: true,
+    loadingDtrCard: true,
     loadingActivity: true,
+    loadingDtr: false,
   };
 
   async componentDidMount() {
@@ -64,17 +67,15 @@ class Dashboard extends React.Component<ILocalProps, ILocalState> {
     const userId = this.props.userStore!.$currentLogin!.id;
     await this.props.recordStore.getRecord(userId);
     this.setState({
-      ...this.state,
       personRecord: this.props.recordStore.$personRecords.sort().reverse(),
       id: utils.getCookie("id"),
-      loadingDtr: false,
+      loadingDtrCard: false,
     });
   }
 
   async getAllRecords(): Promise<void> {
     await this.props.recordStore.getAllRecordsLimit();
     this.setState({
-      ...this.state,
       peopleRecords: [...this.props.recordStore.$peopleRecords]
         .sort((a: any, b: any) =>
           a.published_at > b.published_at
@@ -93,7 +94,6 @@ class Dashboard extends React.Component<ILocalProps, ILocalState> {
     this.state.personRecord.find((item: IRecordInput) => {
       const date = item.created_at;
       this.setState({
-        ...this.state,
         timeBtn: item.currentlyWorking ? true : false,
         recordId: item.id ?? 0,
         timeInRecord: date,
@@ -124,6 +124,7 @@ class Dashboard extends React.Component<ILocalProps, ILocalState> {
   }
 
   handleOnClick = async (): Promise<void> => {
+    this.setState({ loadingDtr: true });
     await this.checkWorkingStatus();
     const recordTime = await this.calculateTimeElapse(this.state.timeInRecord);
     if (this.state.timeBtn) {
@@ -150,15 +151,19 @@ class Dashboard extends React.Component<ILocalProps, ILocalState> {
   };
 
   render() {
-    const { peopleRecords, loadingDtr, loadingActivity } = this.state;
+    const { peopleRecords, loadingDtrCard, loadingActivity } = this.state;
     return (
       <Row justify="start" gutter={[16, 16]}>
-        <Col span={24} xs={24} lg={17} xl={18} xxl={15}>
-          <Card size="small" loading={loadingDtr}>
-            <DTR data={this.state} handleOnClick={this.handleOnClick} />
+        <Col span={24} xs={24} lg={17} xl={18} xxl={17}>
+          <Card size="small" loading={loadingDtrCard}>
+            <DTR
+              data={this.state}
+              handleOnClick={this.handleOnClick}
+              loadingDtr={this.state.loadingDtr}
+            />
           </Card>
         </Col>
-        <Col span={24} xs={24} lg={7} xl={6} xxl={5}>
+        <Col span={24} xs={24} lg={7} xl={6} xxl={7}>
           <Card size="small" loading={loadingActivity}>
             <ActivityFeed peopleRecords={peopleRecords} />
           </Card>
