@@ -33,14 +33,14 @@ http.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status == 400) {
+    if (error.response?.status === 400) {
       Modal.error({
         title: error.response.statusText,
         content: error.response.data.message[0].messages[0].message,
       });
     } else if (
-      error.response.status == 500 &&
-      error.response.config.url == "api/TokenAuth/Authenticate"
+      error.response?.status === 500 &&
+      error.response.config.url === "api/TokenAuth/Authenticate"
     ) {
       Modal.error({
         title:
@@ -52,7 +52,7 @@ http.interceptors.response.use(
             ? "It seems that you have entered an incorrect user name, email, or password. Please try again."
             : error.response.data.error.details,
       });
-    } else if (error.response.status == 500) {
+    } else if (error.response.status === 500) {
       alert("Your session has timed out. Please login again.");
       window.location.href = "/user/login";
     } else if (!error.response) {

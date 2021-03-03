@@ -28,7 +28,9 @@ class Login extends React.Component<ILoginUserStore> {
     });
     const { state } = await this.props.location;
 
-    window.location.href = (await state) ? await state.from.pathname : "/";
+    window.location.href = (await state)
+      ? await state.from.pathname
+      : "/#/dashboard";
   };
 
   public render() {

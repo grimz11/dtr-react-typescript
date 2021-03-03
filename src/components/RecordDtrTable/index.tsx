@@ -9,7 +9,12 @@ const RecordDtrTable = ({ data, dataSize }: any) => {
     data[i].key = "item" + item.id;
   });
   return (
-    <Table dataSource={data} pagination={{ pageSize: dataSize }} key="id">
+    <Table
+      dataSource={data}
+      pagination={{ pageSize: dataSize }}
+      key="id"
+      scroll={{ x: 650 }}
+    >
       <Column
         title="Status"
         dataIndex={["created_at", "currentlyWorking"]}
@@ -63,7 +68,7 @@ const RecordDtrTable = ({ data, dataSize }: any) => {
         title="Hours Rendered"
         // dataIndex="renderedHours"
         key="hoursRendered"
-        render={(text, record: any) => {
+        render={(text, record: IRecordInput) => {
           let hoursRendered = "";
           let startTime = moment(record.created_at);
           let now = record.timeOut == null ? moment() : moment(record.timeOut);

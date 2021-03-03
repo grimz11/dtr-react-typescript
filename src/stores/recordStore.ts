@@ -1,39 +1,37 @@
 import recordService from "../services/record/recordService";
-import { action, observable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import IRecordInput from "../services/record/dto/recordInput";
+import IUsersRecord from "../services/user/dto/userRecord";
 
 class RecordStore {
-  @observable $currentLogin: string = "";
-  @observable $personRecords: [] = [];
-  @observable $peopleRecords: [] = [];
+  $currentLogin: string = "";
+  $personRecords: Array<IUsersRecord> = [];
+  $peopleRecords: Array<IUsersRecord> = [];
 
-  @action
-  async getRecord(id: number) {
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  async getRecord(id: number): Promise<void> {
     const res = await recordService.getRecord(id);
     this.$personRecords = res;
-
-    return res;
   }
 
-  @action
-  async getAllRecords() {
+  async getAllRecords(): Promise<void> {
     const res = await recordService.getAllRecords();
     this.$peopleRecords = res;
-    return res;
   }
 
-  @action
-  async getAllRecordsLimit() {
+  async getAllRecordsLimit(): Promise<void> {
     const res = await recordService.getAllRecordsLimit();
     this.$peopleRecords = res;
-    return res;
   }
-  @action
-  async timeIn(payload: IRecordInput) {
+
+  async timeIn(payload: IRecordInput): Promise<void> {
     await recordService.timeIn(payload);
   }
-  @action
-  async timeOut(id: number, payload: IRecordInput) {
+
+  async timeOut(id: number, payload: IRecordInput): Promise<void> {
     await recordService.timeOut(id, payload);
   }
 }
