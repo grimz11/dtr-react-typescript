@@ -13,17 +13,17 @@ class UserStore {
   }
 
   async getCurrentLoginUser(id: number): Promise<void> {
-    let result = await userService.getCurrentLoginUser(id);
+    let result = await userService.getCurrentLoginUser<IUserOutput>(id);
     this.$currentLogin = result;
   }
 
   async getUserProfile(id: number): Promise<void> {
-    let result = await userService.getUserProfile(id);
-    this.$userProfile = await result;
+    let result = await userService.getUserProfile<Array<IUserOutput>>(id);
+    this.$userProfile = result;
   }
 
   async getAllUsers(): Promise<void> {
-    let result = await userService.getAllUsers();
+    let result = await userService.getAllUsers<Array<IUserOutput>>();
     this.$allUsers = result;
   }
 

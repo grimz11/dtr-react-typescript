@@ -13,7 +13,6 @@ import DTR from "./components/dtr";
 import UserStore from "../../stores/userStore";
 import RecordStore from "../../stores/recordStore";
 import IUsersRecord from "../../services/user/dto/userRecord";
-import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 interface ILocalProps {
   userStore: UserStore;

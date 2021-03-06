@@ -13,26 +13,26 @@ class RecordStore {
   }
 
   async getRecord(id: number): Promise<void> {
-    const res = await recordService.getRecord(id);
+    const res = await recordService.getRecord<Array<IUsersRecord>>(id);
     this.$personRecords = res;
   }
 
   async getAllRecords(): Promise<void> {
-    const res = await recordService.getAllRecords();
+    const res = await recordService.getAllRecords<Array<IUsersRecord>>();
     this.$peopleRecords = res;
   }
 
   async getAllRecordsLimit(): Promise<void> {
-    const res = await recordService.getAllRecordsLimit();
+    const res = await recordService.getAllRecordsLimit<Array<IUsersRecord>>();
     this.$peopleRecords = res;
   }
 
   async timeIn(payload: IRecordInput): Promise<void> {
-    await recordService.timeIn(payload);
+    await recordService.timeIn<IRecordInput>(payload);
   }
 
   async timeOut(id: number, payload: IRecordInput): Promise<void> {
-    await recordService.timeOut(id, payload);
+    await recordService.timeOut<IRecordInput>(id, payload);
   }
 }
 

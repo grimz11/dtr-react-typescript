@@ -1,19 +1,18 @@
 import http from "../httpService";
 import AppConsts from "../../utils/appconst";
-import { config } from "process";
 
 class UserService {
-  public async getCurrentLoginUser(id: number): Promise<any> {
+  public async getCurrentLoginUser<T>(id: number): Promise<T> {
     const res = await http.get(`${AppConsts.appBaseUrl}/users/${id}`);
 
     return res.data;
   }
-  public async getUserProfile(id: number): Promise<any> {
+  public async getUserProfile<T>(id: number): Promise<T> {
     const res = await http.get(`${AppConsts.appBaseUrl}/users/${id}`);
 
     return res.data;
   }
-  public async getAllUsers(): Promise<any> {
+  public async getAllUsers<T>(): Promise<T> {
     const res = await http.get(`${AppConsts.appBaseUrl}/users`);
 
     return res.data;
