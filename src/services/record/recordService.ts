@@ -11,7 +11,7 @@ class RecordService {
     return res.data;
   }
   public async getAllRecordsLimit() {
-    const res = await http.get(`records?_limit=50`);
+    const res = await http.get(`records?_sort=updated_at:desc&_limit=50`);
     return res.data;
   }
   public async timeIn(payload: IRecordInput) {

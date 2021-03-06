@@ -76,16 +76,7 @@ class Dashboard extends React.Component<ILocalProps, ILocalState> {
   async getAllRecords(): Promise<void> {
     await this.props.recordStore.getAllRecordsLimit();
     this.setState({
-      peopleRecords: [...this.props.recordStore.$peopleRecords]
-        .sort((a: any, b: any) =>
-          a.published_at > b.published_at
-            ? 1
-            : b.published_at > a.published_at
-            ? -1
-            : 0,
-        )
-        .reverse()
-        .slice(0, 40),
+      peopleRecords: [...this.props.recordStore.$peopleRecords],
       loadingActivity: false,
     });
   }
