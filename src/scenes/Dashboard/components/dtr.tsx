@@ -8,7 +8,12 @@ const DTR = ({ data: props, handleOnClick }: any) => {
   return (
     <Row>
       <Col span={24} className="col-1-time-in">
-        <div>
+        <div
+          style={{
+            borderBottom: "1px solid rgb(240 240 240)",
+            paddingBottom: "20px",
+          }}
+        >
           <Button
             type={"primary"}
             shape="round"
@@ -20,7 +25,6 @@ const DTR = ({ data: props, handleOnClick }: any) => {
             {props.timeBtn && props?.timeBtn ? "Clock Out" : "Clock In"}
           </Button>
         </div>
-        <br></br>
         <Spin spinning={props?.loadingDtr} size="large" tip="Loading...">
           <RecordDtrTable data={data} dataSize={8} />
         </Spin>

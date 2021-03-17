@@ -7,6 +7,7 @@ class RecordStore {
   $currentLogin: string = "";
   $personRecords: Array<IUsersRecord> = [];
   $peopleRecords: Array<IUsersRecord> = [];
+  $personDataFilterByDate: Array<IUsersRecord> = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -17,9 +18,11 @@ class RecordStore {
     this.$personRecords = res;
   }
 
-  async getAllRecords(): Promise<void> {
-    const res = await recordService.getAllRecords<Array<IUsersRecord>>();
-    this.$peopleRecords = res;
+  async getUsersRecordsFilterByDate(dateSelected: string): Promise<void> {
+    const res = await recordService.getUsersRecordsFilterByDate<
+      Array<IUsersRecord>
+    >(dateSelected);
+    this.$personDataFilterByDate = res;
   }
 
   async getAllRecordsLimit(): Promise<void> {

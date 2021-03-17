@@ -1,13 +1,17 @@
 import "./index.less";
-import { Badge, Table } from "antd";
+import { Badge, Table, Tag } from "antd";
 import moment from "moment";
 import IRecordInput from "../../services/record/dto/recordInput";
+import { useLocation } from "react-router-dom";
 const { Column } = Table;
 
 const RecordDtrTable = ({ data, dataSize }: any) => {
   data.map((item: any, i: number) => {
     data[i].key = "item" + item.id;
   });
+  const location = useLocation();
+  const currentPath = location.pathname;
+
   return (
     <Table
       dataSource={data}
@@ -88,6 +92,15 @@ const RecordDtrTable = ({ data, dataSize }: any) => {
           return <span>{hoursRendered}</span>;
         }}
       />
+      {currentPath === "/employee" && (
+        <Column
+          title="Name"
+          key="nameOfEmployee"
+          render={(text, record: IRecordInput) => {
+            return <Tag color="blue">{record.userId.firstname}</Tag>;
+          }}
+        />
+      )}
     </Table>
   );
 };

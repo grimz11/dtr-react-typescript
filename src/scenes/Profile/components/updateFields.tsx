@@ -61,15 +61,11 @@ const UpdateFields = inject(Stores.UserStore)(
     }, [active, modalStatus]);
 
     const onChangeBirthday = async (date: any, dateString: string) => {
-      console.log("onChangeBirthday", dateString);
       const newBday = moment(dateString).format("YYYY-MM-DD");
-      console.log("onChangeBirthday::newBday", newBday);
       setUser({ ...user, birthday: newBday });
     };
 
     const onFinish = async (values: any) => {
-      console.log("values", values);
-      console.log("user", user);
       if (active) {
         avatarChanged && setModalStatus(true);
         await userStore.updateUser(parseInt(id ? id : utils.getCookie("id")), {

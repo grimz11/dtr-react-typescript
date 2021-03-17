@@ -9,4 +9,5 @@ export default interface IRecordInput {
   userId: IUserOutput;
   id?: number;
   published_at?: any;
+  initialized_at?: string;
 }

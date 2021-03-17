@@ -10,6 +10,8 @@ import {
   Tooltip,
   Card,
   Skeleton,
+  DatePicker,
+  Space,
 } from "antd";
 import Stores from "../../stores/storeIdentifier";
 import { inject, observer } from "mobx-react";
@@ -20,6 +22,7 @@ import UserStore from "../../stores/userStore";
 import IUserOutput from "../../services/user/dto/userOutput";
 import { toJS } from "mobx";
 import IUsersRecord from "../../services/user/dto/userRecord";
+import moment, { Moment } from "moment";
 
 const { Search } = Input;
 
@@ -30,8 +33,10 @@ interface ILocalProps {
 interface ILocalState {
   personRecords: Array<IUsersRecord>;
   peopleData: Array<IUserOutput>;
+  personDataFilterByDate: Array<IUsersRecord>;
   loading: boolean;
   isClick: boolean;
+  isFilterByDate: boolean;
 }
 
 @inject(Stores.RecordStore, Stores.UserStore)
@@ -40,12 +45,17 @@ class Admin extends React.Component<ILocalProps, ILocalState> {
   state = {
     personRecords: [],
     peopleData: [],
+    personDataFilterByDate: [],
     loading: true,
     isClick: true,
+    isFilterByDate: false,
   };
 
   async componentDidMount() {
     await this.props.userStore.getAllUsers();
+    this.getUsersRecordsFilterByDate(
+      moment(Date.now()).format("YYYY-MM-DD").toString(),
+    );
     const allUsers = toJS(this.props.userStore.$allUsers);
 
     this.setState({
@@ -53,16 +63,23 @@ class Admin extends React.Component<ILocalProps, ILocalState> {
       peopleData: allUsers,
       loading: false,
       isClick: false,
+      isFilterByDate: true,
     });
   }
-
+  async componentWillUnmount() {
+    this.setState({
+      isFilterByDate: false,
+    });
+  }
   handleOnclick = async (id: number, e: any): Promise<void> => {
     this.setState({ isClick: true });
+    await this.props.recordStore.getRecord(id);
     await this.props.recordStore.getRecord(id);
     const userRecord = toJS(this.props.recordStore.$personRecords);
     this.setState({
       personRecords: userRecord,
       isClick: false,
+      isFilterByDate: false,
     });
   };
 
@@ -96,8 +113,23 @@ class Admin extends React.Component<ILocalProps, ILocalState> {
     });
   };
 
+  onChange = async (date: Moment | null, dateSelected: string) => {
+    this.getUsersRecordsFilterByDate(dateSelected);
+  };
+  async getUsersRecordsFilterByDate(dateSelected: string) {
+    await this.props.recordStore.getUsersRecordsFilterByDate(dateSelected);
+    const res = toJS(this.props.recordStore.$personDataFilterByDate);
+    this.setState({ personDataFilterByDate: res, isFilterByDate: true });
+  }
   render() {
-    const { personRecords, peopleData, loading, isClick } = this.state;
+    const {
+      isFilterByDate,
+      personRecords,
+      peopleData,
+      loading,
+      isClick,
+      personDataFilterByDate,
+    } = this.state;
     return (
       <Row justify="start" gutter={[16, 16]}>
         <Col span={24} xs={24} lg={8} xl={6} xxl={5} className="col-1-time-in">
@@ -111,7 +143,6 @@ class Admin extends React.Component<ILocalProps, ILocalState> {
               onChange={this.handleOnchange}
               style={{ marginBottom: "25px" }}
             />
-
             <Skeleton loading={loading} avatar active>
               <List
                 itemLayout="vertical"
@@ -175,10 +206,29 @@ class Admin extends React.Component<ILocalProps, ILocalState> {
           className="col-1-time-in"
         >
           <Card size="small" loading={isClick && !!personRecords}>
-            <RecordDtrTable
-              data={personRecords.sort().reverse()}
-              dataSize={8}
-            />
+            <div
+              style={{
+                borderBottom: "1px solid rgb(240 240 240)",
+                paddingBottom: "30px",
+              }}
+            >
+              <DatePicker
+                placeholder="Search all employees by date"
+                onChange={this.onChange}
+                size="large"
+                style={{ width: "32.5%" }}
+              />
+            </div>
+            <div>
+              <RecordDtrTable
+                data={
+                  isFilterByDate
+                    ? personDataFilterByDate.sort().reverse()
+                    : personRecords.sort().reverse()
+                }
+                dataSize={8}
+              />
+            </div>
           </Card>
         </Col>
       </Row>

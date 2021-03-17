@@ -25,6 +25,7 @@
     "mobx-persist": "^0.4.1",
     "mobx-react": "^7.1.0",
     "moment": "^2.29.1",
+    "qs": "^6.9.6",
     "react": "^17.0.1",
     "react-document-title": "^2.0.3",
     "react-dom": "^17.0.1",

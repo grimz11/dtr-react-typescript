@@ -131,6 +131,7 @@ class Dashboard extends React.Component<ILocalProps, ILocalState> {
         userId: this.props.userStore!.$currentLogin,
         hoursRendered: "00:00:00",
         timeOut: null,
+        initialized_at: moment(Date.now()).format("YYYY-MM-DD").toString(),
       };
       await this.props.recordStore.timeIn(payloadIn);
     }
