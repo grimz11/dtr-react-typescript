@@ -3,6 +3,8 @@ import { Badge, Table, Tag, Tooltip } from "antd";
 import moment from "moment";
 import IRecordInput from "../../services/record/dto/recordInput";
 import { useLocation } from "react-router-dom";
+import { clockOutMotivations, RandomMotivation } from "./ClockOutMotivation";
+
 const { Column } = Table;
 
 const RecordDtrTable = ({ data, dataSize }: any) => {
@@ -27,27 +29,23 @@ const RecordDtrTable = ({ data, dataSize }: any) => {
           const checkTimeRendered = moment
             .duration(moment().diff(record.created_at))
             .hours();
-          // console.log("checkTimeRendered", checkTimeRendered);
           return (
             <span style={{ fontWeight: "lighter" }}>
               <Tooltip
-                title="You spend more than 8 hours already! Get a life!"
+                title={clockOutMotivations[1]}
                 color="#1890ff"
                 placement="bottom"
-                // visible={
-                //   checkTimeRendered >= 8 && record.currentlyWorking
-                //     ? true
-                //     : false
-                // }
-                style={
-                  checkTimeRendered >= 8 && record.currentlyWorking
-                    ? { display: "" }
-                    : { display: "none" }
+                visible={
+                  checkTimeRendered >= 8 &&
+                  record.currentlyWorking &&
+                  currentPath === "/dashboard"
+                    ? true
+                    : false
                 }
               >
                 <Badge
                   status={
-                    record.currentlyWorking && checkTimeRendered < 8
+                    record.currentlyWorking && checkTimeRendered < 9
                       ? "success"
                       : checkTimeRendered >= 9 && record.currentlyWorking
                       ? "error"
