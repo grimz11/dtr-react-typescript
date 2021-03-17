@@ -31,6 +31,15 @@
       "contributions": [
         "maintenance"
       ]
+    },
+    {
+      "login": "jannomeister",
+      "name": "Janno De Jesus",
+      "avatar_url": "https://avatars.githubusercontent.com/u/46916819?v=4",
+      "profile": "http://resume.jannomeister.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
