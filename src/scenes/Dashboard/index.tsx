@@ -104,6 +104,7 @@ class Dashboard extends React.Component<ILocalProps, ILocalState> {
     let now = moment();
     let duration: any = moment.duration(now.diff(startTime));
     let hours = duration.days() * 24 + duration.hours();
+    console.log("hours", hours);
     hours = hours < 10 ? "0" + hours : hours;
     let minutes =
       duration.minutes() < 10 ? "0" + duration.minutes() : duration.minutes();

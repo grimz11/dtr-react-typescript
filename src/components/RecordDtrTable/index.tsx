@@ -1,5 +1,5 @@
 import "./index.less";
-import { Badge, Table, Tag } from "antd";
+import { Badge, Table, Tag, Tooltip } from "antd";
 import moment from "moment";
 import IRecordInput from "../../services/record/dto/recordInput";
 import { useLocation } from "react-router-dom";
@@ -23,17 +23,44 @@ const RecordDtrTable = ({ data, dataSize }: any) => {
         title="Status"
         dataIndex={["created_at", "currentlyWorking"]}
         key="id"
-        render={(text, record: IRecordInput) => (
-          <span style={{ fontWeight: "lighter" }}>
-            {" "}
-            <Badge
-              status={record.currentlyWorking ? "success" : "default"}
-            />{" "}
-            {moment(record.created_at, "YYYY MM DD hh:mm:ss A Z")
-              .startOf("minutes")
-              .fromNow()}
-          </span>
-        )}
+        render={(text, record: IRecordInput) => {
+          const checkTimeRendered = moment
+            .duration(moment().diff(record.created_at))
+            .hours();
+          // console.log("checkTimeRendered", checkTimeRendered);
+          return (
+            <span style={{ fontWeight: "lighter" }}>
+              <Tooltip
+                title="You spend more than 8 hours already! Get a life!"
+                color="#1890ff"
+                placement="bottom"
+                // visible={
+                //   checkTimeRendered >= 8 && record.currentlyWorking
+                //     ? true
+                //     : false
+                // }
+                style={
+                  checkTimeRendered >= 8 && record.currentlyWorking
+                    ? { display: "" }
+                    : { display: "none" }
+                }
+              >
+                <Badge
+                  status={
+                    record.currentlyWorking && checkTimeRendered < 8
+                      ? "success"
+                      : checkTimeRendered >= 9 && record.currentlyWorking
+                      ? "error"
+                      : "default"
+                  }
+                />
+              </Tooltip>
+              {moment(record.created_at, "YYYY MM DD hh:mm:ss A Z")
+                .startOf("minutes")
+                .fromNow()}
+            </span>
+          );
+        }}
       />
       <Column
         title="Clocked In"
