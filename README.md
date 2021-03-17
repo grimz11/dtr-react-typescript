@@ -1,52 +1,63 @@
-# Getting Started with Create React App
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+<p align="center">
+	<img height="70" src="https://i.imgur.com/T3TZaap.jpg" alt="Haibe Online Cloud" />
+</p>
+
+<h1 align="center"> 
+	Hyperstacks DTR
+</h1>
+
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Hyperstacks DTR is a frontend application for HSI DTR. It tracks HSI employee's daily time-in and time-out.
 
-## Available Scripts
+This project will not be possible without @grimz11 initiative and also to the contributors!
 
-In the project directory, you can run:
+## Getting Started and Installation
 
-### `yarn start`
+This guide will walk you through on how to run this locally
 
-Runs the app in the development mode.\
+#### Setup
+
+- download and install **Git** ([check it here](https://git-scm.com/downloads)). To verify that you successfully installed git, you can run `git --version`
+- download and install **Node.js** ([check it here](https://nodejs.org/en/download)). To verify that you successfully installed nodejs and npm (since its already bundled with nodejs), you can run `node -v` and `npm -v`
+- install yarn `npm install -g yarn` and `yarn --version`
+
+#### Getting the project
+
+- clone this repo: `git@github.com:Hyperstacks-Inc/hyperstacksinc-dtr-frontend.git && cd ./hyperstacksinc-dtr-frontend`
+- run `npm install`
+
+#### Finally
+
+You can now run the app, just type the command `yarn start` and you're good to go!
+
+It will run the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
+Also, the page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `yarn test`
+> Note: If you encountered any errors along the way you can contact the lead developer to assist you, or you can try to fix it and update the README :wink:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### If you only have a read permission:
 
-### `yarn build`
+- fork the repository
+- clone your forked repository in your local
+- apply your changes
+- commit your changes and push it to your forked repository
+- make a pull request to the original repository
+- add [@grimz11](https://github.com/grimz11) as a reviewer
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### If you are a collaborator:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- make your own-branch (by feature/bug) and the source would be the `main` branch
+- clone the repository to your local
+- checkout to the branch you created `git checkout [YOUR_BRANCH]`
+- apply your changes
+- commit your changes and push it to your own branch
+- make a pull request and the target branch should be the `main` branch
+- add [@grimz11](https://github.com/grimz11) as a reviewer
 
 ## Contributors ✨
 
