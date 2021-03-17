@@ -42,6 +42,7 @@ const RecordDtrTable = ({ data, dataSize }: any) => {
                     ? true
                     : false
                 }
+                className={record.currentlyWorking ? "tool-tip-alive" : ""}
               >
                 <Badge
                   status={
