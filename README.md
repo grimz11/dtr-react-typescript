@@ -11,7 +11,7 @@
 
 Hyperstacks DTR is a frontend application for HSI DTR. It tracks HSI employee's daily time-in and time-out.
 
-This project will not be possible without @grimz11 initiative and also to the contributors!
+This project will not be possible without [@grimz11](https://github.com/grimz11) initiative and also to the contributors!
 
 ## Getting Started and Installation
 
