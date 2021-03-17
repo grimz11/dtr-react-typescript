@@ -71,6 +71,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://hyperstacksinc.com/"><img src="https://avatars.githubusercontent.com/u/68207500?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Carlo Tumala</b></sub></a><br /><a href="#maintenance-carlohyper" title="Maintenance">🚧</a></td>
     <td align="center"><a href="https://www.facebook.com/grimz11"><img src="https://avatars.githubusercontent.com/u/53614600?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mark Andog</b></sub></a><br /><a href="#maintenance-grimz11" title="Maintenance">🚧</a></td>
     <td align="center"><a href="https://hyperstacksinc.com/"><img src="https://avatars.githubusercontent.com/u/40879868?v=4?s=100" width="100px;" alt=""/><br /><sub><b>j3sie</b></sub></a><br /><a href="#maintenance-j3sie" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="http://resume.jannomeister.com"><img src="https://avatars.githubusercontent.com/u/46916819?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Janno De Jesus</b></sub></a><br /><a href="https://github.com/Hyperstacks-Inc/hyperstacksinc-dtr-frontend/commits?author=jannomeister" title="Documentation">📖</a></td>
   </tr>
 </table>
 
