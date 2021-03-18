@@ -31,7 +31,7 @@ class Profile extends React.Component<IPropsProfile, any> {
     return (
       <Row>
         <Col span={24}>
-          <Tabs tabPosition="left">
+          <Tabs tabPosition="left" className="account-dark-theme">
             <TabPane tab="Profile" key="1">
               <UpdateFields id={this.props.match.params.id} />
             </TabPane>
@@ -47,7 +47,8 @@ class Profile extends React.Component<IPropsProfile, any> {
             >
               <SecuritySettings />
             </TabPane>
-            <TabPane tab="Delete Account" key="3" disabled={true}></TabPane>
+            <TabPane tab="Display Theme" key="3" disabled={true}></TabPane>
+            <TabPane tab="Delete Account" key="4" disabled={true}></TabPane>
           </Tabs>
         </Col>
       </Row>

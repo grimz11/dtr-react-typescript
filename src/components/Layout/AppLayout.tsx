@@ -48,22 +48,14 @@ class AppLayout extends React.Component<any> {
           history={history}
           collapsed={collapsed}
         />
-        <Layout>
+        <Layout className="site-layout-background-dark-theme">
           <Layout.Header
-            className="site-layout-background"
-            style={{ background: "#fff", minHeight: 52, padding: 0 }}
+            className="site-layout-background-dark-theme-header"
+            style={{ minHeight: 52, padding: 0 }}
           >
             <Header collapsed={this.state.collapsed} toggle={this.toggle} />
           </Layout.Header>
-          <Content
-            className="site-layout-background"
-            style={{
-              margin: "24px 16px",
-              padding: 24,
-              minHeight: 280,
-              background: "#fff",
-            }}
-          >
+          <Content className="site-layout-background-dark-theme-content">
             <Switch>
               {pathname === "/" && <Redirect from="/" to="/dashboard" />}
               {appRouters
@@ -84,7 +76,7 @@ class AppLayout extends React.Component<any> {
               {pathname !== "/" && <NotFoundRoute />}
             </Switch>
           </Content>
-          <Layout.Footer style={{ textAlign: "center" }}>
+          <Layout.Footer className="site-layout-background-dark-theme-footer">
             <Footer />
           </Layout.Footer>
         </Layout>

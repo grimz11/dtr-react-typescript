@@ -150,7 +150,14 @@ class Dashboard extends React.Component<ILocalProps, ILocalState> {
     const { peopleRecords, loadingDtrCard, loadingActivity } = this.state;
     return (
       <Row justify="start" gutter={[16, 16]}>
-        <Col span={24} xs={24} lg={17} xl={18} xxl={17}>
+        <Col
+          span={24}
+          xs={24}
+          lg={17}
+          xl={18}
+          xxl={17}
+          className="dashboard-col-dark-theme"
+        >
           <Card size="small" loading={loadingDtrCard}>
             <DTR
               data={this.state}
@@ -159,7 +166,14 @@ class Dashboard extends React.Component<ILocalProps, ILocalState> {
             />
           </Card>
         </Col>
-        <Col span={24} xs={24} lg={7} xl={6} xxl={7}>
+        <Col
+          span={24}
+          xs={24}
+          lg={7}
+          xl={6}
+          xxl={7}
+          className="dashboard-col-dark-theme"
+        >
           <Card size="small" loading={loadingActivity}>
             <ActivityFeed peopleRecords={peopleRecords} />
           </Card>

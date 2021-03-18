@@ -28,6 +28,7 @@ const SiderMenu = (props: ISiderMenuProps) => {
       collapsible
       collapsed={collapsed}
       onCollapse={onCollapse}
+      className="site-layout-background-dark-theme-sider-menu"
     >
       <div className="logo">
         <img

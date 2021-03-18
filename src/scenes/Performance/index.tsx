@@ -21,6 +21,7 @@ class Profile extends React.Component<any> {
       <Row>
         <Col style={{ margin: "auto" }}>
           <Result
+            className="performance-dark-theme"
             status="403"
             title="Coming Soon....."
             subTitle="Sorry, work is still in progress."

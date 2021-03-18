@@ -20,6 +20,7 @@ const RecordDtrTable = ({ data, dataSize }: any) => {
       pagination={{ pageSize: dataSize }}
       key="id"
       scroll={{ x: 650 }}
+      className="dashboard-dtr-dark-theme"
     >
       <Column
         title="Status"

@@ -133,7 +133,7 @@ class Admin extends React.Component<ILocalProps, ILocalState> {
     return (
       <Row justify="start" gutter={[16, 16]}>
         <Col span={24} xs={24} lg={8} xl={6} xxl={5} className="col-1-time-in">
-          <Card size="small">
+          <Card size="small" className="employee-card-dark-theme">
             <Search
               placeholder="Search employee"
               allowClear
@@ -203,7 +203,7 @@ class Admin extends React.Component<ILocalProps, ILocalState> {
           lg={16}
           xl={18}
           xxl={15}
-          className="col-1-time-in"
+          className="col-1-time-in  dashboard-col-dark-theme"
         >
           <Card size="small" loading={isClick && !!personRecords}>
             <div
@@ -217,6 +217,8 @@ class Admin extends React.Component<ILocalProps, ILocalState> {
                 onChange={this.onChange}
                 size="large"
                 style={{ width: "32.5%" }}
+                className="employee-datepicker-dark-theme"
+                allowClear={false}
               />
             </div>
             <div>
