@@ -2,6 +2,7 @@ import AppConsts from "../utils/appconst";
 import { Modal } from "antd";
 import axios from "axios";
 import utils from "../utils/utils";
+import Exception from "../scenes/Exception";
 
 const qs = require("qs");
 
@@ -32,12 +33,13 @@ http.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {
+  async (error) => {
     if (error.response?.status === 400) {
       Modal.error({
         title: error.response.statusText,
         content: error.response.data.message[0].messages[0].message,
       });
+      return { data: new Exception(error) };
     } else if (
       error.response?.status === 500 &&
       error.response.config.url === "api/TokenAuth/Authenticate"

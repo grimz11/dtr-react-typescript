@@ -12,9 +12,9 @@ class AccountAuthService {
     return res.data.result;
   }
 
-  public async login(loginInput: ILoginInput): Promise<ILoginOutput> {
+  public async login(loginInput: ILoginInput): Promise<ILoginOutput | any> {
     let res = await http.post("auth/local", loginInput);
-    // utils.setCookie('id',res.data.id);
+
     return res.data;
   }
 }

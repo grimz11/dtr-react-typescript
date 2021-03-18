@@ -213,7 +213,7 @@ class Admin extends React.Component<ILocalProps, ILocalState> {
               }}
             >
               <DatePicker
-                placeholder="Search all employees by date"
+                placeholder="Search all employees by Date"
                 onChange={this.onChange}
                 size="large"
                 style={{ width: "32.5%" }}

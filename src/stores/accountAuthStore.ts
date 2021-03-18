@@ -17,8 +17,11 @@ class AccountAuthStore {
       identifier: model.identifier,
       password: model.password,
     });
-    utils.setCookie("access_token", res.jwt);
-    utils.setCookie("id", res.user?.id);
+
+    if (!res?.props?.isAxiosError) {
+      utils.setCookie("access_token", res.jwt);
+      utils.setCookie("id", res.user?.id);
+    }
   }
 
   get isAuthenticated(): boolean {

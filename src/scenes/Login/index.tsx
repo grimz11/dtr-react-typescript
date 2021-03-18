@@ -10,6 +10,7 @@ import { inject, observer } from "mobx-react";
 import Stores from "../../stores/storeIdentifier";
 import AccountAuthStore from "../../stores/accountAuthStore";
 import { Redirect } from "react-router-dom";
+import http from "../../services/httpService";
 
 interface ILoginUserStore {
   accountAuthStore: AccountAuthStore;
@@ -29,6 +30,7 @@ class Login extends React.Component<ILoginUserStore> {
       identifier: values.username,
       password: values.password,
     });
+
     const { state } = await this.props.location;
     this.setState({ loading: false });
     window.location.href = (await state)

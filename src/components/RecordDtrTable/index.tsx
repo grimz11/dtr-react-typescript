@@ -28,7 +28,7 @@ const RecordDtrTable = ({ data, dataSize }: any) => {
         render={(text, record: IRecordInput) => {
           const checkTimeRendered = moment
             .duration(moment().diff(record.created_at))
-            .hours();
+            .asHours();
           return (
             <span style={{ fontWeight: "lighter" }}>
               <Tooltip
