@@ -37,7 +37,7 @@ const RecordDtrTable = ({ data, dataSize }: any) => {
                 color="#1890ff"
                 placement="bottom"
                 visible={
-                  checkTimeRendered >= 8 &&
+                  checkTimeRendered >= 9 &&
                   record.currentlyWorking &&
                   currentPath === "/dashboard"
                     ? true
