@@ -49,7 +49,10 @@
 }
 
 
-//dark mode
+//Dark Mode
+.ant-table-tbody > tr.ant-table-row-level-0:hover > td {
+  background: unset !important;
+}
 
 .site-layout-background-dark-theme{
   background-color: #15202b;
@@ -118,8 +121,8 @@
         // border-bottom-color: rgb(56, 68, 77);
       }
       .ant-table-row-level-0:hover{
-        background-color: #192734 !important;
-        color: rgb(56, 68, 77)
+        background-color: rgba(0,0,0, 0.1);
+        color: #fff;
       }
       .ant-empty-description {
         color: #fff;
@@ -156,6 +159,7 @@
   button {
     background-color: #192734;
     color: #fff;
+    border: 1px solid rgb(56, 68, 77);
   }
   button:hover {
     background-color: #192734;
@@ -176,7 +180,10 @@
       }
     }
   }
-
+  .ant-btn:hover, .ant-btn:focus, .ant-btn:active {
+    text-decoration: none;
+    background: unset;
+  }
 }
 .employee-datepicker-dark-theme {
   background-color: #192734 !important;
