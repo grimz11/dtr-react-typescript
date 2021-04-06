@@ -3,7 +3,7 @@ import { Badge, Table, Tag, Tooltip } from "antd";
 import moment from "moment";
 import IRecordInput from "../../services/record/dto/recordInput";
 import { useLocation } from "react-router-dom";
-import { clockOutMotivations, RandomMotivation } from "./ClockOutMotivation";
+import { clockOutMotivations } from "./ClockOutMotivation";
 
 const { Column } = Table;
 
