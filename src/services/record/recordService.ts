@@ -2,7 +2,7 @@ import http from "../httpService";
 import IRecordInput from "./dto/recordInput";
 class RecordService {
   public async getRecord<T>(id: number): Promise<T> {
-    const res = await http.get(`records?userId=${id}`);
+    const res = await http.get(`records?userId=${id}&_sort=created_at:desc`);
     return res.data;
   }
   public async getUsersRecordsFilterByDate<T>(

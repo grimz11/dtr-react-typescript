@@ -13,6 +13,7 @@ import DTR from "./components/dtr";
 import UserStore from "../../stores/userStore";
 import RecordStore from "../../stores/recordStore";
 import IUsersRecord from "../../services/user/dto/userRecord";
+import { toJS } from "mobx";
 
 interface ILocalProps {
   userStore: UserStore;
@@ -66,7 +67,7 @@ class Dashboard extends React.Component<ILocalProps, ILocalState> {
     const userId = this.props.userStore!.$currentLogin!.id;
     await this.props.recordStore.getRecord(userId);
     this.setState({
-      personRecord: this.props.recordStore.$personRecords.sort().reverse(),
+      personRecord: this.props.recordStore.$personRecords,
       id: utils.getCookie("id"),
       loadingDtrCard: false,
     });
@@ -104,7 +105,6 @@ class Dashboard extends React.Component<ILocalProps, ILocalState> {
     let now = moment();
     let duration: any = moment.duration(now.diff(startTime));
     let hours = duration.days() * 24 + duration.hours();
-    console.log("hours", hours);
     hours = hours < 10 ? "0" + hours : hours;
     let minutes =
       duration.minutes() < 10 ? "0" + duration.minutes() : duration.minutes();

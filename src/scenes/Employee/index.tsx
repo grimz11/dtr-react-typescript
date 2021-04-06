@@ -223,11 +223,7 @@ class Admin extends React.Component<ILocalProps, ILocalState> {
             </div>
             <div>
               <RecordDtrTable
-                data={
-                  isFilterByDate
-                    ? personDataFilterByDate.sort().reverse()
-                    : personRecords.sort().reverse()
-                }
+                data={isFilterByDate ? personDataFilterByDate : personRecords}
                 dataSize={8}
               />
             </div>

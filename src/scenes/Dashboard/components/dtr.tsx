@@ -22,7 +22,7 @@ const DTR = ({ data: props, handleOnClick }: any) => {
             danger={props.timeBtn && props.timeBtn ? true : false}
             onClick={handleOnClick}
           >
-            {props.timeBtn && props?.timeBtn ? "Clock Out" : "Clock In"}
+            {props.timeBtn && props.timeBtn ? "Clock Out" : "Clock In"}
           </Button>
         </div>
         <Spin spinning={props?.loadingDtr} size="large" tip="Loading...">
