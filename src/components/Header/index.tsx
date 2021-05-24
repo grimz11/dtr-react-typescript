@@ -16,6 +16,7 @@ import UserStore from "../../stores/userStore";
 import utils from "../../utils/utils";
 import RecordStore from "../../stores/recordStore";
 import { toJS } from "mobx";
+import createAvatar from "../../utils/createAvatar";
 
 export interface ILocalProps {
   collapsed?: any;
@@ -40,7 +41,8 @@ const userDropdownMenu = (
 export class Header extends React.Component<ILocalProps> {
   state = {
     avatar: "",
-    name: "",
+    firstname: "",
+    lastname: "",
   };
 
   async componentDidMount() {
@@ -51,12 +53,13 @@ export class Header extends React.Component<ILocalProps> {
     this.setState({
       ...this.state,
       avatar: userProfile?.avatar?.url,
-      name: userProfile && `${userProfile.firstname}`,
+      firstname: userProfile && `${userProfile.firstname}`,
+      lastname: userProfile && `${userProfile.lastname}`,
     });
   }
 
   render() {
-    const { avatar, name } = this.state;
+    const { avatar, firstname, lastname } = this.state;
     return (
       <Row className={"header-container"}>
         <Col style={{ textAlign: "left" }} span={12}>
@@ -75,17 +78,19 @@ export class Header extends React.Component<ILocalProps> {
         >
           <Dropdown overlay={userDropdownMenu} trigger={["click"]}>
             <span>
-              <span className="user-name">{name}</span>
+              <span className="user-name">{firstname}</span>
               <Avatar
-                style={{ height: 35, width: 35, cursor: "pointer" }}
-                shape="circle"
-                alt={"profile"}
-                src={
-                  avatar
-                    ? avatar
-                    : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                }
-              />
+                src={avatar && avatar}
+                style={{
+                  backgroundColor: `${
+                    createAvatar(`${firstname} ${lastname}`).color
+                  }`,
+                  color: "#fff",
+                  cursor: "pointer",
+                }}
+              >
+                {createAvatar(`${firstname} ${lastname}`).name}
+              </Avatar>
             </span>
           </Dropdown>
         </Col>

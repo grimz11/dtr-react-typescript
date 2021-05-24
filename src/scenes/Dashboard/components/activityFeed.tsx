@@ -3,6 +3,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 
 import IRecordInput from "../../../services/record/dto/recordInput";
+import createAvatar from "../../../utils/createAvatar";
 
 const ActivityFeed = ({ peopleRecords }: any) => {
   return (
@@ -28,14 +29,22 @@ const ActivityFeed = ({ peopleRecords }: any) => {
                 >
                   <Link to={`account/profile/${item.userId?.id}`}>
                     <Avatar
-                      size={40}
-                      src={
-                        item.userId?.avatar
-                          ? item.userId?.avatar.url
-                          : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                      src={item.userId?.avatar && item.userId?.avatar.url}
+                      style={{
+                        backgroundColor: `${
+                          createAvatar(
+                            `${item.userId?.firstname} ${item.userId?.lastname}`,
+                          ).color
+                        }`,
+                        color: "#000",
+                      }}
+                    >
+                      {
+                        createAvatar(
+                          `${item.userId?.firstname} ${item.userId?.lastname}`,
+                        ).name
                       }
-                      style={{ cursor: "pointer" }}
-                    />
+                    </Avatar>
                   </Link>
                 </Tooltip>
               }

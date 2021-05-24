@@ -23,6 +23,7 @@ import IUserOutput from "../../services/user/dto/userOutput";
 import { toJS } from "mobx";
 import IUsersRecord from "../../services/user/dto/userRecord";
 import moment, { Moment } from "moment";
+import createAvatar from "../../utils/createAvatar";
 
 const { Search } = Input;
 
@@ -164,12 +165,22 @@ class Admin extends React.Component<ILocalProps, ILocalState> {
                         >
                           <Link to={`account/profile/${item.id}`}>
                             <Avatar
-                              src={
-                                item.avatar
-                                  ? item.avatar!.url
-                                  : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                              src={item.avatar && item.avatar!.url}
+                              style={{
+                                backgroundColor: `${
+                                  createAvatar(
+                                    `${item.firstname} ${item.lastname}`,
+                                  ).color
+                                }`,
+                                color: "#fff",
+                              }}
+                            >
+                              {
+                                createAvatar(
+                                  `${item.firstname} ${item.lastname}`,
+                                ).name
                               }
-                            />
+                            </Avatar>
                           </Link>
                         </Tooltip>
                       }
