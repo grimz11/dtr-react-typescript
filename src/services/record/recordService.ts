@@ -17,11 +17,11 @@ class RecordService {
     const res = await http.get(`records?_sort=updated_at:desc&_limit=50`);
     return res.data;
   }
-  public async timeIn<T>(payload: IRecordInput): Promise<T> {
+  public async clockIn<T>(payload: IRecordInput): Promise<T> {
     const res = await http.post("records", payload);
     return res.data;
   }
-  public async timeOut<T>(id: number, payload: IRecordInput): Promise<T> {
+  public async clockOut<T>(id: number, payload: IRecordInput): Promise<T> {
     const res = await http.put(`records/${id}`, payload);
     return res.data;
   }

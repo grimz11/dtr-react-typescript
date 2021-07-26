@@ -124,7 +124,7 @@ const RecordDtrTable = ({ data, dataSize }: any) => {
           title="Name"
           key="nameOfEmployee"
           render={(text, record: IRecordInput) => {
-            return <Tag color="blue">{record.userId.firstname}</Tag>;
+            return <Tag color="blue">{record && record.userId?.firstname}</Tag>;
           }}
         />
       )}

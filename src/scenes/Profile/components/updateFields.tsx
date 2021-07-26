@@ -12,6 +12,7 @@ import {
   Card,
   Image,
   Progress,
+  Avatar,
 } from "antd";
 import {
   CalendarOutlined,
@@ -29,6 +30,7 @@ import ImageUploader from "react-images-upload";
 import AppConsts from "../../../utils/appconst";
 import axios from "axios";
 import ProgressModal from "../../../components/Modal";
+import createAvatar from "../../../utils/createAvatar";
 
 const { Text, Title } = Typography;
 
@@ -137,15 +139,32 @@ const UpdateFields = inject(Stores.UserStore)(
                     marginTop: "1.5rem",
                   }}
                 >
-                  <Image
-                    className="avatar"
-                    style={{ height: 220, width: 220, borderRadius: "100%" }}
-                    src={
-                      user.avatar
-                        ? user.avatar?.url
-                        : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                    }
-                  />
+                  {user.avatar ? (
+                    <Image
+                      className="avatar"
+                      style={{ height: 220, width: 220, borderRadius: "100%" }}
+                      src={user.avatar.url}
+                    />
+                  ) : (
+                    <Avatar
+                      style={{
+                        backgroundColor: `${
+                          createAvatar(`${user.firstname} ${user.lastname}`)
+                            .color
+                        }`,
+                        color: "#fff",
+                        height: 200,
+                        width: 210,
+                      }}
+                    >
+                      <p style={{ margin: "revert", fontSize: "60px" }}>
+                        {
+                          createAvatar(`${user.firstname} ${user.lastname}`)
+                            .name
+                        }
+                      </p>
+                    </Avatar>
+                  )}
                 </div>
                 {active && (
                   <div>

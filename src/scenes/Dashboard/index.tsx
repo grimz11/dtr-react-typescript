@@ -125,7 +125,7 @@ class Dashboard extends React.Component<ILocalProps, ILocalState> {
         timeOut: new Date().getTime(),
         hoursRendered: recordTime,
       };
-      await this.props.recordStore.timeOut(this.state.recordId, payloadOut);
+      await this.props.recordStore.clockOut(this.state.recordId, payloadOut);
     } else {
       const payloadIn: IRecordInput = {
         currentlyWorking: true,
@@ -134,7 +134,7 @@ class Dashboard extends React.Component<ILocalProps, ILocalState> {
         timeOut: null,
         initialized_at: moment(Date.now()).format("YYYY-MM-DD").toString(),
       };
-      await this.props.recordStore.timeIn(payloadIn);
+      await this.props.recordStore.clockIn(payloadIn);
     }
     await this.getRecord();
     await this.getAllRecords();

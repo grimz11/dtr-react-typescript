@@ -30,12 +30,12 @@ class RecordStore {
     this.$peopleRecords = res;
   }
 
-  async timeIn(payload: IRecordInput): Promise<void> {
-    await recordService.timeIn<IRecordInput>(payload);
+  async clockIn(payload: IRecordInput): Promise<void> {
+    await recordService.clockIn<IRecordInput>(payload);
   }
 
-  async timeOut(id: number, payload: IRecordInput): Promise<void> {
-    await recordService.timeOut<IRecordInput>(id, payload);
+  async clockOut(id: number, payload: IRecordInput): Promise<void> {
+    await recordService.clockOut<IRecordInput>(id, payload);
   }
 }
 

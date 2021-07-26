@@ -20,6 +20,7 @@ const DTR = ({ data: props, handleOnClick }: any) => {
             icon={<FieldTimeOutlined />}
             size="large"
             danger={props.timeBtn && props.timeBtn ? true : false}
+            disabled={props?.loadingDtr}
             onClick={handleOnClick}
           >
             {props.timeBtn && props.timeBtn ? "Clock Out" : "Clock In"}
